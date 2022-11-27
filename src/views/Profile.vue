@@ -1,0 +1,271 @@
+<template>
+  <div class="nk-container">
+    <!-- 头部 -->
+    <Navbar active-index="8"></Navbar>
+    <!-- 内容 -->
+    <div class="main">
+      <div class="container">
+        <!-- 选项 -->
+        <div class="position-relative">
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">个人信息</a>
+            </li>
+            <li class="nav-item w">
+              <router-link
+                class="nav-link"
+                :to="{ name: 'UserPosts', params: { uid: user.id } }"
+                >文章</router-link
+              >
+            </li>
+            <li class="nav-item">
+              <router-link
+                class="nav-link"
+                :to="{ name: 'Collection', params: { uid: user.id } }"
+                >收藏</router-link
+              >
+            </li>
+          </ul>
+        </div>
+        <!-- 个人信息 -->
+        <div class="media mt-3">
+          <!--头像-->
+          <el-avatar :src="user.avatar" :size="80"></el-avatar>
+          <div class="media-body">
+            <h5 class="mt-0 text-warning">
+              <!--用户名-->
+              <span v-text="user.username" style="font-size: 30px;"></span>
+              <!--关注按钮-->
+
+              <button
+                type="button"
+                v-if="!isMine"
+                @click="follow(user.id)"
+                class="btn btn-info btn-sm float-right mr-5 follow-btn"
+                v-text="hasFollowed ? '取消关注' : '关注TA'"
+              >
+                关注TA
+              </button>
+              <!--私聊按钮-->
+              <button
+                type="button"
+                v-if="!isMine"
+                @click="chat(user)"
+                class="btn btn-info btn-sm float-right mr-5 follow-btn"
+              >
+                发消息
+              </button>
+            </h5>
+            <el-tag
+              style="font-size:18px;"
+              size="small"
+              type="danger"
+              :class="getIcon"
+            ></el-tag>
+            <div class="text-muted mt-3">
+              <span
+                >注册时间
+                <i class="text-muted" v-text="user.createTime"
+                  >2015-06-12 15:20:12</i
+                ></span
+              >
+            </div>
+            <div class="text-muted mt-3 mb-5">
+              <router-link
+                :to="{ name: 'Followees', params: { userId: user.id } }"
+              >
+                <el-tag effect="dark"
+                  >关注了
+                  <i style="color: red;">{{ followeeCount }}</i> 人</el-tag
+                >
+              </router-link>
+              <router-link
+                class="ml-4"
+                :to="{ name: 'Followees', params: { userId: user.id } }"
+              >
+                <el-tag effect="dark"
+                  >粉丝数量：
+                  <i style="color: red;">{{ followerCount }}</i> 人</el-tag
+                >
+              </router-link>
+
+              <el-tag class="ml-4" effect="dark"
+                >获得了 <i style="color: red;">{{ likeCount }}</i
+                >个赞</el-tag
+              >
+
+              <hr />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import UserNavbar from "../components/UserNavbar";
+import Navbar from "../components/Navbar";
+
+export default {
+  name: "UserHome",
+  components: {
+    UserNavbar,
+    Navbar,
+  },
+  created() {
+    //请求用户主页信息
+    const _this = this;
+    console.log(this.$route.params.uid);
+    //请求页面资源
+    this.$axios({
+      method: "get",
+      url: "/user/profile/" + this.$route.params.uid,
+    })
+      .then(function(res) {
+        if (res.data.code == 200) {
+          const myData = res.data.data;
+          console.log(myData,"mydata");
+          _this.user = myData.user;
+          _this.gender=myData.user.gender;
+          _this.isMine = myData.isMine;
+          _this.likeCount = myData.likeCount;
+          _this.user.avatar = _this.user.avatar;
+          _this.followeeCount = myData.followeeCount;
+          _this.followerCount = myData.followerCount;
+          _this.hasFollowed = myData.hasFollowed;
+        } else {
+          _this.fail(res.data.msg);
+        }
+        console.log(res);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  },
+  methods: {
+    fail(msg) {
+      this.$message.error(msg);
+    },
+    handleExceed(file, fileList) {
+      this.$message.error("只能上传一张图片");
+    },
+    uploadSuccess(response, file, fileList) {
+      console.log(response);
+      this.userInfo.avatar = response.msg;
+      //更新用户个人信息
+      this.$store.commit("setUserInfo", this.userInfo);
+      //清除文件上传列表
+      //this.$refs['upload'].clearFiles();
+    },
+    beforeUplaod(file) {
+      const isLt1M = file.size / 1024 / 1024 < 1;
+      if (!isLt1M) {
+        this.$message.error("上传头像图片大小不能超过 1MB!");
+      }
+      return isLt1M;
+    },
+    follow(entityId) {
+      const _this = this;
+      //要先登录才能关注或取消关注
+      if (!this.$store.state.isLogin || this.$store.state.isLogin == "") {
+        this.$message.error("要登录才能关注哦");
+        return;
+      }
+      let path = "";
+      if (_this.hasFollowed) {
+        path = "/unfollow";
+      } else {
+        path = "/follow";
+      }
+      this.$axios({
+        method: "post",
+        url: path,
+        data: {
+          entityType: 3,
+          entityId: entityId,
+        },
+      })
+        .then(function(res) {
+          if (res.data.code == 200) {
+            const myData = res.data.data;
+            console.log(myData);
+            _this.followerCount = myData.followerCount;
+            _this.hasFollowed = myData.hasFollowed;
+          } else {
+            _this.fail(res.data.msg);
+          }
+          console.log(res);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+    chat(user) {
+      const _this = this;
+      //要先登录才能关注或取消关注
+      if (!this.$store.state.isLogin || this.$store.state.isLogin == "") {
+        this.$message.error("要登录才能发消息哦");
+        return;
+      }
+      //设置消息页面的侧边栏索引
+      _this.$store.commit("setMsgActiveIndex", 5);
+      //获取与对方的私聊记录
+      this.$store.commit("getSession", user.id);
+      //选中与对方聊天
+      this.$store.commit("setCurrentUser", user);
+      //跳转至聊天页面
+      _this.$router.push("/message");
+    },
+  },
+  data() {
+    return {
+      //头像网络资源地址
+      uploadPath: this.$axios.defaults.baseURL,
+      picPath: "http://localhost:8089/forum_server",
+      user: "",
+      isMine: false,
+      likeCount: "",
+
+      hasFollowed: false,
+      followeeCount: 0,
+      followerCount: 0,
+
+      //头像上传地址
+      avatarAction: this.$axios.defaults.baseURL + "/user/avatar",
+      myHeader: { Authorization: sessionStorage.getItem("JWT_TOKEN") },
+      gender:0,
+    };
+  },
+  computed:{
+    getIcon(){
+     return this.gender==0?"el-icon-male":"el-icon-female"
+    }
+  },
+};
+</script>
+
+<style scoped>
+.main {
+  width: 50%;
+  margin: auto;
+  margin-top: 30px;
+  background-color: #fff;
+  height: 500px;
+  overflow: hidden;
+}
+.container {
+  margin-top: 20px;
+}
+.myFlex {
+  height: 400px;
+}
+.myAvatar {
+  width: 200px;
+  height: 200px;
+}
+.myBtn {
+  margin-left: 10px;
+  margin-top: 10px;
+}
+</style>
