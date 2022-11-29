@@ -12,12 +12,12 @@ const routes = [
   {
     path: "/register",
     name: "register",
-    component: () => import("../views/Register.vue"),
+    component: () => import("../views/loginAndRegister/Register.vue"),
   },
   {
     path: "/login",
     name: "login",
-    component: () => import("../views/Login.vue"),
+    component: () => import("../views/loginAndRegister/Login.vue"),
   },
   {
     path: "/post/add",
@@ -34,21 +34,6 @@ const routes = [
     name: "PostDetail",
     component: () => import("../views/PostDetail.vue"),
   },
-  /*{
-        path: '/letter',
-        name: 'Letter',
-        component: () => import('../views/Letter.vue')
-    },
-    {
-        path:'/letter/:cid',
-        name:'LetterDetail',
-        component: () => import('../views/LetterDetail.vue')
-    },*/
-  /*{
-        path:'/send/:toName',
-        name:'SendLetter',
-        component: () => import('../views/SendLetter.vue')
-    },*/
   {
     path: "/followers/:userId",
     name: "Followers",
@@ -99,11 +84,11 @@ const routes = [
     name: "UserPosts",
     component: () => import("../views/UserPosts.vue"),
   },
-//   {
-//     path: "/ken",
-//     name: "Ken",
-//     component: () => import("../views/Ken.vue"),
-//   },
+  //   {
+  //     path: "/ken",
+  //     name: "Ken",
+  //     component: () => import("../views/Ken.vue"),
+  //   },
   {
     path: "/myAdmin",
     name: "Admin",

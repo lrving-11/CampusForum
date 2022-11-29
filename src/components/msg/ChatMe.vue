@@ -1,14 +1,15 @@
 <template>
-  <div class="container" style="margin:0;width: 100%;padding-right:9px;">
+  <div class="container" style="margin:0;width: 100%;padding-right:15px;">
     <div class="row h-100 ">
       <div class="col-3 h-100 list" v-scroll-bar>
-        <ul >
-          <p style="padding: 2px 4px;height: 10px">用户列表</p>
+        <ul class="userUl">
+          <p style="padding: 2px 4px;height: 10px;">用户列表</p>
           <li
             v-for="item in userList"
             v-on:click="changeCurrentUser(item)"
             :class="{ active: item.id === currentUser.id }"
             class="my_li"
+            
           >
             <div style="display: flex;justify-content: space-between">
               <div>
@@ -28,10 +29,10 @@
         </ul>
       </div>
 
-      <div class="col-9 pl-0">
+      <div class="col-9 pt-4">
         <div class="w-100 chatbox">
-          <h2 style="text-align: center;">{{ currentUser.username }}</h2>
-          <hr style="margin: 0;"/>
+          <h2 class="nameH2">{{ currentUser.username }}</h2>
+          <!-- <hr style="margin: 0;" /> -->
           <!--消息列表-->
           <div>
             <ul class="list" v-scroll-bar>
@@ -148,44 +149,55 @@ export default {
 
 <style scoped>
 .my_li {
-  
   padding: 3px 10px;
-  border-bottom: 1px solid #9dadd1;
-  /* border-left: 1px solid #9dadd1; */
-  /* border-right: 1px solid #9dadd1; */
-  border-radius: 8px;
+  border-bottom: 1px solid #147dc8;
+  /* border-left: 1px solid #9dadd1;
+  border-right: 1px solid #9dadd1; */
+  /* border-top: 1px solid #9dadd1; */
+
+  border-radius: 2px;
   cursor: pointer;
   height: 40px;
   width: 150px;
   overflow: hidden;
-  background-color: #ffffffc5;
+  background-color: #ffffff;
+  color: rgb(7, 28, 214);
+
   /* margin-bottom: 2px; */
 }
-ul{
+.my_li:hover{
+  background-color: #c7eaff;
+}
+.my_li:focus{
+  background-color: #c7eaff;
+}
+
+ul {
   list-style-type: none;
 }
-li_active {
+.active {
   /*注意这个是.不是冒号:*/
   background-color: rgba(255, 255, 255, 0.1);
+  background-color: #c7eaff;
+
 }
 .u_avatar {
   border-radius: 4px;
   width: 30px;
   height: 30px;
   vertical-align: middle;
- 
 }
 .u_name {
   display: inline-block;
   margin-top: 0px;
   margin-left: 10px;
-
 }
 
 .list {
   position: relative;
   height: 360px;
   padding-left: 0px;
+  padding-right: 0px;
 }
 
 .send-msg-btn {
@@ -193,13 +205,18 @@ li_active {
   float: right;
 }
 .chatbox {
-  border: 1px rgb(156, 188, 219) solid;
-  border-radius: 10px;
+  border: 2px #147dc8 solid;
+  border-radius: 5px;
+  /* background-color: #9dadd1; */
+  /* margin-top: 30px; */
 }
-.container{
+.container {
   padding: 0;
   margin: 0;
   width: 100%;
-
+  background-color: #147dc8;
+}
+.nameH2{
+  text-align: center;background-color: #147dc8;color: #fff;margin-bottom: 0;
 }
 </style>

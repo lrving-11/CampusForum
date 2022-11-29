@@ -70,11 +70,9 @@
             class="media pb-3 pt-3 mb-3 border-bottom position-relative"
             v-if="commentNotice.message != null"
           >
-            <span
-              class="badge badge-danger"
-              v-text="commentNotice.unread != 0 ? commentNotice.unread : ''"
-              >3</span
-            >
+            <span class="badge badge-danger">{{
+              commentNotice.unread != 0 ? commentNotice.unread : ""
+            }}</span>
             <img
               src="http://static.nowcoder.com/images/head/reply.png"
               class="mr-4 user-header"
@@ -83,11 +81,9 @@
             <div class="media-body">
               <h6 class="mt-0 mb-3">
                 <span>评论</span>
-                <span
-                  class="float-right text-muted font-size-12"
-                  v-text="commentNotice.message.createTime"
-                  >2019-04-28 14:13:25</span
-                >
+                <span class="float-right text-muted font-size-12">{{
+                  commentNotice.message.createTime || "2019-04-28 14:13:25"
+                }}</span>
               </h6>
               <div>
                 <!--跳转到评论通知列表-->
@@ -95,17 +91,16 @@
                   :to="{ name: 'NoticeDetail', params: { topic: 'comment' } }"
                 >
                   用户
-                  <i v-text="commentNotice.user.username">nowcoder</i>
-                  评论了你的<b
-                    v-text="commentNotice.entityType == 1 ? '帖子' : '回复'"
-                    >帖子</b
-                  >
+                  <i>{{ commentNotice.user.username || "nowcoder" }}</i>
+                  评论了你的<b>{{
+                    commentNotice.entityType == 1 ? "帖子" : "回复"
+                  }}</b>
                   ...
                 </router-link>
                 <ul class="d-inline font-size-12 float-right">
                   <li class="d-inline ml-2">
                     <span class="text-primary"
-                      >共 <i v-text="commentNotice.count">3</i> 条会话</span
+                      >共 <i>{{ commentNotice.count }}</i> 条会话</span
                     >
                   </li>
                 </ul>
@@ -117,11 +112,9 @@
             class="media pb-3 pt-3 mb-3 border-bottom position-relative"
             v-if="likeNotice.message != null"
           >
-            <span
-              class="badge badge-danger"
-              v-text="likeNotice.unread != 0 ? likeNotice.unread : ''"
-              >3</span
-            >
+            <span class="badge badge-danger">{{
+              likeNotice.unread != 0 ? likeNotice.unread : ""
+            }}</span>
             <img
               src="http://static.nowcoder.com/images/head/like.png"
               class="mr-4 user-header"
@@ -130,10 +123,8 @@
             <div class="media-body">
               <h6 class="mt-0 mb-3">
                 <span>赞</span>
-                <span
-                  class="float-right text-muted font-size-12"
-                  v-text="likeNotice.message.createTime"
-                  >2019-04-28 14:13:25</span
+                <span class="float-right text-muted font-size-12"
+                  >{{ likeNotice.message.createTime }}2019-04-28 14:13:25</span
                 >
               </h6>
               <div>
@@ -143,15 +134,14 @@
                   用户
                   <i v-text="likeNotice.user.username"></i>
                   点赞了你的<b
-                    v-text="likeNotice.entityType == 1 ? '帖子' : '回复'"
-                    >帖子</b
+                    >{{ likeNotice.entityType == 1 ? "帖子" : "回复" }}帖子</b
                   >
                   ...
                 </router-link>
                 <ul class="d-inline font-size-12 float-right">
                   <li class="d-inline ml-2">
                     <span class="text-primary"
-                      >共 <i v-text="likeNotice.count">3</i> 条会话</span
+                      >共 <i>{{ likeNotice.count }}</i> 条会话</span
                     >
                   </li>
                 </ul>
@@ -166,8 +156,7 @@
             <span
               class="badge badge-danger"
               v-text="followNotice.unread != 0 ? followNotice.unread : ''"
-              >3</span
-            >
+            ></span>
             <img
               src="http://static.nowcoder.com/images/head/follow.png"
               class="mr-4 user-header"
@@ -179,21 +168,20 @@
                 <span
                   class="float-right text-muted font-size-12"
                   v-text="followNotice.message.createTime"
-                  >2019-04-28 14:13:25</span
-                >
+                ></span>
               </h6>
               <div>
                 <router-link
                   :to="{ name: 'NoticeDetail', params: { topic: 'follow' } }"
                 >
                   用户
-                  <i v-text="followNotice.user.username">nowcoder</i>
+                  <i v-text="followNotice.user.username"></i>
                   关注了你 ...
                 </router-link>
                 <ul class="d-inline font-size-12 float-right">
                   <li class="d-inline ml-2">
                     <span class="text-primary"
-                      >共 <i v-text="followNotice.count">3</i> 条会话</span
+                      >共 <i v-text="followNotice.count"></i> 条会话</span
                     >
                   </li>
                 </ul>

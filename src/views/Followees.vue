@@ -1,5 +1,5 @@
 <template>
-  <div class="nk-container">
+  <div class="nk-container" style="height: 90%;">
     <Navbar></Navbar>
     <div class="main">
       <div class="container">
@@ -11,9 +11,7 @@
           @select="handleSelect"
           text-color="#fff"
         >
-          <el-menu-item index="1">
-            <span v-text="user.username"></span>关注的人</el-menu-item
-          >
+          <el-menu-item index="1"> 关注的人</el-menu-item>
           <el-menu-item index="2">
             <router-link
               tag="div"
@@ -39,32 +37,31 @@
         <!-- 粉丝列表 -->
         <ul class="list-unstyled">
           <li
-            class="media pb-3 pt-3 mb-3 border-bottom position-relative"
+            class="media pb-1 pt-3 mb-0 border-bottom position-relative"
             v-for="map in userList"
           >
             <router-link
               :to="{ name: 'Profile', params: { uid: map.user.id } }"
             >
-              <el-avatar :src="map.user.avatar"></el-avatar>
+              <el-avatar :src="map.user.avatar" :size="50"></el-avatar>
             </router-link>
 
             <div class="media-body">
-              <h6 class="mt-0 mb-3">
-                <span class="text-success" v-text="map.user.username"
-                  >落基山脉下的闲人</span
-                >
-                <span class="float-right text-muted font-size-12">
-                  关注于 <i v-text="map.followTime">2019-04-28 14:13:25</i>
-                </span>
+              <h6 class="mt-0 mb-0">
+                <span class="text-success" style="font-size: 30px;">{{
+                  map.user.username
+                }}</span>
+                <p class="float-right text-muted font-size-12">
+                  关注于 <i>{{ map.followTime }}</i>
+                </p>
               </h6>
               <div>
                 <button
                   type="button"
                   @click="follow(map.user.id)"
                   class="btn btn-info btn-sm float-right mr-5 follow-btn"
-                  v-text="map.hasFollowed ? '取消关注' : '关注TA'"
                 >
-                  关注TA
+                  {{ hasFollowed ? "取消关注" : "关注TA" }}
                 </button>
               </div>
             </div>
@@ -128,6 +125,7 @@ export default {
       pageSize: 5,
       total: 0,
       uploadPath: this.$axios.defaults.baseURL,
+      hasFollowed: undefined,
     };
   },
   methods: {
@@ -178,7 +176,7 @@ export default {
         .then(function(res) {
           if (res.data.code == 200) {
             const myData = res.data.data;
-            console.log(myData);
+            console.log(myData, "mydata");
             _this.followerCount = myData.followerCount;
             _this.hasFollowed = myData.hasFollowed;
           } else {
@@ -199,6 +197,8 @@ export default {
   width: 50%;
   margin: auto;
   margin-top: 30px;
+  background-color: #fff;
+  height: 100%;
 }
 .navInfo {
   float: right;

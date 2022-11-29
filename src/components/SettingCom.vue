@@ -22,7 +22,7 @@
         >
           <el-button size="small" type="success">修改头像</el-button>
           <div slot="tip" class="el-upload__tip">
-            只能上传jpg/png文件，且不超过1M
+            只能上传jpg/png文件,且不超过1M
           </div>
         </el-upload>
       </div>
@@ -45,38 +45,48 @@
 <script>
 export default {
   name: "SettingCom",
+  data() {
+    return {
+      //头像网络资源地址
+      uploadPath: this.$axios.defaults.baseURL,
+      // picturePath:'http://47.115.88.155',
+      userInfo: {},
+      isMine: false,
+      likeCount: "",
+
+      //头像上传地址
+      //头像上传地址
+      avatarAction: this.$axios.defaults.baseURL + "/user/uploadImg",
+      myHeader: { TOKEN: sessionStorage.getItem("TOKEN") },
+    };
+  },
   created() {
-    const _this = this;
+    // const _this = this;
     //请求页面资源
     this.$axios({
       method: "get",
       url: "/user/getInfo",
     })
-      .then(function(res) {
+      .then((res) => {
         if (res.data.code == 200) {
-          console.log(res);
-          _this.userInfo = _this.$store.state.userInfo;
+          console.log(res,'userinfo-set');
+          this.userInfo = this.$store.state.userInfo;
         } else {
-          _this.fail(res.data.msg);
-          _this.router.push("/login");
+          this.$message.error(res.data.msg);
+          this.router.push("/login");
         }
       })
       .catch(function(error) {
         console.log(error);
       });
-      console.log(this.$axios.defaults.baseURL,'11');
-      console.log(this.userInfo,'userinfo');
   },
   methods: {
-    fail(msg) {
-      this.$message.error(msg);
-    },
     handleExceed(file, fileList) {
       this.$message.error("只能上传一张图片");
     },
     uploadSuccess(response, file, fileList) {
-      console.log(response);
-      this.userInfo.avatar = response.msg;
+      console.log(response,'uploadimg');
+      this.userInfo.avatar = response.data;
       //更新用户个人信息
       this.$store.commit("setUserInfo", this.userInfo);
       //强制页面重新渲染
@@ -90,20 +100,7 @@ export default {
       return isLt1M;
     },
   },
-  data() {
-    return {
-      //头像网络资源地址
-      uploadPath: this.$axios.defaults.baseURL,
-      // picturePath:'http://47.115.88.155',
-      userInfo: {},
-      isMine: false,
-      likeCount: "",
-
-      //头像上传地址
-      avatarAction: this.$axios.defaults.baseURL + "/user/avatar",
-      myHeader: { Authorization: sessionStorage.getItem("JWT_TOKEN") },
-    };
-  },
+ 
 };
 </script>
 

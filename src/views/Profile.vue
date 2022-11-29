@@ -36,20 +36,18 @@
               <!--用户名-->
               <span v-text="user.username" style="font-size: 30px;"></span>
               <!--关注按钮-->
-
               <button
                 type="button"
-                v-if="!isMine"
+                v-show="!isMine"
                 @click="follow(user.id)"
                 class="btn btn-info btn-sm float-right mr-5 follow-btn"
-                v-text="hasFollowed ? '取消关注' : '关注TA'"
               >
-                关注TA
+                {{hasFollowed ? '取消关注' : '关注TA'}}
               </button>
               <!--私聊按钮-->
               <button
                 type="button"
-                v-if="!isMine"
+                v-show="!isMine"
                 @click="chat(user)"
                 class="btn btn-info btn-sm float-right mr-5 follow-btn"
               >
@@ -65,8 +63,8 @@
             <div class="text-muted mt-3">
               <span
                 >注册时间
-                <i class="text-muted" v-text="user.createTime"
-                  >2015-06-12 15:20:12</i
+                <i class="text-muted"
+                  >{{user.createTime}}</i
                 ></span
               >
             </div>

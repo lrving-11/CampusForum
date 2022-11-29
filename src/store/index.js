@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { Notification } from "element-ui";
+import { Notification, TimeSelect } from "element-ui";
 
 Vue.use(Vuex);
 
@@ -56,8 +56,8 @@ const store = new Vuex.Store({
       state.sessions = {};
     },
     setWebsocket(state) {
-      const token = window.sessionStorage.getItem("JWT_TOKEN");
-      let url = "ws://172.30.192.192:8089/forum_server/chat/" + token;
+      const token = window.sessionStorage.getItem("TOKEN");
+      let url = "ws://"+this.$axios.defaults.baseURL+"/chat/" + token;
       state.ws = new WebSocket(url);
     },
     setUserList(state, userList) {

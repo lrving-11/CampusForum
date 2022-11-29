@@ -41,8 +41,7 @@
             统计结果
             <span
               class="badge badge-primary badge-danger font-size-14"
-              v-text="uvResult"
-              >0</span
+              >{{uvResult||0}}</span
             >
           </li>
         </ul>
@@ -82,8 +81,7 @@
             统计结果
             <span
               class="badge badge-primary badge-danger font-size-14"
-              v-text="dauResult"
-              >0</span
+              >{{dauResult||0}}</span
             >
           </li>
         </ul>

@@ -7,8 +7,9 @@
     ></span>
     <div class="r-top">
       <span class="msg-content">{{ msgText }}</span>
+      <div class="time">{{ extime }}</div>
     </div>
-    <div class="time">{{ extime }}</div>
+    
   </div>
 </template>
 
@@ -92,22 +93,29 @@ export default {
   overflow: hidden;
   float: left;
   /* margin-left: 20px; */
-  padding-top: 20px;
-  padding-bottom: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 36px;
   /*border-top: 1px solid #f0f0f0;*/
-  /*background-color: #f6fbff;*/
+  /* background-color: #f6fbff; */
   border-radius: 5px;
   padding-left: 16px;
+  display: flex;
+  justify-content: start;
 }
 
 .opposite-msg-item .r-top {
-  float: left;
+  /* float: left;
   display: inline-block;
   position: relative;
   top: 4px;
   left: 12px;
   font-size: 15px;
-  color: #333;
+  color: #333; */
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: flex-start;
 }
 
 .opposite-msg-item img {
@@ -130,14 +138,17 @@ export default {
 }
 
 .opposite-msg-item .time {
-  float: left;
-  /*margin-top: 62px;*/
+  /* float: left;
+  margin-top: 62px;
   font-size: 12px;
   position: absolute;
   top: 66px;
   left: 72px;
   color: #969696;
-  line-height: normal;
+  line-height: normal; */
+  color: #969696;
+  font-size: 12px;
+
 }
 
 .opposite-msg-item .msg-content {

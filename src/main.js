@@ -69,14 +69,14 @@ Vue.config.productionTip = false;
 
 //全局注册axios
 Vue.prototype.$axios = axios;
-axios.defaults.baseURL = "http://172.30.192.192:8089/forum_server";
+axios.defaults.baseURL = "http://172.30.192.192:8080";
 /**
  *  axios请求拦截器,每次请求带上token
  * forum_server
  */
 axios.interceptors.request.use(
   (config) => {
-    config.headers.Authorization = window.sessionStorage.getItem("JWT_TOKEN");
+    config.headers.TOKEN = window.sessionStorage.getItem("TOKEN");
     return config;
   },
   (error) => {
@@ -93,12 +93,12 @@ axios.interceptors.response.use(
     if (code == 201 || code == 202) {
       //说明token错误或者token过期
       const msg = response.data.msg;
-      alert(msg);
+      Message({
+        message: msg,
+        type: "error",
+        duration: 5 * 1000,
+      });
       return router.push("/login");
-      // }else if (code == 301){
-      //     const msg = response.data.msg;
-      //     alert(msg);
-      //     return router.push("/");
     } else if (code == 200) {
       //更新未读消息数量
       return response;

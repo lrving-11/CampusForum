@@ -2,7 +2,6 @@
   <div>
     <!--头部-->
     <navbar></navbar>
-
     <div class="mymain">
       <h3 class="title">登录你的账户</h3>
       <el-form
@@ -55,7 +54,7 @@
 </template>
 
 <script>
-import Navbar from "../components/Navbar.vue";
+import Navbar from "../../components/Navbar.vue";
 export default {
   name: "Login",
   components: {
@@ -75,11 +74,10 @@ export default {
         callback();
       }
     };
-
     return {
       checkCode: "",
       ruleForm: {
-        username: "222",
+        username: "111",
         pass: "11111111",
         seccode: "",
       },
@@ -107,7 +105,7 @@ export default {
     };
   },
   methods: {
-    //弹出登录成功信息
+    // 弹出登录成功信息
     success() {
       this.$message({
         message: "登录成功",
@@ -118,7 +116,7 @@ export default {
       this.$message.error(msg);
     },
     submitForm(formName) {
-      const _this = this;
+      // const _this = this;
       this.$refs[formName].validate((valid) => {
         if (valid) {
           //提交表单
@@ -127,29 +125,31 @@ export default {
             url: "/user/login",
             data: {
               username: this.ruleForm.username,
-              password: this.ruleForm.pass,
+              passwd: this.ruleForm.pass,
             },
           })
-            .then(function(res) {
+            .then((res) => {
               if (res.data.code == 200) {
                 //登录成功
                 //保存token
                 const data = res.data.data;
                 console.log(data);
-
-                sessionStorage.setItem("JWT_TOKEN", data.token);
+                sessionStorage.setItem("TOKEN", data);
                 //请求用户信息
-                _this.getInfo(data.token);
-                _this.success();
+                this.getInfo(data);
+                this.$message({
+                  message: "登录成功",
+                  type: "success",
+                });
                 //跳转至首页
-                _this.$router.push("/");
+                this.$router.push("/");
               } else {
-                _this.fail(res.data.msg);
+                this.$message.error(res.data.msg);
               }
               console.log(res);
             })
-            .catch(function(error) {
-              console.log(error);
+            .catch((error) => {
+              console.log("Error", error);
             });
         } else {
           return false;
@@ -157,24 +157,21 @@ export default {
       });
     },
     getInfo() {
-      const _this = this;
       this.$axios({
-        method: "post",
+        method: "get",
         url: "/user/getInfo",
       })
-        .then(function(res) {
+        .then((res) => {
           //保存用户信息
-          //保存用户
-          console.log("userInfo:", res.data.data);
-          _this.$store.commit("setUserInfo", res.data.data);
-          _this.$store.commit("setLoginState", true);
+          console.log("userInfo", res.data.data);
+          this.$store.commit("setUserInfo", res.data.data);
+          this.$store.commit("setLoginState", true);
           console.log(res);
         })
-        .catch(function(error) {
+        .catch((error) => {
           console.log(error);
         });
     },
-
     //生成验证码
     createCode() {
       let code = "";
@@ -224,18 +221,6 @@ export default {
       }
       this.checkCode = code; //把code值赋给验证码
     },
-    test() {
-      this.$axios({
-        method: "post",
-        url: "/user/test",
-      })
-        .then(function(res) {
-          console.log(res);
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-    },
   },
   mounted() {
     //初始化验证码
@@ -266,7 +251,7 @@ export default {
   margin: 20px;
   /* text-align: center; */
 }
-.form{
-    margin-top: 30px;
+.form {
+  margin-top: 30px;
 }
 </style>

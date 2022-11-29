@@ -16,14 +16,23 @@
           <el-form-item prop="email" label="邮箱">
             <el-input
               class="form-item"
+              placeholder="请输入注册时的邮箱地址"
               aria-placeholder="请输入注册邮箱地址"
               v-model="ruleForm.email"
             ></el-input>
           </el-form-item>
-
+          <el-form-item prop="verification" label="验证码">
+            <el-input class="form-item" placeholder="请输入验证码">
+              <el-button
+                style="background-color: #409EFF;color:#fff;"
+                slot="append"
+                >获取验证码</el-button
+              >
+            </el-input>
+          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm('ruleForm')"
-              >提交</el-button
+              >确定</el-button
             >
           </el-form-item>
         </el-form>
@@ -52,6 +61,9 @@ export default {
             message: "请输入正确的邮箱地址",
             trigger: ["blur", "change"],
           },
+        ],
+        verification: [
+          { required: true, message: "请输入验证码", trigger: "blur" },
         ],
       },
     };
@@ -103,7 +115,7 @@ export default {
 
 <style scoped>
 .main {
-  width: 70%;
+  width: 60%;
   margin: auto;
   background-color: #fff;
   margin-top: 20px;

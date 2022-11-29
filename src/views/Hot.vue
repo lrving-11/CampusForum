@@ -3,11 +3,10 @@
     <Navbar active-index="3"></Navbar>
 
     <div class="block plist">
-      <el-timeline>
+      <el-timeline style="margin-top: 20px;">
         <!--遍历博客-->
         <el-timeline-item
           :timestamp="postVo.post.createTimeStr"
-          placement="top"
           v-for="postVo in records"
           type="primary "
           icon="el-icon-more"

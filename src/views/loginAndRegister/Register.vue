@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 export default {
   name: "Register",
   components: {
@@ -79,6 +79,8 @@ export default {
   mounted() {
     //初始化验证码
     this.createCode();
+    console.log(this.$axios, "axios");
+    // console.log(this.success(), "this.success");
   },
   data() {
     var validateCode = (rule, value, callback) => {
@@ -108,11 +110,11 @@ export default {
     return {
       checkCode: "",
       ruleForm: {
-        username: "",
-        pass: "",
-        checkPass: "",
-        gender: "",
-        email: "",
+        username: "111",
+        pass: "11111111",
+        checkPass: "11111111",
+        gender: "0",
+        email: "13778066602@163.com",
         seccode: "",
       },
       rules: {
@@ -149,16 +151,6 @@ export default {
     };
   },
   methods: {
-    success() {
-      this.$message({
-        message:
-          "注册成功，已往您的邮箱处发送一封激活邮件，请点击链接激活您的账号",
-        type: "success",
-      });
-    },
-    fail(msg) {
-      this.$message.error(msg);
-    },
     createCode() {
       let code = "";
       const codeLength = 4; //验证码的长度
@@ -217,44 +209,45 @@ export default {
             url: "/user/register",
             data: {
               username: this.ruleForm.username,
-              password: this.ruleForm.pass,
-              gender: this.ruleForm.gender,
+              passwd: this.ruleForm.pass,
+              sex: this.ruleForm.gender,
               email: this.ruleForm.email,
             },
           })
-            .then(function(response) {
-              if (response.data.code == 200) {
-                _this.success();
-                _this.$router.push("/login");
+            .then((res) => {
+              console.log("registerRes", res);
+              if (res.data.code == 200) {
+                this.$message({
+                  message:
+                    "注册成功，已往您的邮箱处发送一封激活邮件，请点击链接激活您的账号",
+                  type: "success",
+                });
+                this.$router.push("/login");
               } else {
-                _this.fail(response.data.msg);
+                this.$message.error('error',res.data.msg);
               }
-
-              console.log(response);
             })
             .catch(function(error) {
               console.log(error);
             });
+          // .then(function(response) {
+          //   if (response.data.code == 200) {
+          //     _this.success();
+          //     _this.$router.push("/login");
+          //   } else {
+          //     _this.fail('registerErr',response.data.msg);
+          //   }
+
+          //   console.log(response);
+          // })
+          // .catch(function(error) {
+          //   console.log(error);
+          // });
         } else {
           console.log("请正确填完你的表单！！！");
           return false;
         }
       });
-
-    },
-    test() {
-      this.$axios({
-        method: "post",
-        url: "/user/test",
-      })
-        .then(function(res) {
-          //保存token
-          console.log(res.data.data);
-          console.log(res);
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
     },
   },
 };

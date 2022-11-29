@@ -28,23 +28,21 @@
           style="margin-right:10px ;width: 200px;"
           size="small"
         ></el-input>
-        <el-button type="primary" @click="search"
-        size="small"
-          >搜索</el-button
-        >
+        <el-button type="primary" @click="search" size="small">搜索</el-button>
       </el-menu-item>
 
       <el-menu-item
         @click="login"
         v-show="!$store.state.isLogin"
         class="navInfo"
-        >登录</el-menu-item
       >
+        <el-button size="small">登录</el-button>
+      </el-menu-item>
       <el-menu-item
         @click="register"
         v-show="!$store.state.isLogin"
         class="navInfo"
-        >注册</el-menu-item
+        ><el-button size="small">注册 </el-button></el-menu-item
       >
 
       <el-submenu v-show="$store.state.isLogin" index="5" class="navInfo">
@@ -149,6 +147,7 @@ export default {
           uid: _this.$store.state.userInfo.id,
         },
       });
+      // location.reload();
     },
     toHot() {
       this.$router.push({
@@ -199,6 +198,7 @@ export default {
   padding: 0;
   /* width: 80%; */
   background-color: #fff;
+  opacity: .85;
 }
 .navInfo {
   float: right;

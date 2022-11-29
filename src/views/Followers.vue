@@ -16,16 +16,16 @@
               class="text-primary"
               :to="{ name: 'Followees', params: { userId: user.id } }"
             >
-              <span v-text="user.username"></span>
               关注的人
             </router-link>
           </el-menu-item>
-          <el-menu-item index="2"
-            >粉丝</el-menu-item
-          >
+          <el-menu-item index="2">粉丝</el-menu-item>
           <el-menu-item class="navInfo">
             <el-button>
-              <router-link tag="div" :to="{ name: 'Profile', params: { uid: user.id } }">
+              <router-link
+                tag="div"
+                :to="{ name: 'Profile', params: { uid: user.id } }"
+              >
                 返回主页
               </router-link>
             </el-button>
@@ -36,22 +36,20 @@
         <!-- 粉丝列表 -->
         <ul class="list-unstyled">
           <li
-            class="media pb-3 pt-3 mb-3 border-bottom position-relative"
+            class="media pb-1 pt-3 mb-0 border-bottom position-relative"
             v-for="map in userList"
           >
             <router-link
               :to="{ name: 'Profile', params: { uid: map.user.id } }"
             >
-              <el-avatar :src="map.user.avatar"></el-avatar>
+              <el-avatar :src="map.user.avatar" :size="50"></el-avatar>
             </router-link>
 
             <div class="media-body">
-              <h6 class="mt-0 mb-3">
-                <span class="text-success" v-text="map.user.username"
-                  >落基山脉下的闲人</span
-                >
+              <h6 class="mt-0 mb-0">
+                <span class="text-success" style="font-size: 30px;">{{ map.user.username }}</span>
                 <span class="float-right text-muted font-size-12">
-                  关注于 <i v-text="map.followTime">2019-04-28 14:13:25</i>
+                  关注于 <i>{{ map.followTime }}}</i>
                 </span>
               </h6>
               <div>
@@ -59,9 +57,8 @@
                   type="button"
                   @click="follow(map.user.id)"
                   class="btn btn-info btn-sm float-right mr-5 follow-btn"
-                  v-text="map.hasFollowed ? '取消关注' : '关注TA'"
                 >
-                  关注TA
+                  {{ map.hasFollowed ? "取消关注" : "关注TA" }}
                 </button>
               </div>
             </div>
@@ -196,6 +193,7 @@ export default {
   width: 50%;
   margin: auto;
   margin-top: 30px;
+  background-color: #fff;
 }
 .navInfo {
   float: right;

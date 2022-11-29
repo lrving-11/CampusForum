@@ -113,19 +113,19 @@ export default {
           //提交表单
           this.$axios({
             method: "post",
-            url: "/user/resetPass",
+            url: "/user/changePwd",
             data: {
-              oldpass: this.ruleForm.oldpass,
-              pass: this.ruleForm.pass,
+              oldPass: this.ruleForm.oldpass,
+              newPass: this.ruleForm.pass,
             },
           })
-            .then(function(res) {
+            .then((res) => {
               if (res.data.code == 200) {
                 //修改成功
-                _this.success();
-                _this.ruleForm = {};
+                this.success();
+                this.ruleForm = {};
               } else {
-                _this.fail(res.data.msg);
+                this.fail(res.data.msg);
               }
               console.log(res);
             })

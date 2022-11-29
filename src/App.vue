@@ -12,19 +12,13 @@
 </script>
 
 <style>
-/* #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-} */
-body,html{
+* {
   text-decoration: none;
+}
+body,
+html {
   height: 100%;
   background-color: #f7f8fa;
-
 }
 #app {
   width: 100%;
@@ -32,5 +26,9 @@ body,html{
   height: 100%;
   margin: auto;
   background-color: #f7f8fa;
+  background-image: url(./assets/wallhaven-o5dqq9.jpg);
+}
+#app a:hover{
+  text-decoration: none;
 }
 </style>

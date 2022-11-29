@@ -48,9 +48,7 @@ export default {
       isMine: false,
       likeCount: "",
       activeIndex: "1",
-      //头像上传地址
-      avatarAction: this.$axios.defaults.baseURL + "/user/avatar",
-      myHeader: { Authorization: sessionStorage.getItem("JWT_TOKEN") },
+     
     };
   },
   methods: {

@@ -1,14 +1,16 @@
 <template>
   <div class="own-msg-item" @click="setRead" :style="bgc">
     <!--        <span><a :href="/mine/ + this.item.fromId"><img :src="this.ownUrl"></a></span>-->
+    
+    <div class="r-top">
+      <p class="msg-content">{{ msgText }}</p>
+      <div class="time">{{ extime }}</div>
+    </div>
     <span
       ><router-link :to="{ name: 'Profile', params: { uid: profileId } }"
         ><img :src="this.ownUrl"/></router-link
     ></span>
-    <div class="r-top">
-      <span class="msg-content">{{ msgText }}</span>
-    </div>
-    <div class="time">{{ extime }}</div>
+    
   </div>
 </template>
 
@@ -90,23 +92,29 @@ export default {
   overflow: hidden;
   float: right;
   /* margin-left: 20px; */
-  padding-top: 20px;
-  padding-bottom: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   /*border-top: 1px solid #f0f0f0;*/
   /*background-color: #f6fbff;*/
   border-radius: 5px;
-  padding-left: 16px;
+  padding-left: 70px;
   margin-right: 15px;
+  display: flex;
+  justify-content: end;
 }
 
 .own-msg-item .r-top {
-  float: right;
+  /* float: right;
   display: inline-block;
   position: relative;
   top: 4px;
   left: 12px;
   font-size: 15px;
-  color: #333;
+  color: #333; */
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: flex-end;
 }
 
 .own-msg-item img {
@@ -128,25 +136,29 @@ export default {
   color: #3194d0;
 }
 
-.own-msg-item .time {
-  float: right;
-  /*margin-top: 62px;*/
+.own-msg-item .r-top .time {
+  /* float: right;
+  margin-top: 62px;
   font-size: 12px;
   position: absolute;
   top: 66px;
   left: 396px;
   color: #969696;
-  line-height: normal;
+  line-height: normal; */
+  font-size: 12px;
+  color: #969696;
+
 }
 
 .own-msg-item .msg-content {
   box-sizing: border-box;
   float: right;
-  margin-right: 20px;
+  /* margin-right: 20px; */
   min-height: 39px;
   min-width: 50px;
   line-height: 39px;
   margin-top: -2px;
+  margin-bottom: 0;
   background-color: #eee;
   padding: 1px 10px;
   border-color: #d9d9d9;
