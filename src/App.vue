@@ -18,15 +18,17 @@
 body,
 html {
   height: 100%;
-  background-color: #f7f8fa;
+  /* background-color: #f7f8fa; */
 }
 #app {
   width: 100%;
-  /* height: 100vh; */
   height: 100%;
   margin: auto;
-  background-color: #f7f8fa;
+  /* background-color: #f7f8fa; */
+  /* background-color: ; */
   background-image: url(./assets/wallhaven-o5dqq9.jpg);
+  background-attachment: fixed;
+
 }
 #app a:hover{
   text-decoration: none;

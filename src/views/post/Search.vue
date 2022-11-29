@@ -26,14 +26,14 @@
               <div class="text-muted font-size-12">
                 <u class="mr-3" v-text="map.user.username"></u>
                 发布于
-                <b v-text="map.post.createTimeStr">2019-04-15 15:32:18</b>
+                <b v-text="map.post.createTimeStr"></b>
                 <ul class="d-inline float-right">
                   <li class="d-inline ml-2">
-                    赞 <i v-text="map.likeCount">11</i>
+                    赞 <i v-text="map.likeCount"></i>
                   </li>
                   <li class="d-inline ml-2">|</li>
                   <li class="d-inline ml-2">
-                    回复 <i v-text="map.post.commentCount">7</i>
+                    回复 <i v-text="map.post.commentCount"></i>
                   </li>
                 </ul>
               </div>
@@ -58,29 +58,12 @@
 </template>
 
 <script>
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar.vue";
+
 export default {
   name: "Search",
   components: {
     Navbar,
-  },
-  created() {
-    const _this = this;
-
-    _this.$axios
-      .get(
-        "/search?currentPage=" +
-          _this.currentPage +
-          "&keyword=" +
-          _this.$route.params.keyword
-      )
-      .then((res) => {
-        const myData = res.data.data;
-        _this.total = myData.total;
-        _this.currentPage = myData.currentPage;
-        _this.posts = myData.posts;
-        _this.keyword = myData.keyword;
-      });
   },
   data() {
     return {
@@ -95,18 +78,34 @@ export default {
       userInfo: this.$store.state.userInfo,
     };
   },
+  created() {
+    this.$axios
+      .get(
+        "/search?currentPage=" +
+          this.currentPage +
+          "&keyword=" +
+          this.$route.params.keyword
+      )
+      .then((res) => {
+        const myData = res.data.data;
+        this.total = myData.total;
+        this.currentPage = myData.currentPage;
+        this.posts = myData.posts;
+        this.keyword = myData.keyword;
+      });
+  },
+
   methods: {
     page(currentPage) {
-      const _this = this;
-      _this.$axios
-        .get("/search?currentPage=" + currentPage + "&keyword=" + _this.keyword)
+      this.$axios
+        .get("/search?currentPage=" + currentPage + "&keyword=" + this.keyword)
         .then((res) => {
           const myData = res.data.data;
           console.log(myData);
-          _this.total = myData.total;
-          _this.currentPage = myData.currentPage;
-          _this.posts = myData.posts;
-          _this.keyword = myData.keyword;
+          this.total = myData.total;
+          this.currentPage = myData.currentPage;
+          this.posts = myData.posts;
+          this.keyword = myData.keyword;
         });
     },
     handleSelect(key, keyPath) {
@@ -144,24 +143,22 @@ export default {
       this.$router.push("/");
     },
     toHome() {
-      const _this = this;
       this.$router.push({
         name: "Profile",
         params: {
-          uid: _this.$store.state.userInfo.id,
+          uid: this.$store.state.userInfo.id,
         },
       });
     },
     search() {
-      const _this = this;
-      _this.$axios
-        .get("/search?currentPage=1&keyword=" + _this.keyword)
+      this.$axios
+        .get("/search?currentPage=1&keyword=" + this.keyword)
         .then((res) => {
           const myData = res.data.data;
-          _this.total = myData.total;
-          _this.currentPage = myData.currentPage;
-          _this.posts = myData.posts;
-          _this.keyword = myData.keyword;
+          this.total = myData.total;
+          this.currentPage = myData.currentPage;
+          this.posts = myData.posts;
+          this.keyword = myData.keyword;
         });
     },
     toHot() {
@@ -173,20 +170,18 @@ export default {
       this.$router.push("/setting");
     },
     toCollect() {
-      const _this = this;
       this.$router.push({
         name: "Collection",
         params: {
-          uid: _this.$store.state.userInfo.id,
+          uid: this.$store.state.userInfo.id,
         },
       });
     },
     toUserPost() {
-      const _this = this;
       this.$router.push({
         name: "UserPosts",
         params: {
-          uid: _this.$store.state.userInfo.id,
+          uid: this.$store.state.userInfo.id,
         },
       });
     },

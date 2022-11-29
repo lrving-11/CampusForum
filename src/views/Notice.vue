@@ -196,7 +196,7 @@
 
 <script>
 import Navbar from "../components/Navbar";
-import MessageTabCom from "../components/MessageTabCom";
+import MessageTabCom from "../components/msg/MessageTabCom";
 export default {
   name: "Notice",
   components: {
@@ -205,7 +205,6 @@ export default {
   },
   data() {
     return {
-      // activeIndex:"2",
       commentNotice: "",
       likeNotice: "",
       followNotice: "",
@@ -215,21 +214,20 @@ export default {
     };
   },
   created() {
-    const _this = this;
     //提交表单
     this.$axios({
       method: "get",
       url: "/notice/list",
     })
-      .then(function(res) {
+      .then((res) => {
         console.log(res);
-        _this.letterUnreadCount = res.data.data.letterUnreadCount;
-        _this.noticeUnreadCount = res.data.data.noticeUnreadCount;
-        _this.commentNotice = res.data.data.commentNotice;
-        _this.likeNotice = res.data.data.likeNotice;
-        _this.followNotice = res.data.data.followNotice;
+        this.letterUnreadCount = res.data.data.letterUnreadCount;
+        this.noticeUnreadCount = res.data.data.noticeUnreadCount;
+        this.commentNotice = res.data.data.commentNotice;
+        this.likeNotice = res.data.data.likeNotice;
+        this.followNotice = res.data.data.followNotice;
       })
-      .catch(function(error) {
+      .catch((error) => {
         console.log(error);
       });
   },

@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar.vue";
 export default {
   name: "Hot",
   components: {
@@ -95,27 +95,25 @@ export default {
   },
   methods: {
     page(currentPage) {
-      const _this = this;
-      _this.$axios
+      this.$axios
         .get("/post/list?currentPage=" + currentPage + "&listMode=1")
         .then((res) => {
           console.log(res);
-          _this.records = res.data.data.records;
-          _this.currentPage = res.data.data.currentPage;
-          _this.total = res.data.data.total;
-          _this.pageSize = res.data.data.pageSize;
+          this.records = res.data.data.records;
+          this.currentPage = res.data.data.currentPage;
+          this.total = res.data.data.total;
+          this.pageSize = res.data.data.pageSize;
         });
     },
   },
   //頁面首先加載第一頁
   created() {
-    const _this = this;
-    _this.$axios.get("/post/list?currentPage=1&listMode=1").then((res) => {
+    this.$axios.get("/post/list?currentPage=1&listMode=1").then((res) => {
       console.log(res);
-      _this.records = res.data.data.records;
-      _this.currentPage = res.data.data.currentPage;
-      _this.total = res.data.data.total;
-      _this.pageSize = res.data.data.pageSize;
+      this.records = res.data.data.records;
+      this.currentPage = res.data.data.currentPage;
+      this.total = res.data.data.total;
+      this.pageSize = res.data.data.pageSize;
     });
   },
 };

@@ -90,15 +90,15 @@
                 >
                   <a href="javascript:;">
                     <el-tag effect="dark">
-                      {{ "赞" }}
+                      {{ "赞 " }}
                       <i v-text="postVo.post.likeCount"></i>
                     </el-tag>
                   </a>
                 </li>
                 <li class="d-inline ml-2"></li>
                 <li class="d-inline ml-2">
-                  <el-tag>
-                    回帖<i v-text="postVo.post.commentCount"></i>
+                  <el-tag type="success">
+                    回帖 <i v-text="postVo.post.commentCount"></i>
                   </el-tag>
                 </li>
               </ul>
@@ -280,8 +280,7 @@
                   <li class="pb-3 pt-3">
                     <div>
                       <input
-                        style="width: 100%;
-                        height: 40px"
+                        style="width: 100%; height: 40px"
                         type="text"
                         placeholder="回复字数不可超过100"
                         class="input-size"
@@ -343,7 +342,7 @@
 
 <script>
 import "github-markdown-css/github-markdown.css";
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 export default {
   name: "PostDetail",
   components: {
@@ -356,7 +355,6 @@ export default {
       comments: {},
       uploadPath: this.$axios.defaults.baseURL,
       picturePath: "http://127.0.0.1",
-      // picturePath:'http://47.115.88.155',
       pictures: {},
 
       entityType: "",
@@ -377,43 +375,38 @@ export default {
     };
   },
   created() {
-    const _this = this;
     //提交表单
     this.$axios({
       method: "get",
       url: "/post/detail/" + this.$route.params.pid,
     })
-      .then(function(res) {
-        console.log(res, "detailres");
-        _this.postVo = res.data.data.postVo;
+      .then((res) => {
+        console.log(res, "detailRes");
+        this.postVo = res.data.data.postVo;
 
         //渲染成md效果
         var MardownIt = require("markdown-it");
         var md = new MardownIt();
-        _this.postContent = md.render(_this.postVo.post.content);
-
-        _this.comments = res.data.data.comments;
-        _this.pictures = res.data.data.pictures;
-        _this.likeStatus = res.data.data.likeStatus;
-        _this.collectStatus = res.data.data.collectStatus;
+        this.postContent = md.render(this.postVo.post.content);
+        this.comments = res.data.data.comments;
+        this.pictures = res.data.data.pictures;
+        this.likeStatus = res.data.data.likeStatus;
+        this.collectStatus = res.data.data.collectStatus;
         //分页数据
-        _this.total = res.data.data.postVo.post.commentCount;
+        this.total = res.data.data.postVo.post.commentCount;
       })
-      .catch(function(error) {
+      .catch((error) => {
         console.log(error);
       });
   },
   methods: {
-    fail(msg) {
-      this.$message.error(msg);
-    },
+    fail(msg) {},
     //评论帖子
     commentPost() {
       if (this.commentContent.length > 100) {
         this.fail("评论字数不可超过100！");
         return;
       }
-      const _this = this;
       this.$axios({
         method: "post",
         url: "/comment/add",
@@ -425,54 +418,52 @@ export default {
           postId: this.$route.params.pid,
         },
       })
-        .then(function(res) {
-          _this.commentContent = "";
+        .then((res) => {
+          this.commentContent = "";
           console.log(res);
           if (res.status == 200) {
-            _this.$message({
+            this.$message({
               message: res.data.msg,
               type: "success",
             });
             //刷新页面
-            _this.$router.go(0);
+            this.$router.go(0);
           }
         })
-        .catch(function(error) {
+        .catch((error) => {
           console.log(error);
         });
     },
-
     //回复二级评论
     replyTwo() {
       if (this.replyContent.length > 100) {
         this.fail("回复字数不可超过100！");
         return;
       }
-      const _this = this;
       if (this.$store.state.isLogin) {
         this.$axios({
           method: "post",
           url: "/comment/add",
           data: {
             entityType: 2,
-            entityId: _this.entityId,
-            targetId: _this.targetId,
-            content: _this.replyContent,
+            entityId: this.entityId,
+            targetId: this.targetId,
+            content: this.replyContent,
             postId: this.$route.params.pid,
           },
         })
-          .then(function(res) {
-            _this.replyContent = "";
+          .then((res) => {
+            this.replyContent = "";
             if (res.status == 200) {
-              _this.$message({
+              this.$message({
                 message: res.data.msg,
                 type: "success",
               });
               //刷新页面
-              _this.$router.go(0);
+              this.$router.go(0);
             }
           })
-          .catch(function(error) {
+          .catch((error) => {
             console.log(error);
           });
       } else {
@@ -487,7 +478,6 @@ export default {
     },
     //评论分页
     page(currentPage) {
-      const _this = this;
       this.$axios({
         method: "post",
         url: "/post/comment/list",
@@ -497,14 +487,15 @@ export default {
         },
       })
         .then(function(res) {
-          _this.comments = res.data.data.records;
-          _this.currentPage = res.data.data.currentPage;
-          _this.total = res.data.data.total;
+          this.comments = res.data.data.records;
+          this.currentPage = res.data.data.currentPage;
+          this.total = res.data.data.total;
         })
         .catch(function(error) {
           console.log(error);
         });
     },
+
     //点赞（$event.currentTarget传递的是dom元素本身）
     like(event, entityType, entityId, entityUserId, postId) {
       if (!this.$store.state.isLogin || this.$store.state.isLogin == "") {
@@ -512,9 +503,7 @@ export default {
         return;
       }
       //发送请求
-      let _this = this;
-      console.log(event);
-
+      console.log(event, "event");
       this.$axios({
         method: "post",
         url: "/like",
@@ -525,65 +514,59 @@ export default {
           postId: postId,
         },
       })
-        .then(function(res) {
+        .then((res) => {
           if (res.data.code == 200) {
             const myData = res.data.data;
-            console.log(myData);
             //更新帖子点赞数
             if (myData.entityType == 1) {
               console.log(myData.likeCount, "likecount");
-              _this.postVo.post.likeCount = myData.likeCount;
-              _this.likeStatus = myData.likeStatus;
+              this.postVo.post.likeCount = myData.likeCount;
+              this.likeStatus = myData.likeStatus;
             } else {
               //更新评论点赞数（直接操作dom元素）
               event.firstChild.lastChild.innerHTML = myData.likeCount;
             }
           } else {
-            _this.fail(res.data.msg);
+            this.$message.error(res.data.msg);
           }
         })
-        .catch(function(error) {
+        .catch((error) => {
           console.log(error);
         });
     },
     //置顶
     setTop() {
-      const _this = this;
-      _this.$axios.get("/post/top?id=" + _this.postVo.post.id).then((res) => {
+      this.$axios.get("/post/top?id=" + this.postVo.post.id).then((res) => {
         console.log(res);
         if (res.data.code == 200) {
-          _this.postVo.post.type = 1;
+          this.postVo.post.type = 1;
         } else {
-          _this.fail(res.data.msg);
+          this.$message.error(res.data.msg);
         }
       });
     },
     //精选
     setWonder() {
-      const _this = this;
-      _this.$axios
-        .get("/post/wonderful?id=" + _this.postVo.post.id)
+      this.$axios
+        .get("/post/wonderful?id=" + this.postVo.post.id)
         .then((res) => {
           console.log(res);
           if (res.data.code == 200) {
-            _this.postVo.post.status = 1;
+            this.postVo.post.status = 1;
           } else {
-            _this.fail(res.data.msg);
+            this.$message.error(res.data.msg);
           }
         });
     },
     //删除
     setDelete() {
-      const _this = this;
-      _this.$axios
-        .get("/post/delete?id=" + _this.postVo.post.id)
-        .then((res) => {
-          if (res.data.code != 200) {
-            _this.fail(res.data.msg);
-          } else {
-            _this.$router.push("/");
-          }
-        });
+      this.$axios.get("/post/delete?id=" + this.postVo.post.id).then((res) => {
+        if (res.data.code != 200) {
+          this.$message.error(res.data.msg);
+        } else {
+          this.$router.push("/");
+        }
+      });
     },
     //收藏
     collect(pid) {
@@ -592,34 +575,27 @@ export default {
         return;
       }
       //发送请求
-      let _this = this;
-      let path = "";
-      if (_this.collectStatus == 0) {
-        path = "/collect";
-      } else {
-        path = "/uncollect";
-      }
-
+      let path = this.collectStatus == 0 ? "/collect" : "/uncollect";
       this.$axios({
         method: "post",
         url: path,
         data: {
           entityId: pid,
-          entityUserId: _this.postVo.user.id,
+          entityUserId: this.postVo.user.id,
         },
       })
-        .then(function(res) {
+        .then((res) => {
           if (res.data.code == 200) {
             const myData = res.data.data;
-            console.log(myData);
+            // console.log(myData);
             //更新帖子收藏数
-            _this.postVo.post.collectCount = myData.collectCount;
-            _this.collectStatus = myData.collectStatus;
+            this.postVo.post.collectCount = myData.collectCount;
+            this.collectStatus = myData.collectStatus;
           } else {
-            _this.fail(res.data.msg);
+            this.$message.error(res.data.msg);
           }
         })
-        .catch(function(error) {
+        .catch((error) => {
           console.log(error);
         });
     },
@@ -630,7 +606,6 @@ export default {
 <style scoped>
 .main {
   /* background-color: #fff; */
-
   overflow: hidden;
   width: 50%;
   margin: 0 auto;
@@ -658,7 +633,7 @@ export default {
   background-color: #fff;
 }
 .ulList2 {
-  background-color: #f7f8fa;
+  /* background-color: #f7f8fa; */
 }
 .userName {
   font-size: 24px;

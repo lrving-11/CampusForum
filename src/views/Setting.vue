@@ -28,9 +28,9 @@
 
 <script>
 import Navbar from "../components/Navbar";
-import SettingTabCom from "../components/SettingTabCom";
-import SettingCom from "../components/SettingCom";
-import SafeCom from "../components/SafeCom";
+import SettingTabCom from "../components/set/SettingTabCom";
+import SettingCom from "../components/set/SettingCom";
+import SafeCom from "../components/set/SafeCom";
 export default {
   name: "Setting",
   components: {
@@ -43,7 +43,6 @@ export default {
     return {
       //头像网络资源地址
       uploadPath: this.$axios.defaults.baseURL,
-      // picturePath:'http://47.115.88.155',
       userInfo: "",
       isMine: false,
       likeCount: "",

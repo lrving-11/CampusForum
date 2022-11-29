@@ -34,7 +34,7 @@
 
 <script>
 import Navbar from "../components/Navbar";
-import MessageTabCom from "../components/MessageTabCom";
+import MessageTabCom from "../components/msg/MessageTabCom";
 import ReplyMe from "../components/msg/ReplyMe";
 import LikeMe from "../components/msg/LikeMe";
 import FollowMe from "../components/msg/FollowMe";

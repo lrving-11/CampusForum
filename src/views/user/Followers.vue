@@ -47,7 +47,9 @@
 
             <div class="media-body">
               <h6 class="mt-0 mb-0">
-                <span class="text-success" style="font-size: 30px;">{{ map.user.username }}</span>
+                <span class="text-success" style="font-size: 30px;">{{
+                  map.user.username
+                }}</span>
                 <span class="float-right text-muted font-size-12">
                   关注于 <i>{{ map.followTime }}}</i>
                 </span>
@@ -83,7 +85,7 @@
 </template>
 
 <script>
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 export default {
   name: "Followers",
   components: {
@@ -91,25 +93,24 @@ export default {
   },
   created() {
     //请求用户主页信息
-    const _this = this;
     console.log(this.$route.params.uid);
     //请求页面资源
     this.$axios({
       method: "get",
-      url: "/followers/" + _this.$route.params.userId,
+      url: "/followers/" + this.$route.params.userId,
     })
-      .then(function(res) {
+      .then((res) => {
         if (res.data.code == 200) {
           const myData = res.data.data;
-          _this.user = myData.user;
-          _this.userList = myData.userList;
-          _this.total = myData.total;
+          this.user = myData.user;
+          this.userList = myData.userList;
+          this.total = myData.total;
         } else {
-          _this.fail(res.data.msg);
+          this.fail(res.data.msg);
         }
         console.log(res);
       })
-      .catch(function(error) {
+      .catch((error) => {
         console.log(error);
       });
   },
@@ -132,31 +133,29 @@ export default {
       this.$message.error(msg);
     },
     page(currentPage) {
-      const _this = this;
-      _this.$axios
+      this.$axios
         .get(
           "/followers/" +
-            _this.$route.params.userId +
+            this.$route.params.userId +
             "?currentPage=" +
             currentPage
         )
         .then((res) => {
           const myData = res.data.data;
-          _this.user = myData.user;
-          _this.userList = myData.userList;
-          _this.total = myData.total;
-          _this.currentPage = res.data.data.currentPage;
+          this.user = myData.user;
+          this.userList = myData.userList;
+          this.total = myData.total;
+          this.currentPage = res.data.data.currentPage;
         });
     },
     follow(entityId) {
-      const _this = this;
       //要先登录才能关注或取消关注
       if (!this.$store.state.isLogin || this.$store.state.isLogin == "") {
         this.$message.error("要登录才能关注哦");
         return;
       }
       let path = "";
-      if (_this.hasFollowed) {
+      if (this.hasFollowed) {
         path = "/unfollow";
       } else {
         path = "/follow";
@@ -169,18 +168,18 @@ export default {
           entityId: entityId,
         },
       })
-        .then(function(res) {
+        .then((res) => {
           if (res.data.code == 200) {
             const myData = res.data.data;
             console.log(myData);
-            _this.followerCount = myData.followerCount;
-            _this.hasFollowed = myData.hasFollowed;
+            this.followerCount = myData.followerCount;
+            this.hasFollowed = myData.hasFollowed;
           } else {
-            _this.fail(res.data.msg);
+            this.fail(res.data.msg);
           }
           console.log(res);
         })
-        .catch(function(error) {
+        .catch((error) => {
           console.log(error);
         });
     },

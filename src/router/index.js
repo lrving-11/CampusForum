@@ -7,7 +7,7 @@ const routes = [
   {
     path: "/",
     name: "Index",
-    component: () => import("../views/Index.vue"),
+    component: () => import("../views/post/Index.vue"),
   },
   {
     path: "/register",
@@ -22,27 +22,27 @@ const routes = [
   {
     path: "/post/add",
     name: "PostAdd",
-    component: () => import("../views/PostAdd.vue"),
+    component: () => import("../views/post/PostAdd.vue"),
   },
   {
     path: "/profile/:uid",
     name: "Profile",
-    component: () => import("../views/Profile.vue"),
+    component: () => import("../views/user/Profile.vue"),
   },
   {
     path: "/post/:pid",
     name: "PostDetail",
-    component: () => import("../views/PostDetail.vue"),
+    component: () => import("../views/post/PostDetail.vue"),
   },
   {
     path: "/followers/:userId",
     name: "Followers",
-    component: () => import("../views/Followers.vue"),
+    component: () => import("../views/user/Followers.vue"),
   },
   {
     path: "/followees/:userId",
     name: "Followees",
-    component: () => import("../views/Followees.vue"),
+    component: () => import("../views/user/Followees.vue"),
   },
   {
     path: "/notice",
@@ -57,7 +57,7 @@ const routes = [
   {
     path: "/search/:keyword",
     name: "Search",
-    component: () => import("../views/Search.vue"),
+    component: () => import("../views/post/Search.vue"),
   },
   {
     path: "/data",
@@ -67,7 +67,7 @@ const routes = [
   {
     path: "/hot",
     name: "Hot",
-    component: () => import("../views/Hot.vue"),
+    component: () => import("../views/post/Hot.vue"),
   },
   {
     path: "/setting",
@@ -77,18 +77,14 @@ const routes = [
   {
     path: "/collect/:uid",
     name: "Collection",
-    component: () => import("../views/Collection.vue"),
+    component: () => import("../views/user/Collection.vue"),
   },
   {
     path: "/userPost/:uid",
     name: "UserPosts",
-    component: () => import("../views/UserPosts.vue"),
+    component: () => import("../views/user/UserPosts.vue"),
   },
-  //   {
-  //     path: "/ken",
-  //     name: "Ken",
-  //     component: () => import("../views/Ken.vue"),
-  //   },
+
   {
     path: "/myAdmin",
     name: "Admin",
@@ -97,7 +93,7 @@ const routes = [
   {
     path: "/forget",
     name: "Forget",
-    component: () => import("../views/Forget.vue"),
+    component: () => import("../views/loginAndRegister/Forget.vue"),
   },
   {
     path: "/message",

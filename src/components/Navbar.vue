@@ -85,12 +85,10 @@ export default {
     },
   },
   created() {
-    console.log("img", this.$store.state.userInfo.avatar);
+    // console.log("img", this.$store.state.userInfo.avatar);
   },
   data() {
     return {
-      picturePath: "http://172.30.192.192:8089",
-      // picturePath:'http://47.115.88.155',
       uploadPath: this.$axios.defaults.baseURL,
       isLogin: this.$store.state.isLogin,
       // activeIndex: '2',

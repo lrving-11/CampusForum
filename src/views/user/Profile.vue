@@ -102,8 +102,8 @@
 </template>
 
 <script>
-import UserNavbar from "../components/UserNavbar";
-import Navbar from "../components/Navbar";
+import UserNavbar from "../../components/UserNavbar";
+import Navbar from "../../components/Navbar";
 
 export default {
   name: "UserHome",
@@ -113,27 +113,27 @@ export default {
   },
   created() {
     //请求用户主页信息
-    const _this = this;
     console.log(this.$route.params.uid);
     //请求页面资源
     this.$axios({
       method: "get",
       url: "/user/profile/" + this.$route.params.uid,
     })
-      .then(function(res) {
+      .then((res)=> {
         if (res.data.code == 200) {
           const myData = res.data.data;
           console.log(myData,"mydata");
-          _this.user = myData.user;
-          _this.gender=myData.user.gender;
-          _this.isMine = myData.isMine;
-          _this.likeCount = myData.likeCount;
-          _this.user.avatar = _this.user.avatar;
-          _this.followeeCount = myData.followeeCount;
-          _this.followerCount = myData.followerCount;
-          _this.hasFollowed = myData.hasFollowed;
+
+          this.user = myData.user;
+          this.gender=myData.user.sex;
+          this.isMine = myData.isMine;
+          this.likeCount = myData.likeCount;
+          this.user.avatar = this.user.avatar;
+          this.followeeCount = myData.followeeCount;
+          this.followerCount = myData.followerCount;
+          this.hasFollowed = myData.hasFollowed;
         } else {
-          _this.fail(res.data.msg);
+          this.$message.error(res.data.msg);
         }
         console.log(res);
       })
@@ -143,7 +143,7 @@ export default {
   },
   methods: {
     fail(msg) {
-      this.$message.error(msg);
+     
     },
     handleExceed(file, fileList) {
       this.$message.error("只能上传一张图片");
@@ -164,14 +164,13 @@ export default {
       return isLt1M;
     },
     follow(entityId) {
-      const _this = this;
       //要先登录才能关注或取消关注
       if (!this.$store.state.isLogin || this.$store.state.isLogin == "") {
         this.$message.error("要登录才能关注哦");
         return;
       }
       let path = "";
-      if (_this.hasFollowed) {
+      if (this.hasFollowed) {
         path = "/unfollow";
       } else {
         path = "/follow";
@@ -184,43 +183,41 @@ export default {
           entityId: entityId,
         },
       })
-        .then(function(res) {
+        .then((res) =>{
           if (res.data.code == 200) {
             const myData = res.data.data;
             console.log(myData);
-            _this.followerCount = myData.followerCount;
-            _this.hasFollowed = myData.hasFollowed;
+            this.followerCount = myData.followerCount;
+            this.hasFollowed = myData.hasFollowed;
           } else {
-            _this.fail(res.data.msg);
+            this.fail(res.data.msg);
           }
           console.log(res);
         })
-        .catch(function(error) {
+        .catch((error)=> {
           console.log(error);
         });
     },
     chat(user) {
-      const _this = this;
       //要先登录才能关注或取消关注
       if (!this.$store.state.isLogin || this.$store.state.isLogin == "") {
         this.$message.error("要登录才能发消息哦");
         return;
       }
       //设置消息页面的侧边栏索引
-      _this.$store.commit("setMsgActiveIndex", 5);
+      this.$store.commit("setMsgActiveIndex", 5);
       //获取与对方的私聊记录
       this.$store.commit("getSession", user.id);
       //选中与对方聊天
       this.$store.commit("setCurrentUser", user);
       //跳转至聊天页面
-      _this.$router.push("/message");
+      this.$router.push("/message");
     },
   },
   data() {
     return {
       //头像网络资源地址
       uploadPath: this.$axios.defaults.baseURL,
-      picPath: "http://localhost:8089/forum_server",
       user: "",
       isMine: false,
       likeCount: "",

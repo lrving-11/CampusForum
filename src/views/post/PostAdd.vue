@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <navbar></navbar>
     <div class="main">
       <h1 style="margin: 20px;">{{ msg }}</h1>
@@ -18,7 +18,7 @@
           <el-form-item label="内容" prop="content">
             <!--富文本编辑器-->
             <mavon-editor
-            class="edit"
+              class="edit"
               v-model="ruleForm.content"
               ref="md"
               @imgAdd="imgAdd"
@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 export default {
   name: "PostAdd",
   components: {
@@ -74,13 +74,13 @@ export default {
   },
   data() {
     return {
-      dialogImageUrl: "",
-      dialogVisible: false,
-      uploadData: {
-        pid: "",
-      },
-      action: this.$axios.defaults.baseURL + "/post/upload",
-      myHeader: { Authorization: sessionStorage.getItem("JWT_TOKEN") },
+      // dialogImageUrl: "",
+      // dialogVisible: false,
+      // uploadData: {
+      //   pid: "",
+      // },
+      // action: this.$axios.defaults.baseURL + "/post/upload",
+      // myHeader: { TOKEN: sessionStorage.getItem("TOKEN") },
       tag: this.$route.params.tag,
       msg: this.$route.params.tag == 0 ? "提问" : "写文章",
       ruleForm: {
@@ -99,7 +99,6 @@ export default {
         ],
         content: [{ required: true, message: "请输入内容", trigger: "blur" }],
       },
-
       //mavon-editor配置
       toolbars: {
         bold: true, // 粗体
@@ -140,18 +139,11 @@ export default {
     };
   },
   methods: {
-    success() {
-      this.$message({
-        message: "发表成功",
-        type: "success",
-      });
-    },
-    fail(msg) {
-      this.$message.error(msg);
-    },
+    // fail(msg) {
+    //   this.$message.error(msg);
+    // },
     //提交表单
     submitForm(formName) {
-      const _this = this;
       this.$refs[formName].validate((valid) => {
         if (valid) {
           //提交表单
@@ -164,21 +156,23 @@ export default {
               tag: 0,
             },
           })
-            .then(function(res) {
+            .then((res) => {
               if (res.data.code == 200) {
                 /*//发表成功，根据返回的pid来上传图片
-                                console.log(res.data.data)
-                                _this.uploadData.pid = res.data.data;
-                                //上传文件
-                                _this.submitUpload();*/
-                _this.success();
-                _this.toIndex();
+                    console.log(res.data.data)
+                    _this.uploadData.pid = res.data.data;
+                    //上传文件
+                    _this.submitUpload();*/
+                this.$message({
+                  message: "发表成功",
+                  type: "success",
+                });
+                this.$router.push("/");
               } else {
-                _this.fail(res.data.msg);
+                this.$message.error(res.data.msg);
               }
-              console.log(res);
             })
-            .catch(function(error) {
+            .catch((error) => {
               console.log(error);
             });
         } else {
@@ -187,58 +181,50 @@ export default {
       });
     },
 
-    toIndex() {
-      this.$router.push("/");
-    },
     //取消
     cancel() {
       this.$router.push("/");
     },
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
-    exceed(files, fileList) {
-      this.$message.error("最多只能上传3张图片");
-    },
-    submitUpload() {
-      console.log(this.$refs.upload);
-      this.$refs.upload.submit();
-    },
-    beforeUpload(file) {
-      const isLt2M = file.size / 1024 / 1024 < 2;
+    // handlePictureCardPreview(file) {
+    //   this.dialogImageUrl = file.url;
+    //   this.dialogVisible = true;
+    // },
+    // submitUpload() {
+    //   console.log(this.$refs.upload);
+    //   this.$refs.upload.submit();
+    // },
+    // beforeUpload(file) {
+    //   const isLt2M = file.size / 1024 / 1024 < 2;
 
-      console.log("验证图片是否超过2M");
-      if (!isLt2M) {
-        this.$message.error("图片大小不能超过2M！！！");
-        return false;
-      }
+    //   console.log("验证图片是否超过2M");
+    //   if (!isLt2M) {
+    //     this.$message.error("图片大小不能超过2M！！！");
+    //     return false;
+    //   }
 
-      return isLt2M;
-    },
-    onChange(file, fileList) {
-      fileList = fileList.filter((f) => this.isOver(f.size));
-      console.log(fileList);
-    },
-    isOver(size) {
-      return size / 1024 / 1024 < 2;
-    },
+    //   return isLt2M;
+    // },
+    // onChange(file, fileList) {
+    //   fileList = fileList.filter((f) => this.isOver(f.size));
+    //   console.log(fileList);
+    // },
+    // isOver(size) {
+    //   return size / 1024 / 1024 < 2;
+    // },
 
     //上传图片
     imgAdd(pos, file) {
-      const _this = this;
-      var formData = new FormData();
-      formData.append("image", file);
-
+      let formData = new FormData();
+      formData.append("file", file);
       //上传文件
-      _this
-        .$axios({
-          method: "post",
-          url: "/post/upload",
-          data: formData,
-          headers: { "Content-Type": "multipart/form-data" },
-        })
-        .then(function(res) {
+      this.$axios({
+        method: "post",
+        url: "/post/uploadImg",
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data"},
+      })
+        .then((res) => {
+          console.log(res,'img');
           // console.log(JSON.stringify(url))
           // 第二步.将返回的url替换到文本原位置![...](./0) -> ![...](url)
           /**
@@ -247,37 +233,32 @@ export default {
            * 2. 通过$refs获取: html声明ref : `<mavon-editor ref=md ></mavon-editor>，`$vm`为 `this.$refs.md`
            * 3. 由于vue运行访问的路径只能在static下，so，我就把图片保存到它这里了
            */
-          _this.$refs.md.$img2Url(pos, res.data.msg);
+          this.$refs.md.$img2Url(pos, res.data.data);
         })
-        .catch(function(error) {
+        .catch((error) =>{
           console.log(error);
         });
     },
-
     imgDel(pos) {
       console.log(pos[0]);
-      var formdata = new FormData();
+      let formdata = new FormData();
       formdata.append("url", pos[0]);
-
-      const _this = this;
-
       //上传文件
-      _this
-        .$axios({
-          method: "post",
-          url: "/post/delimg",
-          data: formdata,
-        })
-        .then(function(res) {
-          if (res.data.code == 200) {
-            this.error("删除图片成功");
-          } else {
-            this.error("删除图片失败:" + res.data.msg);
-          }
-        })
-        .catch(function(error) {
-          this.error("删除图片失败:" + error);
-        });
+      // this.$axios({
+      //   method: "post",
+      //   url: "/post/delimg",
+      //   data: formdata,
+      // })
+      //   .then((res) => {
+      //     if (res.data.code == 200) {
+      //       this.error("删除图片成功");
+      //     } else {
+      //       this.error("删除图片失败:" + res.data.msg);
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     this.error("删除图片失败:" + error);
+      //   });
     },
   },
 };
@@ -290,7 +271,6 @@ export default {
   background-color: #fff;
   margin-top: 30px;
   overflow: hidden;
-
 }
 .m-content {
   text-align: center;
@@ -298,7 +278,7 @@ export default {
   margin: auto;
   margin-top: 20px;
 }
-.edit{
+.edit {
   height: 500px;
 }
 </style>

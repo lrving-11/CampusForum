@@ -61,7 +61,6 @@ export default {
     navbar: Navbar,
   },
   data() {
-    const _this = this;
 
     var validateCode = (rule, value, callback) => {
       if (value === "") {
@@ -69,7 +68,7 @@ export default {
       } else if (value.toLowerCase() !== this.checkCode.toLowerCase()) {
         //刷新验证码
         callback(new Error("验证码错误!"));
-        _this.createCode();
+        this.createCode();
       } else {
         callback();
       }
@@ -116,7 +115,6 @@ export default {
       this.$message.error(msg);
     },
     submitForm(formName) {
-      // const _this = this;
       this.$refs[formName].validate((valid) => {
         if (valid) {
           //提交表单

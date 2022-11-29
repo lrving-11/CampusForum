@@ -70,6 +70,8 @@ Vue.config.productionTip = false;
 //全局注册axios
 Vue.prototype.$axios = axios;
 axios.defaults.baseURL = "http://172.30.192.192:8080";
+axios.defaults.withCredentials = true;
+
 /**
  *  axios请求拦截器,每次请求带上token
  * forum_server

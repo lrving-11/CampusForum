@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 export default {
   name: "Forget",
   components: {
@@ -79,7 +79,6 @@ export default {
       this.$message.error(msg);
     },
     submitForm(formName) {
-      const _this = this;
       this.$refs[formName].validate((valid) => {
         if (valid) {
           //提交表单
@@ -90,17 +89,17 @@ export default {
               email: this.ruleForm.email,
             },
           })
-            .then(function(response) {
+            .then((response) => {
               if (response.data.code == 200) {
-                _this.success();
-                _this.$router.push("/login");
+                this.success();
+                this.$router.push("/login");
               } else {
-                _this.fail(response.data.msg);
+                this.fail(response.data.msg);
               }
 
               console.log(response);
             })
-            .catch(function(error) {
+            .catch((error) => {
               console.log(error);
             });
         } else {

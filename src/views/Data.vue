@@ -39,10 +39,9 @@
             class="list-group-item d-flex justify-content-between align-items-center"
           >
             统计结果
-            <span
-              class="badge badge-primary badge-danger font-size-14"
-              >{{uvResult||0}}</span
-            >
+            <span class="badge badge-primary badge-danger font-size-14">{{
+              uvResult || 0
+            }}</span>
           </li>
         </ul>
       </div>
@@ -79,10 +78,9 @@
             class="list-group-item d-flex justify-content-between align-items-center"
           >
             统计结果
-            <span
-              class="badge badge-primary badge-danger font-size-14"
-              >{{dauResult||0}}</span
-            >
+            <span class="badge badge-primary badge-danger font-size-14">{{
+              dauResult || 0
+            }}</span>
           </li>
         </ul>
       </div>
@@ -98,13 +96,8 @@ export default {
     Navbar,
   },
   methods: {
-    fail(msg) {
-      this.$message.error(msg);
-    },
-
+    fail(msg) {},
     onUv() {
-      const _this = this;
-
       //提交表单
       this.$axios({
         method: "post",
@@ -114,39 +107,37 @@ export default {
           end: this.uvform.uvEndDate,
         },
       })
-        .then(function(res) {
+        .then((res) => {
           console.log(res);
           if (res.data.code == 200) {
-            _this.uvResult = res.data.data.uvResult;
+            this.uvResult = res.data.data.uvResult;
           } else {
-            _this.fail(res.data.msg);
+            this.$message.error(res.data.msg);
           }
         })
-        .catch(function(error) {
+        .catch((error) => {
           console.log(error);
         });
     },
     onDau() {
-      const _this = this;
-
       //提交表单
       this.$axios({
         method: "post",
         url: "/data/dau",
         data: {
-          start: _this.dauform.dauStartDate,
-          end: _this.dauform.dauEndDate,
+          start: this.dauform.dauStartDate,
+          end: this.dauform.dauEndDate,
         },
       })
-        .then(function(res) {
+        .then((res)=> {
           console.log(res);
           if (res.data.code == 200) {
-            _this.dauResult = res.data.data.dauResult;
+            this.dauResult = res.data.data.dauResult;
           } else {
-            _this.fail(res.data.msg);
+            this.$message.error(res.data.msg);
           }
         })
-        .catch(function(error) {
+        .catch((error)=> {
           console.log(error);
         });
     },

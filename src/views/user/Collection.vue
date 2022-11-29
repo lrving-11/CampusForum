@@ -63,8 +63,7 @@
 
         <!--分页，@current-change会把点击的页数传给方法-->
         <el-pagination
-      v-show="total>0"
-
+          v-show="total > 0"
           class="mpage"
           background
           layout="prev, pager, next"
@@ -80,36 +79,11 @@
 </template>
 
 <script>
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 export default {
   name: "Collection",
   components: {
     Navbar,
-  },
-  created() {
-    const _this = this;
-    //要先登录才能关注或取消关注
-
-    this.$axios({
-      method: "get",
-      url: "/collection/" + _this.$route.params.uid,
-    })
-      .then(function(res) {
-        if (res.data.code == 200) {
-          const myData = res.data.data;
-          console.log(myData);
-          _this.user = myData.user;
-          _this.total = myData.total;
-          _this.posts = myData.posts;
-          _this.currentPage = myData.currentPage;
-        } else {
-          _this.fail(res.data.msg);
-        }
-        console.log(res);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
   },
   data() {
     return {
@@ -122,34 +96,56 @@ export default {
       uploadPath: this.$axios.defaults.baseURL,
     };
   },
+  created() {
+    //要先登录才能关注或取消关注
+    this.$axios({
+      method: "get",
+      url: "/collection/" + this.$route.params.uid,
+    })
+      .then((res) => {
+        if (res.data.code == 200) {
+          const myData = res.data.data;
+          console.log(myData);
+          this.user = myData.user;
+          this.total = myData.total;
+          this.posts = myData.posts;
+          this.currentPage = myData.currentPage;
+        } else {
+          this.fail(res.data.msg);
+        }
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+
   methods: {
     fail(msg) {
       this.$message.error(msg);
     },
     page(currentPage) {
-      const _this = this;
       //要先登录才能关注或取消关注
-
       this.$axios({
         method: "get",
         url:
           "/collection/" +
-          _this.$route.params.uid +
+          this.$route.params.uid +
           "?currentPage=" +
           currentPage,
       })
-        .then(function(res) {
+        .then((res) =>{
           if (res.data.code == 200) {
             const myData = res.data.data;
             console.log(myData);
-            _this.posts = myData.posts;
-            _this.currentPage = myData.currentPage;
+            this.posts = myData.posts;
+            this.currentPage = myData.currentPage;
           } else {
-            _this.fail(res.data.msg);
+            this.fail(res.data.msg);
           }
           console.log(res);
         })
-        .catch(function(error) {
+        .catch((error) =>{
           console.log(error);
         });
     },

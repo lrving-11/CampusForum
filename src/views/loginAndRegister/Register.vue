@@ -47,18 +47,17 @@
 
         <el-form-item prop="seccode" label="验证码" class="inputbar">
           <el-input
-            class="form-item vcode"
+            class="form-item"
             v-model="ruleForm.seccode"
             style="margin-right: 5px;"
           ></el-input>
-          <el-button
-            type="primary"
+          <img
             @click="createCode"
-            class="form-item vcode"
-            >{{ checkCode }}</el-button
-          >
+            id="uploadCode"
+            alt="code"
+            src="http://172.30.192.192:8080/user/getCode"
+          />
         </el-form-item>
-
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')"
             >立即创建</el-button
@@ -76,24 +75,11 @@ export default {
   components: {
     navbar: Navbar,
   },
+
   mounted() {
-    //初始化验证码
     this.createCode();
-    console.log(this.$axios, "axios");
-    // console.log(this.success(), "this.success");
   },
   data() {
-    var validateCode = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入验证码!!!"));
-      } else if (value.toLowerCase() !== this.checkCode.toLowerCase()) {
-        //刷新验证码
-        callback(new Error("验证码错误!"));
-      } else {
-        callback();
-      }
-    };
-
     /*
      * 回调函数，确认两次输入的密码正确
      * */
@@ -116,6 +102,7 @@ export default {
         gender: "0",
         email: "13778066602@163.com",
         seccode: "",
+        codeUrl: "",
       },
       rules: {
         username: [
@@ -146,61 +133,17 @@ export default {
             trigger: ["blur", "change"],
           },
         ],
-        seccode: [{ required: true, trigger: "blur", validator: validateCode }],
       },
     };
   },
   methods: {
     createCode() {
-      let code = "";
-      const codeLength = 4; //验证码的长度
-      const random = new Array(
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M",
-        "N",
-        "O",
-        "P",
-        "Q",
-        "R",
-        "S",
-        "T",
-        "U",
-        "V",
-        "W",
-        "X",
-        "Y",
-        "Z"
-      ); //随机数
-      for (let i = 0; i < codeLength; i++) {
-        //循环操作
-        let index = Math.floor(Math.random() * 36); //取得随机数的索引（0~35）
-        code += random[index]; //根据索引取得随机数加到code上
-      }
-      this.checkCode = code; //把code值赋给验证码
+      document.querySelector("#uploadCode").src =
+        "http://172.30.192.192:8080/user/getCode?t=" + new Date().getTime();
+        console.log(this.$axios.defaults);
+
     },
     submitForm(formName) {
-      const _this = this;
       this.$refs[formName].validate((valid) => {
         if (valid) {
           //提交表单
@@ -212,6 +155,7 @@ export default {
               passwd: this.ruleForm.pass,
               sex: this.ruleForm.gender,
               email: this.ruleForm.email,
+              seccode: this.ruleForm.seccode,
             },
           })
             .then((res) => {
@@ -224,29 +168,18 @@ export default {
                 });
                 this.$router.push("/login");
               } else {
-                this.$message.error('error',res.data.msg);
+                this.$message.error("error", res.data.msg);
               }
             })
-            .catch(function(error) {
+            .catch((error) => {
               console.log(error);
             });
-          // .then(function(response) {
-          //   if (response.data.code == 200) {
-          //     _this.success();
-          //     _this.$router.push("/login");
-          //   } else {
-          //     _this.fail('registerErr',response.data.msg);
-          //   }
-
-          //   console.log(response);
-          // })
-          // .catch(function(error) {
-          //   console.log(error);
-          // });
         } else {
           console.log("请正确填完你的表单！！！");
           return false;
         }
+        console.log(document.cookie);
+
       });
     },
   },
@@ -266,7 +199,11 @@ export default {
   /* text-align: center; */
 }
 .vcode {
-  flex: inherit;
+  /* flex: inherit; */
+  /* margin-top: 20px; */
+  border: rgb(159, 170, 221) solid 1px;
+  border-radius: 3px;
+  padding: 2px;
 }
 .form-item {
   width: 300px;

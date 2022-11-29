@@ -205,7 +205,7 @@ ul {
   float: right;
 }
 .chatbox {
-  border: 2px #147dc8 solid;
+  border: 1px #147dc8 solid;
   border-radius: 5px;
   /* background-color: #9dadd1; */
   /* margin-top: 30px; */

@@ -37,9 +37,7 @@
             >
               <div class="toast-header">
                 <strong class="mr-auto" v-text="map.fromUser.username"></strong>
-                <small v-text="map.notice.createTime"
-                  >2019-04-25 15:49:32</small
-                >
+                <small v-text="map.notice.createTime"></small>
                 <button
                   type="button"
                   class="ml-2 mb-1 close"
@@ -53,8 +51,9 @@
                 <span v-if="topic == 'comment'">
                   用户
                   <i v-text="map.user.username"></i>
-                  评论了你的<b v-text="map.entityType == 1 ? '帖子' : '回复'"
-                    >帖子</b
+                  评论了你的<b
+                    v-text="map.entityType == 1 ? '帖子' : '回复'"
+                  ></b
                   >,
                   <router-link
                     class="text-primary"
@@ -64,9 +63,10 @@
                 </span>
                 <span v-if="topic == 'like'">
                   用户
-                  <i v-text="map.user.username">nowcoder</i>
-                  点赞了你的<b v-text="map.entityType == 1 ? '帖子' : '回复'"
-                    >帖子</b
+                  <i v-text="map.user.username"></i>
+                  点赞了你的<b
+                    v-text="map.entityType == 1 ? '帖子' : '回复'"
+                  ></b
                   >,
                   <router-link
                     class="text-primary"
@@ -111,42 +111,6 @@ export default {
   components: {
     Navbar,
   },
-  methods: {
-    back() {
-      this.$router.push("/notice");
-    },
-    page(currentPage) {
-      const _this = this;
-      _this.$axios
-        .get("/notice/detail/" + _this.topic + "?currentPage=" + currentPage)
-        .then((res) => {
-          const myData = res.data.data;
-
-          _this.notices = myData.notices;
-          _this.total = myData.total;
-          _this.currentPage = myData.currentPage;
-        });
-    },
-  },
-  created: function() {
-    const _this = this;
-    _this.topic = _this.$route.params.topic;
-    //提交表单
-    this.$axios({
-      method: "get",
-      url: "/notice/detail/" + _this.topic,
-    })
-      .then(function(res) {
-        let myData = res.data.data;
-        console.log(myData);
-        _this.notices = myData.notices;
-        _this.total = myData.total;
-        _this.currentPage = myData.currentPage;
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  },
   data() {
     return {
       notices: "",
@@ -157,6 +121,40 @@ export default {
       topic: "",
     };
   },
+  created() {
+    this.topic = this.$route.params.topic;
+    //提交表单
+    this.$axios({
+      method: "get",
+      url: "/notice/detail/" + this.topic,
+    })
+      .then((res) => {
+        let myData = res.data.data;
+        console.log(myData);
+        this.notices = myData.notices;
+        this.total = myData.total;
+        this.currentPage = myData.currentPage;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+  methods: {
+    back() {
+      this.$router.push("/notice");
+    },
+    page(currentPage) {
+      this.$axios
+        .get("/notice/detail/" + this.topic + "?currentPage=" + currentPage)
+        .then((res) => {
+          const myData = res.data.data;
+          this.notices = myData.notices;
+          this.total = myData.total;
+          this.currentPage = myData.currentPage;
+        });
+    },
+  },
+ 
 };
 </script>
 
