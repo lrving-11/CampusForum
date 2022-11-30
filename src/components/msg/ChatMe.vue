@@ -112,10 +112,9 @@ export default {
     OwnMsgItem,
   },
   data() {
-    const _this = this;
     return {
-      userList: _this.$store.state.userList,
-      currentUser: _this.$store.state.currentUser,
+      userList: this.$store.state.userList,
+      currentUser: this.$store.state.currentUser,
       input_content: "",
     };
   },

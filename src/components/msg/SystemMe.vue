@@ -54,43 +54,41 @@ export default {
       this.$message.error(msg);
     },
     page(currentPage) {
-      const _this = this;
-      _this.$axios
+      this.$axios
         .get("/message/system?currentPage=" + currentPage)
         .then((res) => {
           if (res.data.code != 200) {
-            _this.fail(res.data.msg);
+            this.fail(res.data.msg);
             return;
           } else {
             const data = res.data.data;
-            _this.msgVos = data.msgVos;
-            _this.total = data.total;
+            this.msgVos = data.msgVos;
+            this.total = data.total;
           }
         })
-        .catch(function(error) {
+        .catch((error)=> {
           console.log(error);
-          _this.fail("网络故障");
+          this.fail("网络故障");
         });
     },
   },
   created() {
-    const _this = this;
     //提交表单
     this.$axios({
       method: "get",
       url: "/message/system",
     })
-      .then(function(res) {
+      .then((res)=> {
         if (res.data.code != 200) {
-          _this.fail(res.data.msg);
+          this.fail(res.data.msg);
           return;
         } else {
           const data = res.data.data;
-          _this.msgVos = data.msgVos;
-          _this.total = data.total;
+          this.msgVos = data.msgVos;
+          this.total = data.total;
         }
       })
-      .catch(function(error) {
+      .catch((error) =>{
         console.log(error);
       });
   },

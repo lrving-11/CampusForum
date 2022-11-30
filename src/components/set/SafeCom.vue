@@ -107,7 +107,6 @@ export default {
     },
 
     submitForm(formName) {
-      const _this = this;
       this.$refs[formName].validate((valid) => {
         if (valid) {
           //提交表单

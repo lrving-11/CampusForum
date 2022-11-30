@@ -400,7 +400,6 @@ export default {
       });
   },
   methods: {
-    fail(msg) {},
     //评论帖子
     commentPost() {
       if (this.commentContent.length > 100) {
@@ -536,37 +535,37 @@ export default {
     },
     //置顶
     setTop() {
-      this.$axios.get("/post/top?id=" + this.postVo.post.id).then((res) => {
-        console.log(res);
-        if (res.data.code == 200) {
-          this.postVo.post.type = 1;
-        } else {
-          this.$message.error(res.data.msg);
-        }
-      });
+      // this.$axios.get("/post/top?id=" + this.postVo.post.id).then((res) => {
+      //   console.log(res);
+      //   if (res.data.code == 200) {
+      //     this.postVo.post.type = 1;
+      //   } else {
+      //     this.$message.error(res.data.msg);
+      //   }
+      // });
     },
     //精选
     setWonder() {
-      this.$axios
-        .get("/post/wonderful?id=" + this.postVo.post.id)
-        .then((res) => {
-          console.log(res);
-          if (res.data.code == 200) {
-            this.postVo.post.status = 1;
-          } else {
-            this.$message.error(res.data.msg);
-          }
-        });
+      // this.$axios
+      //   .get("/post/wonderful?id=" + this.postVo.post.id)
+      //   .then((res) => {
+      //     console.log(res);
+      //     if (res.data.code == 200) {
+      //       this.postVo.post.status = 1;
+      //     } else {
+      //       this.$message.error(res.data.msg);
+      //     }
+      //   });
     },
     //删除
     setDelete() {
-      this.$axios.get("/post/delete?id=" + this.postVo.post.id).then((res) => {
-        if (res.data.code != 200) {
-          this.$message.error(res.data.msg);
-        } else {
-          this.$router.push("/");
-        }
-      });
+      // this.$axios.get("/post/delete?id=" + this.postVo.post.id).then((res) => {
+      //   if (res.data.code != 200) {
+      //     this.$message.error(res.data.msg);
+      //   } else {
+      //     this.$router.push("/");
+      //   }
+      // });
     },
     //收藏
     collect(pid) {

@@ -61,7 +61,7 @@ export default {
     };
   },
   created() {
-    // const _this = this;
+    // const this = this;
     //请求页面资源
     this.$axios({
       method: "get",

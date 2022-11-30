@@ -239,10 +239,11 @@ export default {
 .mymain {
   /* margin-left: 100px;
   margin-top: 50px; */
+  height: 600px;
   width: 60%;
   margin: auto;
   margin-top: 20px;
-  background-color: #fff;
+  background-color: rgb(255, 255, 255);
   overflow: hidden;
 }
 .title {

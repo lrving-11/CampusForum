@@ -95,8 +95,26 @@ export default {
   components: {
     Navbar,
   },
+  data() {
+    return {
+      uvResult: "",
+      uvStartDate: "",
+      uvEndDate: "",
+      dauResult: "",
+      dauStartDate: "",
+      dauEndDate: "",
+
+      uvform: {
+        uvStartDate: "",
+        uvEndDate: "",
+      },
+      dauform: {
+        dauStartDate: "",
+        dauEndDate: "",
+      },
+    };
+  },
   methods: {
-    fail(msg) {},
     onUv() {
       //提交表单
       this.$axios({
@@ -142,25 +160,7 @@ export default {
         });
     },
   },
-  data() {
-    return {
-      uvResult: "",
-      uvStartDate: "",
-      uvEndDate: "",
-      dauResult: "",
-      dauStartDate: "",
-      dauEndDate: "",
 
-      uvform: {
-        uvStartDate: "",
-        uvEndDate: "",
-      },
-      dauform: {
-        dauStartDate: "",
-        dauEndDate: "",
-      },
-    };
-  },
 };
 </script>
 

@@ -187,6 +187,7 @@ export default {
 </script>
 <style scoped>
 .main {
+  height: 600px;
   width: 60%;
   border: 1px, solid, #000;
   margin: auto;

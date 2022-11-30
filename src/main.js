@@ -71,11 +71,9 @@ Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
 axios.defaults.baseURL = "http://172.30.192.192:8080";
 axios.defaults.withCredentials = true;
+axios.defaults.timeout = 30000;
 
-/**
- *  axios请求拦截器,每次请求带上token
- * forum_server
- */
+//请求拦截器
 axios.interceptors.request.use(
   (config) => {
     config.headers.TOKEN = window.sessionStorage.getItem("TOKEN");
@@ -85,10 +83,7 @@ axios.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-
-/**
- * axios响应拦截器
- */
+//axios响应拦截器
 axios.interceptors.response.use(
   function(response) {
     const code = response.data.code;

@@ -101,25 +101,24 @@ export default {
     },
   },
   created() {
-    const _this = this;
     //提交表单
     this.$axios({
       method: "get",
       url: "/message/list",
     })
-      .then(function(res) {
+      .then((res) =>{
         const result = res.data;
         if (result.code == 200) {
           const data = result.data;
-          _this.followCount = data.followCount;
-          _this.replyCount = data.replyCount;
-          _this.likeCount = data.likeCount;
-          _this.systemCount = data.systemCount;
+          this.followCount = data.followCount;
+          this.replyCount = data.replyCount;
+          this.likeCount = data.likeCount;
+          this.systemCount = data.systemCount;
         } else {
-          _this.fail(result.msg);
+          this.fail(result.msg);
         }
       })
-      .catch(function(error) {
+      .catch((error)=> {
         console.log(error);
       });
   },

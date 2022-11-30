@@ -135,14 +135,13 @@ export default {
       this.$router.push("/");
     },
     toHome() {
-      const _this = this;
-      console.log(_this.$route.fullPath);
-      console.log(_this.$route.path);
+      console.log(this.$route.fullPath);
+      console.log(this.$route.path);
 
       this.$router.push({
         name: "Profile",
         params: {
-          uid: _this.$store.state.userInfo.id,
+          uid: this.$store.state.userInfo.id,
         },
       });
       // location.reload();
@@ -153,12 +152,11 @@ export default {
       });
     },
     search() {
-      const _this = this;
 
       this.$router.push({
         name: "Search",
         params: {
-          keyword: _this.keyword,
+          keyword: this.keyword,
         },
       });
     },
@@ -166,20 +164,18 @@ export default {
       this.$router.push("/setting");
     },
     toCollect() {
-      const _this = this;
       this.$router.push({
         name: "Collection",
         params: {
-          uid: _this.$store.state.userInfo.id,
+          uid: this.$store.state.userInfo.id,
         },
       });
     },
     toUserPost() {
-      const _this = this;
       this.$router.push({
         name: "UserPosts",
         params: {
-          uid: _this.$store.state.userInfo.id,
+          uid: this.$store.state.userInfo.id,
         },
       });
     },

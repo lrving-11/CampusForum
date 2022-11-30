@@ -111,6 +111,24 @@ export default {
     UserNavbar,
     Navbar,
   },
+  data() {
+    return {
+      //头像网络资源地址
+      uploadPath: this.$axios.defaults.baseURL,
+      user: "",
+      isMine: false,
+      likeCount: "",
+
+      hasFollowed: false,
+      followeeCount: 0,
+      followerCount: 0,
+
+      //头像上传地址
+      avatarAction: this.$axios.defaults.baseURL + "/user/avatar",
+      myHeader: { Authorization: sessionStorage.getItem("JWT_TOKEN") },
+      gender:0,
+    };
+  },
   created() {
     //请求用户主页信息
     console.log(this.$route.params.uid);
@@ -141,10 +159,13 @@ export default {
         console.log(error);
       });
   },
+  computed:{
+    getIcon(){
+     return this.gender==0?"el-icon-male":"el-icon-female"
+    }
+  },
   methods: {
-    fail(msg) {
-     
-    },
+    
     handleExceed(file, fileList) {
       this.$message.error("只能上传一张图片");
     },
@@ -169,12 +190,7 @@ export default {
         this.$message.error("要登录才能关注哦");
         return;
       }
-      let path = "";
-      if (this.hasFollowed) {
-        path = "/unfollow";
-      } else {
-        path = "/follow";
-      }
+      let path = this.hasFollowed? "/collect" : "/uncollect";
       this.$axios({
         method: "post",
         url: path,
@@ -190,7 +206,7 @@ export default {
             this.followerCount = myData.followerCount;
             this.hasFollowed = myData.hasFollowed;
           } else {
-            this.fail(res.data.msg);
+            this.$message.error(res.data.msg);
           }
           console.log(res);
         })
@@ -214,29 +230,7 @@ export default {
       this.$router.push("/message");
     },
   },
-  data() {
-    return {
-      //头像网络资源地址
-      uploadPath: this.$axios.defaults.baseURL,
-      user: "",
-      isMine: false,
-      likeCount: "",
-
-      hasFollowed: false,
-      followeeCount: 0,
-      followerCount: 0,
-
-      //头像上传地址
-      avatarAction: this.$axios.defaults.baseURL + "/user/avatar",
-      myHeader: { Authorization: sessionStorage.getItem("JWT_TOKEN") },
-      gender:0,
-    };
-  },
-  computed:{
-    getIcon(){
-     return this.gender==0?"el-icon-male":"el-icon-female"
-    }
-  },
+ 
 };
 </script>
 

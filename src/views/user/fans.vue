@@ -97,7 +97,7 @@ export default {
     //请求页面资源
     this.$axios({
       method: "get",
-      url: "/followers/" + this.$route.params.userId,
+      url: "/fans/" + this.$route.params.userId,
     })
       .then((res) => {
         if (res.data.code == 200) {
@@ -106,7 +106,7 @@ export default {
           this.userList = myData.userList;
           this.total = myData.total;
         } else {
-          this.fail(res.data.msg);
+          this.$message.error(res.data.msg);
         }
         console.log(res);
       })
@@ -129,13 +129,11 @@ export default {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
-    fail(msg) {
-      this.$message.error(msg);
-    },
+  
     page(currentPage) {
       this.$axios
         .get(
-          "/followers/" +
+          "/fans/" +
             this.$route.params.userId +
             "?currentPage=" +
             currentPage
@@ -175,7 +173,7 @@ export default {
             this.followerCount = myData.followerCount;
             this.hasFollowed = myData.hasFollowed;
           } else {
-            this.fail(res.data.msg);
+            this.$message.error(res.data.msg);
           }
           console.log(res);
         })

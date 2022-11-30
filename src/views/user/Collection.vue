@@ -97,7 +97,6 @@ export default {
     };
   },
   created() {
-    //要先登录才能关注或取消关注
     this.$axios({
       method: "get",
       url: "/collection/" + this.$route.params.uid,
@@ -111,7 +110,7 @@ export default {
           this.posts = myData.posts;
           this.currentPage = myData.currentPage;
         } else {
-          this.fail(res.data.msg);
+          this.$message.error(res.data.msg);
         }
         console.log(res);
       })
@@ -121,11 +120,7 @@ export default {
   },
 
   methods: {
-    fail(msg) {
-      this.$message.error(msg);
-    },
     page(currentPage) {
-      //要先登录才能关注或取消关注
       this.$axios({
         method: "get",
         url:
@@ -141,7 +136,7 @@ export default {
             this.posts = myData.posts;
             this.currentPage = myData.currentPage;
           } else {
-            this.fail(res.data.msg);
+            this.$message.error(res.data.msg);
           }
           console.log(res);
         })

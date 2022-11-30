@@ -92,29 +92,6 @@ export default {
   components: {
     Navbar,
   },
-  created() {
-    //请求用户主页信息
-    console.log(this.$route.params.uid);
-    //请求页面资源
-    this.$axios({
-      method: "get",
-      url: "/followees/" + this.$route.params.userId,
-    })
-      .then((res)=> {
-        if (res.data.code == 200) {
-          const myData = res.data.data;
-          this.user = myData.user;
-          this.userList = myData.userList;
-          this.total = myData.total;
-        } else {
-          this.fail(res.data.msg);
-        }
-        console.log(res);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  },
   data() {
     return {
       activeIndex: "1",
@@ -127,12 +104,32 @@ export default {
       hasFollowed: undefined,
     };
   },
+  created() {
+    //请求用户主页信息
+    console.log(this.$route.params.uid);
+    //请求页面资源
+    this.$axios({
+      method: "get",
+      url: "/followees/" + this.$route.params.userId,
+    })
+      .then((res) => {
+        if (res.data.code == 200) {
+          const myData = res.data.data;
+          this.user = myData.user;
+          this.userList = myData.userList;
+          this.total = myData.total;
+        } else {
+          this.$message.error(res.data.msg);
+        }
+        console.log(res);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  },
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
-    },
-    fail(msg) {
-      this.$message.error(msg);
     },
     page(currentPage) {
       this.$axios
@@ -170,18 +167,18 @@ export default {
           entityId: entityId,
         },
       })
-        .then((res)=> {
+        .then((res) => {
           if (res.data.code == 200) {
             const myData = res.data.data;
             console.log(myData, "mydata");
             this.followerCount = myData.followerCount;
             this.hasFollowed = myData.hasFollowed;
           } else {
-            this.fail(res.data.msg);
+            this.$message.error(res.data.msg);
           }
           console.log(res);
         })
-        .catch((error)=> {
+        .catch((error) => {
           console.log(error);
         });
     },

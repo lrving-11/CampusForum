@@ -103,51 +103,47 @@ export default {
       currentPage: 1,
       total: 0,
       pageSize: 5,
-
       user: {},
     };
   },
   //頁面首先加載第一頁
   created() {
-    const _this = this;
-    _this.$axios
-      .get("/user/userPost/+" + _this.$route.params.uid)
+    this.$axios
+      .get("/user/userPost/" + this.$route.params.uid)
       .then((res) => {
         console.log(res);
-        _this.records = res.data.data.pagination.records;
-        _this.currentPage = res.data.data.pagination.currentPage;
-        _this.total = res.data.data.pagination.total;
-        _this.pageSize = res.data.data.pagination.pageSize;
-        _this.user = res.data.data.user;
+        this.records = res.data.data.pagination.records;
+        this.currentPage = res.data.data.pagination.currentPage;
+        this.total = res.data.data.pagination.total;
+        this.pageSize = res.data.data.pagination.pageSize;
+        this.user = res.data.data.user;
       });
   },
   methods: {
     page(currentPage) {
-      const _this = this;
       //要先登录才能关注或取消关注
-
       this.$axios({
         method: "get",
         url:
           "/user/userPost/" +
-          _this.$route.params.uid +
+          this.$route.params.uid +
           "?currentPage=" +
           currentPage,
       })
-        .then(function(res) {
+        .then((res)=> {
           if (res.data.code == 200) {
             const myData = res.data.data;
             console.log(myData);
-            _this.records = res.data.data.pagination.records;
-            _this.currentPage = res.data.data.pagination.currentPage;
-            _this.total = res.data.data.pagination.total;
-            _this.pageSize = res.data.data.pagination.pageSize;
+            this.records = res.data.data.pagination.records;
+            this.currentPage = res.data.data.pagination.currentPage;
+            this.total = res.data.data.pagination.total;
+            this.pageSize = res.data.data.pagination.pageSize;
           } else {
-            _this.fail(res.data.msg);
+            this.$message.error(res.data.data.msg)
           }
           console.log(res);
         })
-        .catch(function(error) {
+        .catch((error)=> {
           console.log(error);
         });
     },

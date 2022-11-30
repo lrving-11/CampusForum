@@ -52,78 +52,61 @@ export default {
     };
   },
   methods: {
-    //弹出登录成功信息
-    success(msg) {
-      this.$message({
-        message: msg,
-        type: "success",
-      });
-    },
-    fail(msg) {
-      this.$message.error(msg);
-    },
     clearEs() {
-      const _this = this;
       this.$axios({
         method: "post",
         url: "/admin/clearEs",
       })
-        .then(function(res) {
+        .then((res) => {
           if (res.data.code == 200) {
-            _this.success("es库清空完成");
+            this.$message({
+              message: "es库清空完成",
+              type: "success",
+            });
           } else {
-            _this.fail(res.data.msg);
+            this.$message.error(res.data.msg);
           }
         })
-        .catch(function(error) {
+        .catch((error) => {
           console.log(error);
         });
     },
     deleteUser() {
-      const _this = this;
       //提交表单
       this.$axios({
         method: "get",
-        url: "/admin/deleteUser?uid=" + _this.uid,
+        url: "/admin/deleteUser?uid=" + this.uid,
       })
-        .then(function(res) {
+        .then((res) => {
           if (res.data.code == 200) {
-            _this.success("删除成功");
+            this.$message({
+              message: "删除成功",
+              type: "success",
+            });
           } else {
-            _this.fail(res.data.msg);
+            this.$message.error(res.data.msg);
           }
         })
-        .catch(function(error) {
+        .catch((error) => {
           console.log(error);
         });
     },
     resetEs() {
-      const _this = this;
-      _this.$axios
-        .get("/admin/resetEs?uid=" + _this.es_uid)
+      this.$axios
+        .get("/admin/resetEs?uid=" + this.es_uid)
         .then((res) => {
           if (res.data.code == 200) {
-            _this.success(res.data.msg);
+            this.$message({
+              message:res.data.message,
+              type: "success",
+            });
           } else {
-            _this.fail(res.data.msg);
+            this.$message.error(res.data.msg);
           }
         })
-        .catch(function(error) {
+        .catch((error) => {
           console.log(error);
         });
-      // //提交表单
-      // this.$axios({
-      //     method:'get',
-      //     url:'/admin/resetEs?uid='+_this.es_uid,
-      // }).then(function(res){
-      //     if (res.data.code == 200){
-      //         _this.success(res.data.msg)
-      //     }else{
-      //         _this.fail(res.data.msg)
-      //     }
-      // }).catch(function(error){
-      //     console.log(error)
-      // });
     },
   },
 };
