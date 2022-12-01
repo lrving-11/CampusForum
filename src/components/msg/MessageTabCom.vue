@@ -106,19 +106,18 @@ export default {
       method: "get",
       url: "/message/list",
     })
-      .then((res) =>{
-        const result = res.data;
+      .then((res) => {
+        const data = res.data.data;
         if (result.code == 200) {
-          const data = result.data;
           this.followCount = data.followCount;
           this.replyCount = data.replyCount;
           this.likeCount = data.likeCount;
           this.systemCount = data.systemCount;
         } else {
-          this.fail(result.msg);
+          this.$message.error(res.data.data.msg);
         }
       })
-      .catch((error)=> {
+      .catch((error) => {
         console.log(error);
       });
   },

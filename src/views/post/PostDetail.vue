@@ -7,8 +7,8 @@
       <!--帖子内容-->
       <div class="container">
         <!--帖子标题-->
-        <h3 class="mb-4">
-          <span v-text="postVo.post.title" style="margin-top:10px;"></span>
+        <h3 class="mb-3 mt-2">
+          <div v-text="postVo.post.title"></div>
           <!-- <div class="float-right">
             <button
               style="margin-right:5px;"
@@ -46,12 +46,12 @@
         </h3>
 
         <!-- 作者 -->
-        <div class="media pb-3 border-bottom">
+        <div class="media border-bottom">
           <!--用户头像-->
           <router-link
             :to="{ name: 'Profile', params: { uid: postVo.user.id } }"
           >
-            <el-avatar :size="large" :src="postVo.user.avatar"></el-avatar>
+            <el-avatar size="large" :src="postVo.user.avatar"></el-avatar>
           </router-link>
 
           <div class="media-body">
@@ -64,14 +64,20 @@
                 v-text="postVo.user.username"
               ></div>
             </router-link>
-            <div class="text-muted mt-3">
-              发布于 <i v-text="postVo.post.createTimeStr"></i>
+            <div class="text-muted mt-1">
+              <i style="font-size:14px ;"
+                >发布于{{ postVo.post.createTimeStr }}</i
+              >
               <ul class="d-inline float-right">
                 <li class="d-inline ml-2" @click="collect(postVo.post.id)">
                   <a href="javascript:;">
-                    <el-tag effect="dark">
-                      {{ collectStatus == 0 ? "收藏 " : "取消收藏 " }}
-                      <i v-text="postVo.post.collectCount"></i>
+                    <el-tag
+                      size="medium"
+                      :effect="collectStatus == 0 ? 'light' : 'dark'"
+                    >
+                      收藏
+                      <i class="el-icon-star-off"></i>
+                      <i class="ml-2" v-text="postVo.post.collectCount"></i>
                     </el-tag>
                   </a>
                 </li>
@@ -89,34 +95,31 @@
                   "
                 >
                   <a href="javascript:;">
-                    <el-tag effect="dark">
-                      {{ "赞 " }}
-                      <i v-text="postVo.post.likeCount"></i>
+                    <el-tag
+                      size="medium"
+                      :effect="likeStatus == 0 ? 'light' : 'dark'"
+                    >
+                      <!-- <i class="el-icon-thumb"></i> -->
+                      {{ "赞 " }} <i class="fa  fa-thumbs-o-up"></i>
+                      <i class="ml-2" v-text="postVo.post.likeCount"></i>
                     </el-tag>
                   </a>
                 </li>
                 <li class="d-inline ml-2"></li>
                 <li class="d-inline ml-2">
-                  <el-tag type="success">
-                    回帖 <i v-text="postVo.post.commentCount"></i>
+                  <el-tag size="medium" type="success" effect="dark">
+                    <b>
+                      <a style="color: white;" href="#bottom">回帖 </a>
+                      <i class="el-icon-chat-dot-round"></i>
+                      <i class="ml-1" v-text="postVo.post.commentCount"></i
+                    ></b>
                   </el-tag>
                 </li>
               </ul>
             </div>
           </div>
         </div>
-
-        <!-- 正文 -->
-        <!--                <div class="mt-4 mb-3 content " v-text="postVo.post.content"></div>-->
         <div class="markdown-body" v-html="postContent"></div>
-
-        <!--&lt;!&ndash;展示图片&ndash;&gt;
-                <div>
-                    <div class="block" v-for="p in pictures">
-                        <el-image :src="picturePath+p"></el-image>
-                    </div>
-                </div>-->
-
         <br />
         <hr />
       </div>
@@ -126,18 +129,24 @@
         <!-- 回帖数量 -->
         <div class="row">
           <div class="col-8">
-            <el-tag style="margin-top: 10px;" type="info" effect="dark">
+            <el-tag
+              class="mb-2 mt-2"
+              style="margin-top: 10px;"
+              type="success"
+              effect="dark"
+            >
               <b class="square"></b>
               <i v-text="postVo.post.commentCount"></i> 条回帖
+              <i class="el-icon-chat-dot-round"></i>
             </el-tag>
           </div>
         </div>
 
         <!-- 回帖列表 -->
-        <ul class="list-unstyled mt-4">
+        <ul class="list-unstyled">
           <!--一级评论列表-->
           <li
-            class="media pb-3 pt-3 mb-3 border-bottom"
+            class="media pb-3 pt-3 border-bottom"
             v-for="commentVo in comments"
           >
             <!--用户头像-->
@@ -161,9 +170,9 @@
               </div>
               <!--评论内容-->
               <div class="mt-2" v-text="commentVo.comment.content"></div>
-              <div class="mt-4 text-muted font-size-14">
+              <div class="mt-0 text-muted font-size-14">
                 <!--发布时间-->
-                <span
+                <span style="font-size: 14px;"
                   >发布于 <i v-text="commentVo.comment.createTime"></i
                 ></span>
                 <ul class="d-inline float-right">
@@ -177,19 +186,23 @@
                         commentVo.comment.id,
                         commentVo.user.id,
                         postVo.post.id
-                      )
+                      );
                     "
                   >
-                    <a href="javascript:;">
-                      <b
-                        v-text="
-                          commentVo.comment.likeStatus == 0 ? '赞 ' : '已赞 '
-                        "
-                      ></b>
-                      <i v-text="commentVo.comment.likeCount"></i>
+                    <a
+                      class="acount"
+                      href="javascript:;"
+                    >
+                      <b>
+                        <i class="fa  fa-thumbs-o-up"></i>
+                        <i class="count">{{ commentVo.comment.likeCount }}</i
+                        >{{
+                          commentVo.comment.likeStatus == 0 ? "赞 " : "已赞 "
+                        }}
+                      </b>
                     </a>
                   </li>
-                  <li class="d-inline ml-2">|</li>
+                  <li class="d-inline ml-2"></li>
                   <!--评论一级评论-->
                   <li class="d-inline ml-2">
                     <!--第1个参数是entityId，第2个参数是targetId-->
@@ -198,17 +211,18 @@
                       @click="ReplyData(commentVo.comment.id, 0)"
                       class="m-1"
                     >
-                      回复(<i v-text="commentVo.replyCount"></i>)
+                      <b>
+                        <i class="el-icon-chat-dot-round"></i>
+                        <i v-text="commentVo.replyCount"></i>回复
+                      </b>
                     </a>
                   </li>
                 </ul>
               </div>
               <!-- 二级评论列表 -->
-              <ul
-                class="list-unstyled mt-4 bg-gray p-3 font-size-12 text-muted ulList2"
-              >
+              <ul class="list-unstyled mt-2 bg-gray pl-1 text-muted ulList2">
                 <li
-                  class="pb-3 pt-3 mb-3 border-bottom"
+                  class="pb-1 pt-1 mb-2 border-bottom"
                   v-for="replyVo in commentVo.replies"
                 >
                   <div>
@@ -224,7 +238,7 @@
                       </router-link>
                     </span>
                     <span v-else>
-                      <i class="text-info" v-text="replyVo.user.username"></i>
+                      <b class="text-info" v-text="replyVo.user.username"></b>
                       回复
                       <b class="text-info" v-text="replyVo.target.username"></b
                       >:&nbsp;&nbsp;
@@ -232,9 +246,12 @@
                     <!--回复内容-->
                     <span v-text="replyVo.reply.content"></span>
                   </div>
-                  <div class="mt-3">
+                  <div class="mt-0">
                     <!--回复时间-->
-                    <i v-text="replyVo.reply.createTime"></i>
+                    <i
+                      style="font-size: 14px;"
+                      v-text="replyVo.reply.createTime"
+                    ></i>
                     <ul class="d-inline float-right">
                       <!--点赞-->
                       <li
@@ -250,15 +267,16 @@
                         "
                       >
                         <a href="javascript:;">
-                          <b
-                            v-text="
-                              replyVo.reply.likeStatus == 0 ? '赞 ' : '已赞 '
-                            "
-                          ></b>
-                          <i v-text="replyVo.reply.likeCount"></i>
+                          <b>
+                            <!-- {{
+                              replyVo.reply.likeStatus == 0 ? "赞 " : "已赞 "
+                            }} -->
+                            <i class="fa  fa-thumbs-o-up"></i
+                            ><i v-text="replyVo.reply.likeCount"></i>
+                          </b>
                         </a>
                       </li>
-                      <li class="d-inline ml-2">|</li>
+                      <!-- <li class="d-inline ml-2">|</li> -->
                       <!--回复二级评论-->
                       <li class="d-inline ml-2">
                         <!--第1个参数是entityId，第2个参数是targetId-->
@@ -268,8 +286,8 @@
                             ReplyData(commentVo.comment.id, replyVo.user.id)
                           "
                           class="m-1"
-                          >回复</a
-                        >
+                          ><i class="el-icon-chat-dot-round"></i>
+                        </a>
                       </li>
                     </ul>
                   </div>
@@ -317,16 +335,18 @@
       </el-pagination>
 
       <!-- 回帖输入 -->
-      <div class="myComment">
-        <p>
+      <div id="bottom" class="myComment">
+        <div style="height: 10px;"></div>
+        <p style="text-align: center;">
           <textarea
             class="CommentInput"
             placeholder="在这里评论你的的看法吧,评论字数不可超过100"
             v-model="commentContent"
           ></textarea>
         </p>
-        <p>
+        <p style="text-align: center;">
           <button
+            style="width: 90%;"
             type="submit"
             class="btn btn-primary btn-sm"
             @click="commentPost()"
@@ -342,7 +362,7 @@
 
 <script>
 import "github-markdown-css/github-markdown.css";
-import Navbar from "../../components/Navbar";
+import Navbar from "@/components/Navbar";
 export default {
   name: "PostDetail",
   components: {
@@ -353,10 +373,7 @@ export default {
       postVo: {},
       postContent: {},
       comments: {},
-      uploadPath: this.$axios.defaults.baseURL,
-      picturePath: "http://127.0.0.1",
       pictures: {},
-
       entityType: "",
       entityId: "",
       commentUid: "",
@@ -383,6 +400,7 @@ export default {
       .then((res) => {
         console.log(res, "detailRes");
         this.postVo = res.data.data.postVo;
+        this.postVo.post.title = res.data.data.postVo.post.title;
 
         //渲染成md效果
         var MardownIt = require("markdown-it");
@@ -403,7 +421,7 @@ export default {
     //评论帖子
     commentPost() {
       if (this.commentContent.length > 100) {
-        this.fail("评论字数不可超过100！");
+        // this.fail("评论字数不可超过100！");
         return;
       }
       this.$axios({
@@ -436,7 +454,7 @@ export default {
     //回复二级评论
     replyTwo() {
       if (this.replyContent.length > 100) {
-        this.fail("回复字数不可超过100！");
+        // this.fail("回复字数不可超过100！");
         return;
       }
       if (this.$store.state.isLogin) {
@@ -522,8 +540,11 @@ export default {
               this.postVo.post.likeCount = myData.likeCount;
               this.likeStatus = myData.likeStatus;
             } else {
+              document.querySelector(".count").innerHTML = myData.likeCount;
+              document.querySelector(".acount").style =
+                myData.likeStatus == 0 ? "color:#909399;" : "color:#409EFF;";
               //更新评论点赞数（直接操作dom元素）
-              event.firstChild.lastChild.innerHTML = myData.likeCount;
+              // event.firstChild.lastChild.innerHTML = myData.likeCount;
             }
           } else {
             this.$message.error(res.data.msg);
@@ -609,19 +630,26 @@ export default {
   width: 50%;
   margin: 0 auto;
   margin-top: 20px;
+  border-radius: 10px;
+  opacity: 0.95;
 }
 .myComment {
+  background-color: #fff;
+
   height: 200px;
   margin-left: 200px;
   margin-top: 20px;
   /* width: 60%; */
   margin: 0 auto;
+  border-radius: 10px;
 }
 
 .CommentInput {
-  width: 100%;
+  width: 90%;
   height: 100px;
   /* height: 100%; */
+  margin: 0 auto;
+  text-align: center;
 }
 
 .mpage {
@@ -630,9 +658,12 @@ export default {
 }
 .container {
   background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
 }
 .ulList2 {
-  /* background-color: #f7f8fa; */
+  background-color: #e0f3fc;
+  border-radius: 10px;
 }
 .userName {
   font-size: 24px;

@@ -5,7 +5,7 @@
       <el-timeline style="margin-top: 20px;">
         <!--遍历博客-->
         <el-timeline-item
-          :timestamp="postVo.post.createTimeStr"
+          :hide-timestamp='true'
           v-for="postVo in records"
           type="primary "
           icon="el-icon-more"
@@ -23,9 +23,6 @@
               </router-link>
               <div class="cardRight">
                 <h5>
-                  <!--跳转到另一个组件，带参数-->
-                  <!--:to="{name: 'BlogDetail', params: {blogId: post.id}}-->
-                  <!--跳转到另一个组件，带参数-->
                   <router-link
                     :to="{
                       name: 'PostDetail',
@@ -43,7 +40,18 @@
                 <p>{{ postVo.post.content }}</p>
               </div>
             </div>
-
+            <div class="d-flex" style="font-size: 16px;">
+              <li class="mr-5">
+                <i class="fa  fa-thumbs-o-up"></i> {{ postVo.post.likeCount }}
+              </li>
+              <li class="mr-5">
+                <i class="el-icon-star-off"></i> {{ postVo.post.collectCount }}
+              </li>
+              <li>
+                <i class="el-icon-chat-dot-round"></i
+                > {{ postVo.post.commentCount }}
+              </li>
+            </div>
             <!-- <div class="p_tag">
               <el-tag v-show="postVo.post.type == 1" type="danger" effect="dark"
                 >置顶</el-tag
@@ -62,8 +70,7 @@
       <!--分页，@current-change会把点击的页数传给方法-->
     </div>
     <el-pagination
-    v-show="total>0"
-
+      v-show="total > 0"
       class="mpage"
       background
       layout="prev, pager, next"
@@ -77,22 +84,35 @@
 </template>
 
 <script>
-import Navbar from "../../components/Navbar.vue";
+import Navbar from "@/components/Navbar.vue";
 
 export default {
   name: "Index",
   components: {
     navbar: Navbar,
   },
+
   data() {
     return {
-      uploadPath: this.$axios.defaults.baseURL,
-      records: {},
-      currentPage: 1,
-      total: 0,
-      pageSize: 5,
-      imgUrl:'',
+      // uploadPath: this.$axios.defaults.baseURL,
+      records: [
+      
+      ], //记录列表
+      currentPage: 1, //当前页
+      total: 0, //总数
+      pageSize: 5, //页面大小
+      
     };
+  },
+  //頁面首先加載第一頁
+  created() {
+    this.$axios.get("/post/list?currentPage=1").then((res) => {
+      console.log(res, "index");
+      this.records = res.data.data.records;
+      this.currentPage = res.data.data.currentPage;
+      this.total = res.data.data.total;
+      this.pageSize = res.data.data.pageSize;
+    });
   },
   methods: {
     page(currentPage) {
@@ -105,34 +125,16 @@ export default {
       });
     },
   },
-  //頁面首先加載第一頁
-  created() {
-    this.$axios.get("/post/list?currentPage=1").then((res) => {
-      console.log(res,'index');
-      this.records = res.data.data.records;
-      this.currentPage = res.data.data.currentPage;
-      this.total = res.data.data.total;
-      this.pageSize = res.data.data.pageSize;
-    });
-
-   
-    // this.$axios({
-    //   method: "get",
-    //   url: "/post/detail/" + this.$route.params.pid,
-    // }).then(function(res){
-
-    // })
-  },
 };
 </script>
 
 <style scoped>
-.home {
+/* .home { */
   /* overflow: hidden; */
   /* margin-top: 10px; */
   /* width: 80%; */
   /* height: 100vh; */
-}
+/* } */
 
 .navbar {
   width: 100%;
@@ -145,6 +147,7 @@ export default {
   margin-top: 20px;
   width: 55%;
   margin: auto;
+  opacity: 0.9;
 }
 .cardin {
   /* height: 13vh; */
@@ -152,13 +155,14 @@ export default {
   /* justify-content: start; */
   /* align-items: center; */
 }
-.cardRight{
+.cardRight {
   width: 300px;
   margin-left: 20px;
 }
 .nameLink {
   color: #000;
   font-size: 18px;
+  height: 50px;
 }
 .p_tag {
   float: right;

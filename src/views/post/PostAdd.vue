@@ -25,34 +25,8 @@
               @imgDel="imgDel"
               :toolbars="toolbars"
             ></mavon-editor>
-
             <!--<el-input type="textarea" :rows="20"   v-model="ruleForm.content"></el-input>-->
           </el-form-item>
-
-          <!--
-                <el-form-item>
-                    <el-upload
-                            ref="upload"
-                            :action="action"
-                            :data="uploadData"
-                            :headers="myHeader"
-                            list-type="picture-card"
-                            :limit="3"
-                            :auto-upload="false"
-                            :on-preview="handlePictureCardPreview"
-                            :on-exceed="exceed"
-                            :before-upload="beforeUpload"
-                            :on-change="onChange"
-                    >
-                        <i class="el-icon-plus"></i>
-                        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，最多上传3张图片，且每张图片不超过2M</div>
-                    </el-upload>
-                    <el-dialog :visible.sync="dialogVisible">
-                        <img width="100%" :src="dialogImageUrl" alt="">
-                    </el-dialog>
-                </el-form-item>
--->
-
           <el-form-item>
             <el-button type="primary" @click="submitForm('ruleForm')"
               >立即创建</el-button
@@ -66,7 +40,7 @@
 </template>
 
 <script>
-import Navbar from "../../components/Navbar";
+import Navbar from "@/components/Navbar";
 export default {
   name: "PostAdd",
   components: {
@@ -139,10 +113,6 @@ export default {
     };
   },
   methods: {
-    // fail(msg) {
-    //   this.$message.error(msg);
-    // },
-    //提交表单
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {

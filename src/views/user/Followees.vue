@@ -14,9 +14,8 @@
           <el-menu-item index="1"> 关注的人</el-menu-item>
           <el-menu-item index="2">
             <router-link
-              tag="div"
               class="text-primary"
-              :to="{ name: 'Followers', params: { userId: user.id } }"
+              :to="{ name: 'fans', params: { uid: user.id } }"
             >
               粉丝
             </router-link>
@@ -37,31 +36,31 @@
         <!-- 粉丝列表 -->
         <ul class="list-unstyled">
           <li
-            class="media pb-1 pt-3 mb-0 border-bottom position-relative"
+            class="media pb-1 pt-1 mb-0 border-bottom position-relative"
             v-for="map in userList"
           >
             <router-link
               :to="{ name: 'Profile', params: { uid: map.user.id } }"
             >
-              <el-avatar :src="map.user.avatar" :size="50"></el-avatar>
+              <el-avatar :src="map.user.avatar" :size="60"></el-avatar>
             </router-link>
 
-            <div class="media-body">
-              <h6 class="mt-0 mb-0">
-                <span class="text-success" style="font-size: 30px;">{{
+            <div class="media-body d-flex justify-content-between align-items-center">
+              <h6 class="mt-0 mb-0 d-flex flex-column">
+                <span class="text-success mb-1" style="font-size: 30px;">{{
                   map.user.username
                 }}</span>
-                <p class="float-right text-muted font-size-12">
-                  关注于 <i>{{ map.followTime }}</i>
-                </p>
+                <span class="float-right text-muted" style="font-size: 14px;">
+                  <i>关注于{{  $moment(map.followTime).format("YYYY-MM-DD HH:MM")  }}</i>
+                </span>
               </h6>
               <div>
                 <button
                   type="button"
                   @click="follow(map.user.id)"
-                  class="btn btn-info btn-sm float-right mr-5 follow-btn"
+                  class="btn btn-info btn-sm follow-btn mr-2"
                 >
-                  {{ hasFollowed ? "取消关注" : "关注TA" }}
+                  {{ map.hasFollowed ? "取消关注" : "关注TA" }}
                 </button>
               </div>
             </div>
@@ -86,7 +85,7 @@
 </template>
 
 <script>
-import Navbar from "../../components/Navbar";
+import Navbar from "@/components/Navbar";
 export default {
   name: "Followees",
   components: {
@@ -110,7 +109,7 @@ export default {
     //请求页面资源
     this.$axios({
       method: "get",
-      url: "/followees/" + this.$route.params.userId,
+      url: "/followees/" + this.$route.params.uid,
     })
       .then((res) => {
         if (res.data.code == 200) {
@@ -135,7 +134,7 @@ export default {
       this.$axios
         .get(
           "/followees/" +
-            this.$route.params.userId +
+            this.$route.params.uid +
             "?currentPage=" +
             currentPage
         )
@@ -193,6 +192,8 @@ export default {
   margin-top: 30px;
   background-color: #fff;
   height: 100%;
+  border-radius: 10px;
+  opacity: .9;
 }
 .navInfo {
   float: right;

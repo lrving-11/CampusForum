@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import Navbar from "../../components/Navbar";
+import Navbar from "@/components/Navbar";
 export default {
   name: "Register",
   components: {
@@ -96,11 +96,11 @@ export default {
     return {
       checkCode: "",
       ruleForm: {
-        username: "111",
-        pass: "11111111",
-        checkPass: "11111111",
-        gender: "0",
-        email: "13778066602@163.com",
+        username: "",
+        pass: "",
+        checkPass: "",
+        gender: "",
+        email: "",
         seccode: "",
         codeUrl: "",
       },
@@ -140,7 +140,6 @@ export default {
     createCode() {
       document.querySelector("#uploadCode").src =
         "http://172.30.192.192:8080/user/getCode?t=" + new Date().getTime();
-        console.log(this.$axios.defaults);
 
     },
     submitForm(formName) {
@@ -188,12 +187,14 @@ export default {
 <style scoped>
 .main {
   height: 600px;
-  width: 60%;
-  border: 1px, solid, #000;
+  width: 50%;
+  /* border: 1px, solid, #000; */
   margin: auto;
   margin-top: 20px;
   background-color: #fff;
   overflow: hidden;
+  opacity: .9;
+  border-radius: 20px;
 }
 .title {
   margin: 20px;

@@ -12,6 +12,7 @@
     "bootstrap-vue": "^2.16.0",
     "core-js": "^3.6.5",
     "element-ui": "^2.4.5",
+    "font-awesome": "^4.7.0",
     "github-markdown-css": "^5.1.0",
     "less": "^4.1.3",
     "markdown-it": "^12.0.2",

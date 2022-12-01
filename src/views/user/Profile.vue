@@ -7,7 +7,7 @@
       <div class="container">
         <!-- 选项 -->
         <div class="position-relative">
-          <ul class="nav nav-tabs">
+          <ul class="nav nav-pills">
             <li class="nav-item">
               <a class="nav-link active" href="#">个人信息</a>
             </li>
@@ -28,7 +28,7 @@
           </ul>
         </div>
         <!-- 个人信息 -->
-        <div class="media mt-3">
+        <div class="media mt-4">
           <!--头像-->
           <el-avatar :src="user.avatar" :size="80"></el-avatar>
           <div class="media-body">
@@ -70,7 +70,7 @@
             </div>
             <div class="text-muted mt-3 mb-5">
               <router-link
-                :to="{ name: 'Followees', params: { userId: user.id } }"
+                :to="{ name: 'Followees', params: { uid: user.id } }"
               >
                 <el-tag effect="dark"
                   >关注了
@@ -79,7 +79,7 @@
               </router-link>
               <router-link
                 class="ml-4"
-                :to="{ name: 'Followees', params: { userId: user.id } }"
+                :to="{ name: 'fans', params: { uid: user.id } }"
               >
                 <el-tag effect="dark"
                   >粉丝数量：
@@ -102,8 +102,9 @@
 </template>
 
 <script>
-import UserNavbar from "../../components/UserNavbar";
-import Navbar from "../../components/Navbar";
+import UserNavbar from "@/components/UserNavbar";
+import Navbar from "@/components/Navbar";
+import moment from "moment";
 
 export default {
   name: "UserHome",
@@ -132,6 +133,7 @@ export default {
   created() {
     //请求用户主页信息
     console.log(this.$route.params.uid);
+    console.log(this.$moment().format());
     //请求页面资源
     this.$axios({
       method: "get",
@@ -190,7 +192,7 @@ export default {
         this.$message.error("要登录才能关注哦");
         return;
       }
-      let path = this.hasFollowed? "/collect" : "/uncollect";
+      let path = this.hasFollowed? "/unfollow" : "/follow";
       this.$axios({
         method: "post",
         url: path,
@@ -240,8 +242,10 @@ export default {
   margin: auto;
   margin-top: 30px;
   background-color: #fff;
-  height: 500px;
+  height: 45em;
   overflow: hidden;
+  border-radius: 10px;
+  opacity: .9;
 }
 .container {
   margin-top: 20px;

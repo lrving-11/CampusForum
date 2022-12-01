@@ -33,13 +33,13 @@
 </template>
 
 <script>
-import Navbar from "../components/Navbar";
-import MessageTabCom from "../components/msg/MessageTabCom";
-import ReplyMe from "../components/msg/ReplyMe";
-import LikeMe from "../components/msg/LikeMe";
-import FollowMe from "../components/msg/FollowMe";
-import SystemMe from "../components/msg/SystemMe";
-import ChatMe from "../components/msg/ChatMe";
+import Navbar from "@/components/Navbar";
+import MessageTabCom from "@/components/msg/MessageTabCom";
+import ReplyMe from "@/components/msg/ReplyMe";
+import LikeMe from "@/components/msg/LikeMe";
+import FollowMe from "@/components/msg/FollowMe";
+import SystemMe from "@/components/msg/SystemMe";
+import ChatMe from "@/components/msg/ChatMe";
 export default {
   name: "Message",
   components: {
@@ -81,18 +81,19 @@ export default {
 </script>
 
 <style scoped>
-.msgAll{
+.msgAll {
   height: 100%;
 }
 .container {
-  height: 90%;
+  /* height: 90%; */
   margin-top: 30px;
   background-color: #fff;
   overflow: hidden;
   width: 60%;
-
+  opacity: 0.95;
+  border-radius: 10px;
 }
-.messageR{
+.messageR {
   padding: 0;
 }
 </style>

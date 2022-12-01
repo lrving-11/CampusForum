@@ -27,10 +27,10 @@
 </template>
 
 <script>
-import Navbar from "../components/Navbar";
-import SettingTabCom from "../components/set/SettingTabCom";
-import SettingCom from "../components/set/SettingCom";
-import SafeCom from "../components/set/SafeCom";
+import Navbar from "@/components/Navbar";
+import SettingTabCom from "@/components/set/SettingTabCom";
+import SettingCom from "@/components/set/SettingCom";
+import SafeCom from "@/components/set/SafeCom";
 export default {
   name: "Setting",
   components: {
@@ -51,9 +51,6 @@ export default {
     };
   },
   methods: {
-    fail(msg) {
-      this.$message.error(msg);
-    },
     changeActiveIndex(key) {
       console.log("父组件收到了：" + key);
       this.activeIndex = key;

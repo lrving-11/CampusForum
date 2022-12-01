@@ -96,16 +96,6 @@ export default {
     };
   },
   methods: {
-    success() {
-      this.$message({
-        message: "修改成功",
-        type: "success",
-      });
-    },
-    fail(msg) {
-      this.$message.error(msg);
-    },
-
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -121,10 +111,13 @@ export default {
             .then((res) => {
               if (res.data.code == 200) {
                 //修改成功
-                this.success();
+                this.$message({
+                  message: "修改成功",
+                  type: "success",
+                });
                 this.ruleForm = {};
               } else {
-                this.fail(res.data.msg);
+                this.$message.error(res.data.msg);
               }
               console.log(res);
             })

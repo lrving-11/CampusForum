@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import Navbar from "../../components/Navbar";
+import Navbar from "@/components/Navbar";
 export default {
   name: "Forget",
   components: {
@@ -69,15 +69,6 @@ export default {
     };
   },
   methods: {
-    success() {
-      this.$message({
-        message: "已往您的邮箱处发送一封邮件，里面有你的新密码",
-        type: "success",
-      });
-    },
-    fail(msg) {
-      this.$message.error(msg);
-    },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -91,10 +82,13 @@ export default {
           })
             .then((response) => {
               if (response.data.code == 200) {
-                this.success();
+                this.$message({
+                  message: "已往您的邮箱处发送一封邮件，里面有你的新密码",
+                  type: "success",
+                });
                 this.$router.push("/login");
               } else {
-                this.fail(response.data.msg);
+                this.$message.error(response.data.msg);
               }
 
               console.log(response);
@@ -115,11 +109,13 @@ export default {
 <style scoped>
 .main {
   height: 600px;
-  width: 60%;
+  width: 50%;
   margin: auto;
   background-color: #fff;
   margin-top: 20px;
   overflow: hidden;
+  opacity: 0.9;
+  border-radius: 20px;
 }
 .title {
   margin: 20px;

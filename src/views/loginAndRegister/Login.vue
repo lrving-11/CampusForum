@@ -44,7 +44,7 @@
           <el-button type="primary" @click="submitForm('ruleForm')"
             >登录</el-button
           >
-          <router-link class="nav-link" :to="{ name: 'Forget' }"
+          <router-link class="nav-link" style="width: 100px;" :to="{ name: 'Forget' }"
             >忘记密码?</router-link
           >
         </el-form-item>
@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import Navbar from "../../components/Navbar.vue";
+import Navbar from "@/components/Navbar.vue";
 export default {
   name: "Login",
   components: {
@@ -76,8 +76,8 @@ export default {
     return {
       checkCode: "",
       ruleForm: {
-        username: "111",
-        pass: "11111111",
+        username: "",
+        pass: "",
         seccode: "",
       },
       rules: {
@@ -104,16 +104,6 @@ export default {
     };
   },
   methods: {
-    // 弹出登录成功信息
-    success() {
-      this.$message({
-        message: "登录成功",
-        type: "success",
-      });
-    },
-    fail(msg) {
-      this.$message.error(msg);
-    },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -240,11 +230,14 @@ export default {
   /* margin-left: 100px;
   margin-top: 50px; */
   height: 600px;
-  width: 60%;
+  width: 50%;
   margin: auto;
   margin-top: 20px;
   background-color: rgb(255, 255, 255);
   overflow: hidden;
+  opacity: .9;
+  border-radius: 20px;
+
 }
 .title {
   margin: 20px;

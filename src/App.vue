@@ -4,12 +4,7 @@
   </div>
 </template>
 
-<script>
-// export default {
-//   name: "app",
-//   components: {},
-// };
-</script>
+<script></script>
 
 <style>
 * {
@@ -17,17 +12,12 @@
 }
 body,
 html {
-  /* height: 100%; */
-  /* background-color: #f7f8fa; */
-  background-image: url(./assets/wallhaven-o5dqq9.jpg);
-  background-attachment: fixed;
+  height: 100%;
 }
 #app {
   width: 100%;
   height: 100%;
   margin: auto;
-  /* background-color: #f7f8fa; */
-  /* background-color: ; */
 }
 #app a:hover {
   text-decoration: none;

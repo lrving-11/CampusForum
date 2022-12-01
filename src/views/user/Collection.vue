@@ -7,7 +7,7 @@
       <div class="container">
         <!-- 选项 -->
         <div class="position-relative">
-          <ul class="nav nav-tabs">
+          <ul class="nav nav-pills">
             <li class="nav-item">
               <router-link
                 class="nav-link"
@@ -30,22 +30,19 @@
 
         <ul class="list-unstyled">
           <li
-            class="media pb-3 pt-3 mb-3 border-bottom position-relative"
+            class="media pb-1 pt-1 mb-0 position-relative"
             v-for="postVo in posts"
           >
             <el-card class="w-100">
               <h4>
-                <!--跳转到另一个组件，带参数-->
-                <!--:to="{name: 'BlogDetail', params: {blogId: post.id}}-->
-                <!--跳转到另一个组件，带参数-->
                 <router-link
                   :to="{ name: 'PostDetail', params: { pid: postVo.post.id } }"
                 >
                   {{ postVo.post.title }}
                 </router-link>
               </h4>
-              <i>收藏于{{ postVo.collectTime }}</i>
-              <div class="p_tag">
+              <i style="font-size: 14px;">收藏于{{ postVo.collectTime }}</i>
+              <!-- <div class="p_tag">
                 <el-tag
                   v-show="postVo.post.type == 1"
                   type="danger"
@@ -56,6 +53,19 @@
                   >精选</el-tag
                 >
                 <span v-text="postVo.post.likeCount"></span>赞
+              </div> -->
+              <div class="d-flex mt-1" style="font-size: 16px;">
+                <li class="mr-5">
+                  <i class="fa  fa-thumbs-o-up"></i> {{ postVo.post.likeCount }}
+                </li>
+                <li class="mr-5">
+                  <i class="el-icon-star-off"></i>
+                  {{ postVo.post.collectCount }}
+                </li>
+                <li>
+                  <i class="el-icon-chat-dot-round"></i>
+                  {{ postVo.post.commentCount }}
+                </li>
               </div>
             </el-card>
           </li>
@@ -79,7 +89,7 @@
 </template>
 
 <script>
-import Navbar from "../../components/Navbar";
+import Navbar from "@/components/Navbar";
 export default {
   name: "Collection",
   components: {
@@ -129,7 +139,7 @@ export default {
           "?currentPage=" +
           currentPage,
       })
-        .then((res) =>{
+        .then((res) => {
           if (res.data.code == 200) {
             const myData = res.data.data;
             console.log(myData);
@@ -140,7 +150,7 @@ export default {
           }
           console.log(res);
         })
-        .catch((error) =>{
+        .catch((error) => {
           console.log(error);
         });
     },
@@ -155,6 +165,8 @@ export default {
   margin-top: 30px;
   background-color: #fff;
   overflow: hidden;
+  border-radius: 10px;
+  opacity: 0.9;
 }
 .container {
   margin-top: 20px;

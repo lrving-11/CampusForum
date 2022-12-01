@@ -6,7 +6,7 @@
       <el-timeline style="margin-top: 20px;">
         <!--遍历博客-->
         <el-timeline-item
-          :timestamp="postVo.post.createTimeStr"
+          :hide-timestamp="true"
           v-for="postVo in records"
           type="primary "
           icon="el-icon-more"
@@ -24,9 +24,6 @@
               </router-link>
               <div class="cardRight">
                 <h5>
-                  <!--跳转到另一个组件，带参数-->
-                  <!--:to="{name: 'BlogDetail', params: {blogId: post.id}}-->
-                  <!--跳转到另一个组件，带参数-->
                   <router-link
                     :to="{
                       name: 'PostDetail',
@@ -44,7 +41,18 @@
                 <p>{{ postVo.post.content }}</p>
               </div>
             </div>
-
+            <div class="d-flex" style="font-size: 16px;">
+              <li class="mr-5">
+                <i class="fa  fa-thumbs-o-up"></i>{{ postVo.post.likeCount }}
+              </li>
+              <li class="mr-5">
+                <i class="el-icon-star-off"></i>{{ postVo.post.collectCount }}
+              </li>
+              <li>
+                <i class="el-icon-chat-dot-round"></i
+                >{{ postVo.post.commentCount }}
+              </li>
+            </div>
             <!-- <div class="p_tag">
               <el-tag v-show="postVo.post.type == 1" type="danger" effect="dark"
                 >置顶</el-tag
@@ -77,7 +85,7 @@
 </template>
 
 <script>
-import Navbar from "../../components/Navbar.vue";
+import Navbar from "@/components/Navbar.vue";
 export default {
   name: "Hot",
   components: {
@@ -85,12 +93,11 @@ export default {
   },
   data() {
     return {
-      uploadPath: this.$axios.defaults.baseURL,
-      picturePath: "http://47.115.88.155",
-      records: {},
-      currentPage: 1,
-      total: 0,
-      pageSize: 5,
+      // uploadPath: this.$axios.defaults.baseURL,
+      records: {}, //记录列表
+      currentPage: 1, //当前页
+      total: 0, //总数
+      pageSize: 5, //页面大小
     };
   },
   methods: {
@@ -128,6 +135,7 @@ export default {
   margin-top: 10px;
   width: 55%;
   margin: auto;
+  opacity: 0.9;
 }
 .cardin {
   /* height: 13vh; */

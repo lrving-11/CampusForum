@@ -35,12 +35,12 @@ const routes = [
     component: () => import("../views/post/PostDetail.vue"),
   },
   {
-    path: "/followers/:userId",
-    name: "Followers",
+    path: "/fans/:uid",
+    name: "fans",
     component: () => import("../views/user/fans.vue"),
   },
   {
-    path: "/followees/:userId",
+    path: "/followees/:uid",
     name: "Followees",
     component: () => import("../views/user/Followees.vue"),
   },

@@ -16,6 +16,11 @@ import BootstrapVue from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 
+import "font-awesome/css/font-awesome.min.css";
+import "./assets/icon/iconfont";
+import moment from "moment";
+Vue.prototype.$moment = moment;
+
 /**
  * @description 自动判断该更新PerfectScrollbar还是创建它
  * @param {HTMLElement} el - 必填。dom元素
@@ -66,7 +71,6 @@ Vue.use(BootstrapVue);
 Vue.use(mavonEditor);
 
 Vue.config.productionTip = false;
-
 //全局注册axios
 Vue.prototype.$axios = axios;
 axios.defaults.baseURL = "http://172.30.192.192:8080";
@@ -85,11 +89,11 @@ axios.interceptors.request.use(
 );
 //axios响应拦截器
 axios.interceptors.response.use(
-  function(response) {
-    const code = response.data.code;
+  (res) => {
+    const code = res.data.code;
     if (code == 201 || code == 202) {
       //说明token错误或者token过期
-      const msg = response.data.msg;
+      const msg = res.data.msg;
       Message({
         message: msg,
         type: "error",
@@ -98,12 +102,12 @@ axios.interceptors.response.use(
       return router.push("/login");
     } else if (code == 200) {
       //更新未读消息数量
-      return response;
+      return res;
     } else {
-      return response;
+      return res;
     }
   },
-  function(error) {
+  (error) => {
     return Promise.reject(error);
   }
 );

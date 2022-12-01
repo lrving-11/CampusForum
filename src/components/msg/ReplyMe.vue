@@ -9,11 +9,10 @@
           v-for="msgVo in msgVos"
         >
           <el-card>
-            
             <router-link
               :to="{ name: 'Profile', params: { uid: msgVo.fromUser.id } }"
             >
-            <el-avatar :src="msgVo.fromUser.avatar"></el-avatar>
+              <el-avatar :src="msgVo.fromUser.avatar"></el-avatar>
               <span v-text="msgVo.fromUser.username"></span>
             </router-link>
             <router-link
@@ -32,8 +31,7 @@
 
       <!--分页，@current-change会把点击的页数传给方法-->
       <el-pagination
-      v-show="total>0"
-
+        v-show="total > 0"
         class="mpage"
         background
         layout="prev, pager, next"
@@ -59,22 +57,13 @@ export default {
     };
   },
   methods: {
-    //弹出成功信息
-    success(msg) {
-      this.$message({
-        message: msg,
-        type: "success",
-      });
-    },
-    fail(msg) {
-      this.$message.error(msg);
-    },
     page(currentPage) {
       this.$axios
         .get("/message/reply?currentPage=" + currentPage)
         .then((res) => {
           if (res.data.code != 200) {
-            this.fail(res.data.msg);
+            this.$message.error(res.data.msg);
+
             return;
           } else {
             const data = res.data.data;
@@ -84,7 +73,7 @@ export default {
         })
         .catch(function(error) {
           console.log(error);
-          this.fail("网络故障");
+          this.$message.error("网络故障");
         });
     },
   },
@@ -94,9 +83,9 @@ export default {
       method: "get",
       url: "/message/reply",
     })
-      .then((res) =>{
+      .then((res) => {
         if (res.data.code != 200) {
-          this.fail(res.data.msg);
+          this.$message.error(res.data.msg);
           return;
         } else {
           const data = res.data.data;
@@ -104,7 +93,7 @@ export default {
           this.total = data.total;
         }
       })
-      .catch((error) =>{
+      .catch((error) => {
         console.log(error);
       });
   },

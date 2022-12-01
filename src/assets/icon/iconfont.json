@@ -1,0 +1,16 @@
+{
+  "id": "3801555",
+  "name": "风车",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "4741263",
+      "name": "风车",
+      "font_class": "fengche",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    }
+  ]
+}

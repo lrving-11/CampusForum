@@ -1,19 +1,24 @@
 <template>
   <div class="navbar">
+    <div class="bgbtn" @click="changeBg">
+      <svg width="100" height="100" class="icon" aria-hidden="true">
+        <use xlink:href="#icon-fengche"></use>
+      </svg>
+    </div>
     <el-menu
       :default-active="activeIndex"
       class="el-menu-demo myMenu"
       mode="horizontal"
       @select="handleSelect"
     >
-      <el-menu-item @click="toIndex">
+      <el-menu-item  @click.native.stop="toIndex">
         <img style="width: 140px; height: 50px" src="../assets/luntan.png" />
       </el-menu-item>
       <!-- <el-menu-item index="0" @click="toKen"> 关于本站</el-menu-item> -->
       <!--            <el-menu-item index="1">首页</el-menu-item>-->
-      <el-menu-item index="2" @click="toIndex">最新</el-menu-item>
-      <el-menu-item index="3" @click="toHot">最热</el-menu-item>
-      <el-menu-item index="4" @click="toMessage"
+      <el-menu-item index="2"  @click.native.stop="toIndex">最新</el-menu-item>
+      <el-menu-item index="3"  @click.native.stop="toHot">最热</el-menu-item>
+      <el-menu-item index="4"  @click.native.stop="toMessage"
         >消息中心<span v-if="msgCount != 0" class="badge badge-danger ml-3">{{
           msgCount
         }}</span></el-menu-item
@@ -28,18 +33,18 @@
           style="margin-right:10px ;width: 200px;"
           size="small"
         ></el-input>
-        <el-button type="primary" @click="search" size="small">搜索</el-button>
+        <el-button type="primary"  @click.native.stop="search" size="small">搜索</el-button>
       </el-menu-item>
 
       <el-menu-item
-        @click="login"
+        @click.native.stop="login"
         v-show="!$store.state.isLogin"
         class="navInfo"
       >
         <el-button size="small">登录</el-button>
       </el-menu-item>
       <el-menu-item
-        @click="register"
+         @click.native.stop="register"
         v-show="!$store.state.isLogin"
         class="navInfo"
         ><el-button size="small">注册 </el-button></el-menu-item
@@ -51,7 +56,7 @@
             >创建</el-button
           ></template
         >
-        <el-menu-item index="5-2" @click="publish(1)">写文章</el-menu-item>
+        <el-menu-item index="5-2"  @click.native.stop="publish(1)">写文章</el-menu-item>
       </el-submenu>
 
       <!--头像-->
@@ -63,18 +68,19 @@
           ></el-avatar>
         </template>
         <el-menu-item v-text="$store.state.userInfo.username"></el-menu-item>
-        <el-menu-item index="6-1" @click="toHome">我的主页</el-menu-item>
-        <el-menu-item index="6-2" @click="toSetting">设置</el-menu-item>
-        <el-menu-item index="6-2" @click="toCollect">我的收藏</el-menu-item>
-        <el-menu-item index="6-3" @click="toUserPost">我的文章</el-menu-item>
-        <el-menu-item index="6-4" @click="logout">退出登录</el-menu-item>
+        <el-menu-item index="6-1"  @click.native.stop="toHome">我的主页</el-menu-item>
+        <el-menu-item index="6-2"  @click.native.stop="toSetting">设置</el-menu-item>
+        <el-menu-item index="6-2"  @click.native.stop="toCollect">我的收藏</el-menu-item>
+        <el-menu-item index="6-3"  @click.native.stop="toUserPost">我的文章</el-menu-item>
+        <el-menu-item index="6-4"  @click.native.stop="logout">退出登录</el-menu-item>
       </el-submenu>
     </el-menu>
-    <div class="line"></div>
   </div>
 </template>
 
 <script>
+import { BCardGroup } from "bootstrap-vue";
+
 export default {
   name: "Navbar",
   props: {
@@ -86,6 +92,7 @@ export default {
   },
   created() {
     // console.log("img", this.$store.state.userInfo.avatar);
+    // this.changeBg();
   },
   data() {
     return {
@@ -95,9 +102,24 @@ export default {
       userInfo: this.$store.state.userInfo,
       keyword: "",
       msgCount: 0,
+      bgList: [
+        "url(" + require("../assets/bg1.jpg") + ")",
+        "url(" + require("../assets/bg2.jpg") + ")",
+        "url(" + require("../assets/bg3.jpg") + ")",
+        "url(" + require("../assets/bg4.jpg") + ")",
+      ],
+      bgIndex: 0,
+      deg: -90,
     };
   },
   methods: {
+    changeBg() {
+      this.deg = this.deg - 90;
+      this.bgIndex = this.bgIndex == this.bgList.length-1 ? 0 : ++this.bgIndex;
+      document.body.style.backgroundImage = this.bgList[this.bgIndex];
+      document.querySelector(".bgbtn").style.transform =
+        "rotate(" + this.deg + "deg)";
+    },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -152,7 +174,6 @@ export default {
       });
     },
     search() {
-
       this.$router.push({
         name: "Search",
         params: {
@@ -179,27 +200,36 @@ export default {
         },
       });
     },
-    toKen() {
-      this.$router.push("/ken");
-    },
   },
 };
 </script>
 
-<style scoped>
+<style>
+body {
+  background-image: url(../assets/bg1.jpg);
+  background-attachment: fixed;
+  background-size: cover;
+  transition: background 0.2s ease-out;
+}
 .navbar {
   /* background-color: #409EFF; */
   padding: 0;
-  /* width: 80%; */
   background-color: #fff;
-  opacity: .85;
+  opacity: 0.85;
+  /* position: relative; */
 }
-.navInfo {
+.navbar .bgbtn {
+  position: fixed;
+  top: 85%;
+  left: 90%;
+  transition: 0.2s;
+}
+.navbar .navInfo {
   float: right;
   flex: auto;
 }
-.myMenu {
-  width: 70%;
+.navbar .myMenu {
+  width: 60%;
   margin: auto;
 }
 </style>
