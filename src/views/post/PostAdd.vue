@@ -241,6 +241,8 @@ export default {
   background-color: #fff;
   margin-top: 30px;
   overflow: hidden;
+  border-radius: 10px;
+  opacity: .95;
 }
 .m-content {
   text-align: center;

@@ -1,14 +1,14 @@
 <template>
-  <div style="background-color: #fff;">
+  <div style="background-color: #fff;border-radius: 10px;">
     <!-- 修改密码 -->
-    <h6 class="text-left text-info border-bottom pb-2 pt-2 pl-4">修改密码</h6>
+    <h4 class="text-left text-info border-bottom pb-2 pt-2 pl-4">修改密码</h4>
     <el-form
       :model="ruleForm"
       status-icon
       ref="ruleForm"
       :rules="rules"
       label-width="100px"
-      class="demo-ruleForm "
+      class="demo-ruleForm w-75"
     >
       <!--  form-item 的 prop对应的就是校验规则   -->
       <el-form-item label="原密码" prop="oldpass">
@@ -38,7 +38,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')"
+        <el-button class="mb-2" type="primary" @click="submitForm('ruleForm')"
           >修改</el-button
         >
       </el-form-item>

@@ -1,28 +1,27 @@
 <template>
   <div>
     <div class="block plist">
-      <el-timeline style="padding: 0;">
+      <div style="padding: 0;">
         <!--遍历博客-->
-        <el-timeline-item
-          :timestamp="msgVo.createTimeStr"
-          placement="top"
-          v-for="msgVo in msgVos"
-        >
-          <el-card>
+        <div v-for="msgVo in msgVos">
+          <el-card shadow="hover" class="mb-1">
             <router-link
               :to="{ name: 'Profile', params: { uid: msgVo.fromUser.id } }"
             >
               <el-avatar :src="msgVo.fromUser.avatar"></el-avatar>
-              <span v-text="msgVo.fromUser.username"></span>
+              <span
+                style="font-size: 24px;"
+                v-text="msgVo.fromUser.username"
+              ></span>
             </router-link>
             <router-link
               :to="{ name: 'PostDetail', params: { pid: msgVo.postId } }"
             >
-              <h5>关注了你</h5>
             </router-link>
+            <h6>关注了你</h6>
           </el-card>
-        </el-timeline-item>
-      </el-timeline>
+        </div>
+      </div>
 
       <!--分页，@current-change会把点击的页数传给方法-->
       <el-pagination
@@ -98,5 +97,8 @@ export default {
 .mpage {
   margin: 0 auto;
   text-align: center;
+}
+.plist {
+  width: 90%;
 }
 </style>

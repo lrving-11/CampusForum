@@ -42,7 +42,7 @@
                 @click="follow(user.id)"
                 class="btn btn-info btn-sm float-right mr-5 follow-btn"
               >
-                {{hasFollowed ? '取消关注' : '关注TA'}}
+                {{ hasFollowed ? "取消关注" : "关注TA" }}
               </button>
               <!--私聊按钮-->
               <button
@@ -62,10 +62,7 @@
             ></el-tag>
             <div class="text-muted mt-3">
               <span
-                >注册时间
-                <i class="text-muted"
-                  >{{user.createTime}}</i
-                ></span
+                >注册时间 <i class="text-muted">{{ user.createTime }}</i></span
               >
             </div>
             <div class="text-muted mt-3 mb-5">
@@ -123,11 +120,7 @@ export default {
       hasFollowed: false,
       followeeCount: 0,
       followerCount: 0,
-
-      //头像上传地址
-      avatarAction: this.$axios.defaults.baseURL + "/user/avatar",
-      myHeader: { Authorization: sessionStorage.getItem("JWT_TOKEN") },
-      gender:0,
+      gender: 0,
     };
   },
   created() {
@@ -139,13 +132,13 @@ export default {
       method: "get",
       url: "/user/profile/" + this.$route.params.uid,
     })
-      .then((res)=> {
+      .then((res) => {
         if (res.data.code == 200) {
           const myData = res.data.data;
-          console.log(myData,"mydata");
+          console.log(myData, "mydata");
 
           this.user = myData.user;
-          this.gender=myData.user.sex;
+          this.gender = myData.user.sex;
           this.isMine = myData.isMine;
           this.likeCount = myData.likeCount;
           this.user.avatar = this.user.avatar;
@@ -161,13 +154,12 @@ export default {
         console.log(error);
       });
   },
-  computed:{
-    getIcon(){
-     return this.gender==0?"el-icon-male":"el-icon-female"
-    }
+  computed: {
+    getIcon() {
+      return this.gender == 0 ? "el-icon-male" : "el-icon-female";
+    },
   },
   methods: {
-    
     handleExceed(file, fileList) {
       this.$message.error("只能上传一张图片");
     },
@@ -192,7 +184,7 @@ export default {
         this.$message.error("要登录才能关注哦");
         return;
       }
-      let path = this.hasFollowed? "/unfollow" : "/follow";
+      let path = this.hasFollowed ? "/unfollow" : "/follow";
       this.$axios({
         method: "post",
         url: path,
@@ -201,7 +193,7 @@ export default {
           entityId: entityId,
         },
       })
-        .then((res) =>{
+        .then((res) => {
           if (res.data.code == 200) {
             const myData = res.data.data;
             console.log(myData);
@@ -212,7 +204,7 @@ export default {
           }
           console.log(res);
         })
-        .catch((error)=> {
+        .catch((error) => {
           console.log(error);
         });
     },
@@ -232,7 +224,19 @@ export default {
       this.$router.push("/message");
     },
   },
- 
+  watch: {
+    $route(to, from) {
+      //监听路由是否变化
+      console.log(to.params.uid, from.params.uid);
+      if (to.params.uid != from.params.uid) {
+        console.log('butong');
+        //变化后的操作
+        // this.init(); //重新加载数据
+        this.$router.go(0);
+        // location.reload();
+      }
+    },
+  },
 };
 </script>
 
@@ -245,7 +249,7 @@ export default {
   height: 45em;
   overflow: hidden;
   border-radius: 10px;
-  opacity: .9;
+  opacity: 0.9;
 }
 .container {
   margin-top: 20px;

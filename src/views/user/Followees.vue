@@ -9,13 +9,12 @@
           class="el-menu-demo"
           mode="horizontal"
           @select="handleSelect"
-          text-color="#fff"
         >
           <el-menu-item index="1"> 关注的人</el-menu-item>
           <el-menu-item index="2">
             <router-link
               class="text-primary"
-              :to="{ name: 'fans', params: { uid: user.id } }"
+              :to="{ name: 'Fans', params: { uid: user.id } }"
             >
               粉丝
             </router-link>
@@ -33,7 +32,7 @@
         </el-menu>
         <div class="line"></div>
 
-        <!-- 粉丝列表 -->
+        <!-- 列表 -->
         <ul class="list-unstyled">
           <li
             class="media pb-1 pt-1 mb-0 border-bottom position-relative"
@@ -45,13 +44,19 @@
               <el-avatar :src="map.user.avatar" :size="60"></el-avatar>
             </router-link>
 
-            <div class="media-body d-flex justify-content-between align-items-center">
+            <div
+              class="media-body d-flex justify-content-between align-items-center"
+            >
               <h6 class="mt-0 mb-0 d-flex flex-column">
                 <span class="text-success mb-1" style="font-size: 30px;">{{
                   map.user.username
                 }}</span>
                 <span class="float-right text-muted" style="font-size: 14px;">
-                  <i>关注于{{  $moment(map.followTime).format("YYYY-MM-DD HH:MM")  }}</i>
+                  <i
+                    >关注于{{
+                      $moment(map.followTime).format("YYYY-MM-DD HH:MM")
+                    }}</i
+                  >
                 </span>
               </h6>
               <div>
@@ -93,13 +98,12 @@ export default {
   },
   data() {
     return {
-      activeIndex: "1",
+      activeIndex: 1,
       user: "",
       userList: "",
       currentPage: 1,
       pageSize: 5,
       total: 0,
-      uploadPath: this.$axios.defaults.baseURL,
       hasFollowed: undefined,
     };
   },
@@ -127,16 +131,11 @@ export default {
       });
   },
   methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-    },
+    handleSelect(key, keyPath) {},
     page(currentPage) {
       this.$axios
         .get(
-          "/followees/" +
-            this.$route.params.uid +
-            "?currentPage=" +
-            currentPage
+          "/followees/" + this.$route.params.uid + "?currentPage=" + currentPage
         )
         .then((res) => {
           const myData = res.data.data;
@@ -193,7 +192,7 @@ export default {
   background-color: #fff;
   height: 100%;
   border-radius: 10px;
-  opacity: .9;
+  opacity: 0.9;
 }
 .navInfo {
   float: right;

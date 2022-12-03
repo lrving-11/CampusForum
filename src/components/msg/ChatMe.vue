@@ -9,7 +9,6 @@
             v-on:click="changeCurrentUser(item)"
             :class="{ active: item.id === currentUser.id }"
             class="my_li"
-            
           >
             <div style="display: flex;justify-content: space-between">
               <div>
@@ -32,10 +31,8 @@
       <div class="col-9 pt-4">
         <div class="w-100 chatbox">
           <h2 class="nameH2">{{ currentUser.username }}</h2>
-          <!-- <hr style="margin: 0;" /> -->
-          <!--消息列表-->
           <div>
-            <ul class="list" v-scroll-bar>
+            <ul class="list" style="margin: 0;" ref="scrollDiv" v-scroll-bar>
               <div
                 v-if="currentUser != null && currentUser.id != 0"
                 v-for="item in sessions[
@@ -78,27 +75,19 @@
             >
             </el-input>
             <el-button
-              @click.native="sendMsg"
-              type="warning"
-              class="send-msg-btn"
+              @click="ScrollBottom()"
+              @click.native="sendMsg()"
+              type="primary"
+              class="send-msg-btn mb-1"
               round
-              >发送</el-button
             >
+              发送 <i class="fa fa-paper-plane-o" aria-hidden="true"></i
+            ></el-button>
           </div>
-          <!--                </div>-->
         </div>
       </div>
     </div>
   </div>
-
-  <!--测试滚动条-->
-  <!--    <div class="list" v-scroll-bar>-->
-  <!--        <ul>-->
-  <!--            <li v-for="item in testSesstion">-->
-  <!--                {{item.content}}-->
-  <!--            </li>-->
-  <!--        </ul>-->
-  <!--    </div>-->
 </template>
 
 <script>
@@ -120,6 +109,13 @@ export default {
   },
 
   methods: {
+    ScrollBottom() {
+      console.log("到底部");
+      this.$nextTick(() => {
+        console.log(this.$refs.scrollDiv.scrollHeight);
+        this.$refs.scrollDiv.scrollTop = this.$refs.scrollDiv.scrollHeight;
+      });
+    },
     //改变当前聊天对象
     changeCurrentUser(user) {
       this.currentUser = user;
@@ -141,7 +137,9 @@ export default {
       this.input_content = "";
     },
   },
-  created() {},
+  created() {
+    this.ScrollBottom();
+  },
   computed: mapState(["sessions", "currentSession", "userInfo"]),
 };
 </script>
@@ -164,10 +162,10 @@ export default {
 
   /* margin-bottom: 2px; */
 }
-.my_li:hover{
+.my_li:hover {
   background-color: #c7eaff;
 }
-.my_li:focus{
+.my_li:focus {
   background-color: #c7eaff;
 }
 
@@ -178,7 +176,6 @@ ul {
   /*注意这个是.不是冒号:*/
   background-color: rgba(255, 255, 255, 0.1);
   background-color: #c7eaff;
-
 }
 .u_avatar {
   border-radius: 4px;
@@ -215,7 +212,10 @@ ul {
   width: 100%;
   background-color: #147dc8;
 }
-.nameH2{
-  text-align: center;background-color: #147dc8;color: #fff;margin-bottom: 0;
+.nameH2 {
+  text-align: center;
+  background-color: #147dc8;
+  color: #fff;
+  margin-bottom: 0;
 }
 </style>

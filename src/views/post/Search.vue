@@ -118,15 +118,15 @@ export default {
       }
       this.$router.push("/message");
     },
-    login() {
-      this.$router.push("/login");
-    },
-    register() {
-      this.$router.push("/register");
-    },
-    logout() {
-      this.$store.commit("logout");
-    },
+    // login() {
+    //   this.$router.push("/login");
+    // },
+    // register() {
+    //   this.$router.push("/register");
+    // },
+    // logout() {
+    //   this.$store.commit("logout");
+    // },
     //跳转至发表文章页面，传递参数tag
     publish(flag) {
       if (flag == 0) {

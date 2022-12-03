@@ -42,21 +42,25 @@ export default {
   data() {
     return {
       //头像网络资源地址
-      uploadPath: this.$axios.defaults.baseURL,
+      // uploadPath: this.$axios.defaults.baseURL,
       userInfo: "",
       isMine: false,
       likeCount: "",
-      activeIndex: "1",
-     
+      activeIndex: this.$store.state.setActiveIndex,
     };
+  },
+  created() {
+    //  在页面刷新时将vuex里的最新信息保存到sessionStorage里
+     window.addEventListener("beforeunload", () => {
+      sessionStorage.setItem("state", JSON.stringify(this.$store.state));
+    });
   },
   methods: {
     changeActiveIndex(key) {
-      console.log("父组件收到了：" + key);
+      console.log(key);
       this.activeIndex = key;
     },
   },
-  created() {},
 };
 </script>
 
@@ -64,11 +68,10 @@ export default {
 /*.myFlex{*/
 /*    height: 100px;*/
 /*}*/
-.container{
+.container {
   width: 60%;
-  margin:auto;
+  margin: auto;
   margin-top: 30px;
-
 }
 .myAvatar {
   width: 200px;

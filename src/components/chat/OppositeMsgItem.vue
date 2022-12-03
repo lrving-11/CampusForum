@@ -1,5 +1,5 @@
 <template>
-  <div class="opposite-msg-item" @click="setRead" :style="bgc">
+  <div class="opposite-msg-item" @click="setRead">
     <!--        <span><a :href="/mine/ + this.item.fromId"><img :src="oppositeUrl"></a></span>-->
     <span
       ><router-link :to="{ name: 'Profile', params: { uid: profileId } }"
@@ -27,7 +27,7 @@ export default {
       isRead: false,
       url: {
         type: String,
-        default: "http://qjavcyfnj.hn-bkt.clouddn.com/F.png",
+        default: "msg-text-default",
       },
     };
   },
@@ -53,20 +53,14 @@ export default {
     extime() {
       return moment(this.item.createTime).format("YYYY-MM-DD HH:mm:ss");
     },
-
-    bgc() {
-      return this.isRead
-        ? { "background-color": "#fff" }
-        : { "background-color": "#fff" };
-    },
   },
   methods: {
     setRead() {
       // 设置已读
       if (!this.isRead) {
-        let data = {
-          messageId: this.item.id,
-        };
+        // let data = {
+        //   messageId: this.item.id,
+        // };
         // setAlreadyRead(data).then(res => {
         //     // alert(res.status)
         //     if (res.status == 200) {

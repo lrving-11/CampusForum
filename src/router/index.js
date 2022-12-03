@@ -36,7 +36,7 @@ const routes = [
   },
   {
     path: "/fans/:uid",
-    name: "fans",
+    name: "Fans",
     component: () => import("../views/user/fans.vue"),
   },
   {

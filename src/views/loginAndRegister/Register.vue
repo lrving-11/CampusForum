@@ -45,7 +45,7 @@
           <el-input class="form-item" v-model="ruleForm.email"></el-input>
         </el-form-item>
 
-        <el-form-item prop="seccode" label="验证码" class="inputbar">
+        <!-- <el-form-item prop="seccode" label="验证码" class="inputbar">
           <el-input
             class="form-item"
             v-model="ruleForm.seccode"
@@ -57,7 +57,7 @@
             alt="code"
             src="http://172.30.192.192:8080/user/getCode"
           />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')"
             >立即创建</el-button

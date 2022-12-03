@@ -7,11 +7,12 @@
       @open="handleOpen"
       @close="handleClose"
       @select="handleSelect"
+      :collapse="false"
     >
       <el-menu-item index="1">
-        <i class="el-icon-document"></i>
+        <i class="fa fa-comment"></i>
         <span slot="title" class=""
-          >回复我的
+          > 回复我的
           <span
             class="badge badge-danger"
             v-text="replyCount"
@@ -20,9 +21,9 @@
         </span>
       </el-menu-item>
       <el-menu-item index="2">
-        <i class="el-icon-menu"></i>
+        <i class="fa  fa-thumbs-up"></i>
         <span slot="title"
-          >收到的赞
+          > 收到的赞
           <span
             class="badge badge-danger"
             v-text="likeCount"
@@ -31,9 +32,9 @@
         </span>
       </el-menu-item>
       <el-menu-item index="3">
-        <i class="el-icon-document"></i>
+        <i class="fa fa-heart"></i>
         <span slot="title"
-          >新粉丝
+          > 新粉丝
           <span
             class="badge badge-danger"
             v-text="followCount"
@@ -42,9 +43,9 @@
         </span>
       </el-menu-item>
       <el-menu-item index="4">
-        <i class="el-icon-document"></i>
+        <i class="fa fa-bell"></i>
         <span slot="title"
-          >系统通知
+          > 系统通知
           <span
             class="badge badge-danger"
             v-text="systemCount"
@@ -53,8 +54,8 @@
         </span>
       </el-menu-item>
       <el-menu-item index="5">
-        <i class="el-icon-document"></i>
-        <span slot="title">我的消息</span>
+        <i class="fa fa-comments"></i>
+        <span slot="title"> 我的消息</span>
       </el-menu-item>
     </el-menu>
   </div>
@@ -71,17 +72,8 @@ export default {
       console.log(key, keyPath);
     },
     handleSelect(key, keyPath) {
+      this.$store.commit('setMsgActiveIndex',key)
       this.$emit("selecttab", key);
-    },
-    //弹出登录成功信息
-    success(msg) {
-      this.$message({
-        message: msg,
-        type: "success",
-      });
-    },
-    fail(msg) {
-      this.$message.error(msg);
     },
   },
   data() {

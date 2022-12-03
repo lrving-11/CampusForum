@@ -11,7 +11,7 @@
         <div class="col-2">
           <!--侧边栏-->
           <MessageTabCom
-            active-index="1"
+            :active-index="activeIndex"
             @selecttab="changeActiveIndex"
           ></MessageTabCom>
         </div>
@@ -57,7 +57,6 @@ export default {
     };
   },
   created() {
-    //在页面刷新时将vuex里的最新信息保存到sessionStorage里
     window.addEventListener("beforeunload", () => {
       sessionStorage.setItem("state", JSON.stringify(this.$store.state));
     });
@@ -69,10 +68,6 @@ export default {
     this.$store.dispatch("connect");
   },
   methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    /*监听子组件的事件，改变侧边栏状态*/
     changeActiveIndex(key) {
       this.activeIndex = key;
     },

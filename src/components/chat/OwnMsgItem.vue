@@ -1,5 +1,5 @@
 <template>
-  <div class="own-msg-item" @click="setRead" :style="bgc">
+  <div class="own-msg-item" @click="setRead">
     <!--        <span><a :href="/mine/ + this.item.fromId"><img :src="this.ownUrl"></a></span>-->
     
     <div class="r-top">
@@ -28,7 +28,7 @@ export default {
     return {
       // info: JSON.parse(this.item.content),
       isRead: false,
-      url: "http://qjavcyfnj.hn-bkt.clouddn.com/F.png",
+      url: "",
     };
   },
   props: {
@@ -46,7 +46,6 @@ export default {
     },
     ownUrl: {
       type: String,
-      // default: 'https://upload.jianshu.io/users/upload_avatars/24326020/3608d730-a51f-4389-960c-814649c5c78b.png?imageMogr2/auto-orient/strip|imageView2/1/w/144/h/144/format/webp'
     },
   },
   computed: {
@@ -54,19 +53,19 @@ export default {
       return moment(this.item.createTime).format("YYYY-MM-DD HH:mm:ss");
     },
 
-    bgc() {
-      return this.isRead
-        ? { "background-color": "#fff" }
-        : { "background-color": "#fff" };
-    },
+    // bgc() {
+    //   return this.isRead
+    //     ? { "background-color": "#fff" }
+    //     : { "background-color": "#bad0e9" };
+    // },
   },
   methods: {
     setRead() {
       // 设置已读
       if (!this.isRead) {
-        let data = {
-          messageId: this.item.id,
-        };
+        // let data = {
+        //   messageId: this.item.id,
+        // };
         // setAlreadyRead(data).then(res => {
         //     // alert(res.status)
         //     if (res.status == 200) {

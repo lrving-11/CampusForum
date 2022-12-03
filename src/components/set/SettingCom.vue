@@ -37,7 +37,7 @@
     </el-card>
     <el-card>
       注册时间：
-      <span v-text="userInfo.createTime"></span>
+      <span >{{ $moment(userInfo.createTime).format("YYYY-MM-DD HH:MM") }}</span>
     </el-card>
   </div>
 </template>

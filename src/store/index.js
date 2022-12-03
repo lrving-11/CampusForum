@@ -16,6 +16,8 @@ const store = new Vuex.Store({
         currentUser: {}, //当前聊天对象
         sessions: [], //聊天记录
         msgActiveIndex: 1,
+        setActiveIndex: 1,
+        bgIndex:1,
       },
   mutations: {
     //弹出登录成功信息
@@ -31,6 +33,14 @@ const store = new Vuex.Store({
     //改变消息页面的侧边栏的选择
     setMsgActiveIndex(state, i) {
       state.msgActiveIndex = i;
+    },
+    // 背景图
+    setBgIndex(state, i) {
+      state.bgIndex = i;
+    },
+    //改变设置页面的侧边栏的选择
+    setSetActiveIndex(state, j) {
+      state.setActiveIndex = j;
     },
     setCurrentUser(state, user) {
       state.currentUser = user;
@@ -57,7 +67,7 @@ const store = new Vuex.Store({
     },
     setWebsocket(state) {
       const token = window.sessionStorage.getItem("TOKEN");
-      let url = "ws://"+this.$axios.defaults.baseURL+"/chat/" + token;
+      let url = "ws://" + this.$axios.defaults.baseURL + "/chat/" + token;
       state.ws = new WebSocket(url);
     },
     setUserList(state, userList) {
@@ -114,21 +124,20 @@ const store = new Vuex.Store({
     },
     //获取用户列表
     GET_USERS(state) {
-      const _this = this;
       Vue.prototype.$axios
         .get("/message/getUsers")
         .then((res) => {
           if (res.data.code != 200) {
-            _this.fail(res.data.msg);
+            this.fail(res.data.msg);
             return;
           } else {
             const data = res.data.data;
             state.userList = data.userList;
           }
         })
-        .catch(function(error) {
+        .catch((error) => {
           console.log(error);
-          _this.fail("网络故障,请检查网络是否正常");
+          this.fail("网络故障,请检查网络是否正常");
         });
     },
     //获取私聊记录，若用户第一次点击，则需要向服务器请求聊天记录
@@ -147,7 +156,7 @@ const store = new Vuex.Store({
               toId: current_id,
             },
           })
-          .then(function(res) {
+          .then((res) => {
             if (res.data.code == 200) {
               const data = res.data.data;
               console.log(data);
@@ -158,11 +167,11 @@ const store = new Vuex.Store({
                 data.chatList
               );
             } else {
-              _this.fail(res.data.msg);
+              this.fail(res.data.msg);
             }
             console.log(res);
           })
-          .catch(function(error) {
+          .catch((error) => {
             console.log(error);
           });
       }
@@ -171,8 +180,8 @@ const store = new Vuex.Store({
   actions: {
     //连接服务器的websocket
     connect(context) {
-      const token = window.sessionStorage.getItem("JWT_TOKEN");
-      let url = "ws://172.30.192.192:8089/forum_server/chat/" + token;
+      const token = window.sessionStorage.getItem("TOKEN");
+      let url = "ws://172.30.192.192:8080/chat/" + token;
       context.state.ws = new WebSocket(url);
 
       //接收到服务端推送的消息后触发

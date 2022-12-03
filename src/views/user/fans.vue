@@ -12,7 +12,6 @@
         >
           <el-menu-item index="1">
             <router-link
-              tag="div"
               class="text-primary"
               :to="{ name: 'Followees', params: { uid: user.id } }"
             >
@@ -87,7 +86,7 @@
 <script>
 import Navbar from "@/components/Navbar";
 export default {
-  name: "fans",
+  name: "Fans",
   components: {
     Navbar,
   },
@@ -116,18 +115,17 @@ export default {
   },
   data() {
     return {
-      activeIndex: "2",
+      activeIndex: 2,
       user: "",
       userList: "",
       currentPage: 1,
       pageSize: 5,
       total: 0,
-      uploadPath: this.$axios.defaults.baseURL,
     };
   },
   methods: {
     handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+      console.log(key, 'key');
     },
 
     page(currentPage) {

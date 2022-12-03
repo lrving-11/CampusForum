@@ -186,19 +186,19 @@
                         commentVo.comment.id,
                         commentVo.user.id,
                         postVo.post.id
-                      );
+                      )
                     "
                   >
-                    <a
-                      class="acount"
-                      href="javascript:;"
-                    >
-                      <b>
+                    <a class="acount" href="javascript:;">
+                      <b
+                        :style="
+                          commentVo.comment.likeStatus == 0
+                            ? 'color:#909399;'
+                            : 'color:#409EFF;'
+                        "
+                      >
                         <i class="fa  fa-thumbs-o-up"></i>
-                        <i class="count">{{ commentVo.comment.likeCount }}</i
-                        >{{
-                          commentVo.comment.likeStatus == 0 ? "赞 " : "已赞 "
-                        }}
+                        <i class="count">{{ commentVo.comment.likeCount }}</i>
                       </b>
                     </a>
                   </li>
@@ -267,10 +267,13 @@
                         "
                       >
                         <a href="javascript:;">
-                          <b>
-                            <!-- {{
-                              replyVo.reply.likeStatus == 0 ? "赞 " : "已赞 "
-                            }} -->
+                          <b
+                            :style="
+                              replyVo.reply.likeStatus == 0
+                                ? 'color:#909399;'
+                                : 'color:#409EFF;'
+                            "
+                          >
                             <i class="fa  fa-thumbs-o-up"></i
                             ><i v-text="replyVo.reply.likeCount"></i>
                           </b>
@@ -503,12 +506,12 @@ export default {
           pid: this.$route.params.pid,
         },
       })
-        .then(function(res) {
+        .then((res) => {
           this.comments = res.data.data.records;
           this.currentPage = res.data.data.currentPage;
           this.total = res.data.data.total;
         })
-        .catch(function(error) {
+        .catch((error) => {
           console.log(error);
         });
     },
@@ -540,11 +543,14 @@ export default {
               this.postVo.post.likeCount = myData.likeCount;
               this.likeStatus = myData.likeStatus;
             } else {
-              document.querySelector(".count").innerHTML = myData.likeCount;
-              document.querySelector(".acount").style =
-                myData.likeStatus == 0 ? "color:#909399;" : "color:#409EFF;";
+              // document.querySelector(".count").innerHTML = myData.likeCount;
+              // document.querySelector(".acount").style =
+              //   myData.likeStatus == 0 ? "color:#909399;" : "color:#409EFF;";
               //更新评论点赞数（直接操作dom元素）
-              // event.firstChild.lastChild.innerHTML = myData.likeCount;
+              event.firstChild.firstChild.lastChild.innerHTML =
+                myData.likeCount;
+              event.firstChild.firstChild.style =
+                myData.likeStatus == 0 ? "color:#909399;" : "color:#409EFF;";
             }
           } else {
             this.$message.error(res.data.msg);

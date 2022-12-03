@@ -11,12 +11,12 @@
           @select="handleSelect"
         >
           <el-menu-item index="1">
-            <i class="el-icon-document"></i>
-            <span slot="title">个人资料</span>
+            <i class="fa fa-user-circle"></i>
+            <span slot="title"> 个人资料</span>
           </el-menu-item>
           <el-menu-item index="2">
-            <i class="el-icon-menu"></i>
-            <span slot="title">安全设置</span>
+            <i class="fa fa-cogs"></i>
+            <span slot="title"> 安全设置</span>
           </el-menu-item>
           <el-menu-item index="3">
             <i class="el-icon-document"></i>
@@ -39,6 +39,8 @@ export default {
       console.log(key, keyPath);
     },
     handleSelect(key, keyPath) {
+      this.$store.commit('setSetActiveIndex',key)
+      console.log(this.$store.state.setActiveIndex,"setActiveIndex");
       this.$emit("selecttab", key);
     },
   },
