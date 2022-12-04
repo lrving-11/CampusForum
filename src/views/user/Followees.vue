@@ -5,8 +5,8 @@
       <div class="container">
         <!--关注导航栏-->
         <el-menu
+          active-text-color="	#409EFF"
           :default-active="activeIndex"
-          class="el-menu-demo"
           mode="horizontal"
           @select="handleSelect"
         >
@@ -48,8 +48,8 @@
               class="media-body d-flex justify-content-between align-items-center"
             >
               <h6 class="mt-0 mb-0 d-flex flex-column">
-                <span class="text-success mb-1" style="font-size: 30px;">{{
-                  map.user.username
+                <span class="text-success mt-2 mb-1" style="font-size: 30px;">{{
+                  map.user.nickname
                 }}</span>
                 <span class="float-right text-muted" style="font-size: 14px;">
                   <i
@@ -98,7 +98,7 @@ export default {
   },
   data() {
     return {
-      activeIndex: 1,
+      activeIndex: "1",
       user: "",
       userList: "",
       currentPage: 1,
@@ -190,7 +190,7 @@ export default {
   margin: auto;
   margin-top: 30px;
   background-color: #fff;
-  height: 100%;
+  /* height: 100%; */
   border-radius: 10px;
   opacity: 0.9;
 }

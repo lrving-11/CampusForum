@@ -84,7 +84,7 @@
             :src="this.$store.state.userInfo.avatar"
           ></el-avatar>
         </template>
-        <el-menu-item v-text="$store.state.userInfo.username"></el-menu-item>
+        <el-menu-item v-text="$store.state.userInfo.nickname"></el-menu-item>
         <el-menu-item index="6-1" @click.native.stop="toHome"
           >我的主页</el-menu-item
         >

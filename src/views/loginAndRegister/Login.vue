@@ -26,7 +26,7 @@
           ></el-input>
         </el-form-item>
 
-        <el-form-item prop="seccode" label="验证码" class="inputbar">
+        <!-- <el-form-item prop="seccode" label="验证码" class="inputbar">
           <el-input
             class="form-item vcode"
             v-model="ruleForm.seccode"
@@ -38,13 +38,30 @@
             class="form-item vcode"
             >{{ checkCode }}</el-button
           >
+        </el-form-item> -->
+
+        <el-form-item prop="seccode" label="验证码" class="inputbar">
+          <el-input
+            class="form-item"
+            v-model="ruleForm.seccode"
+            style="margin-right: 5px;"
+          ></el-input>
+          <img
+            @click="createCode"
+            id="uploadCode"
+            alt="code"
+            src="http://172.30.192.192:8080/user/getCode"
+          />
         </el-form-item>
 
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')"
             >登录</el-button
           >
-          <router-link class="nav-link" style="width: 100px;" :to="{ name: 'Forget' }"
+          <router-link
+            class="nav-link"
+            style="width: 100px;"
+            :to="{ name: 'Forget' }"
             >忘记密码?</router-link
           >
         </el-form-item>
@@ -61,23 +78,22 @@ export default {
     navbar: Navbar,
   },
   data() {
-
-    var validateCode = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入验证码!!!"));
-      } else if (value.toLowerCase() !== this.checkCode.toLowerCase()) {
-        //刷新验证码
-        callback(new Error("验证码错误!"));
-        this.createCode();
-      } else {
-        callback();
-      }
-    };
+    // var validateCode = (rule, value, callback) => {
+    //   if (value === "") {
+    //     callback(new Error("请输入验证码!!!"));
+    //   } else if (value.toLowerCase() !== this.checkCode.toLowerCase()) {
+    //     //刷新验证码
+    //     callback(new Error("验证码错误!"));
+    //     this.createCode();
+    //   } else {
+    //     callback();
+    //   }
+    // };
     return {
       checkCode: "",
       ruleForm: {
-        username: "",
-        pass: "",
+        username: "奥2352",
+        pass: "11111111",
         seccode: "",
       },
       rules: {
@@ -99,7 +115,7 @@ export default {
             trigger: "blur",
           },
         ],
-        seccode: [{ required: true, trigger: "blur", validator: validateCode }],
+        seccode: [{ required: true, trigger: "blur"}],
       },
     };
   },
@@ -112,8 +128,9 @@ export default {
             method: "post",
             url: "/user/login",
             data: {
-              username: this.ruleForm.username,
+              account: this.ruleForm.username,
               passwd: this.ruleForm.pass,
+              seccode:this.ruleForm.seccode,
             },
           })
             .then((res) => {
@@ -161,53 +178,57 @@ export default {
         });
     },
     //生成验证码
+    // createCode() {
+    //   let code = "";
+    //   const codeLength = 4; //验证码的长度
+    //   const random = new Array(
+    //     0,
+    //     1,
+    //     2,
+    //     3,
+    //     4,
+    //     5,
+    //     6,
+    //     7,
+    //     8,
+    //     9,
+    //     "A",
+    //     "B",
+    //     "C",
+    //     "D",
+    //     "E",
+    //     "F",
+    //     "G",
+    //     "H",
+    //     "I",
+    //     "J",
+    //     "K",
+    //     "L",
+    //     "M",
+    //     "N",
+    //     "O",
+    //     "P",
+    //     "Q",
+    //     "R",
+    //     "S",
+    //     "T",
+    //     "U",
+    //     "V",
+    //     "W",
+    //     "X",
+    //     "Y",
+    //     "Z"
+    //   ); //随机数
+    //   for (let i = 0; i < codeLength; i++) {
+    //     //循环操作
+    //     let index = Math.floor(Math.random() * 36); //取得随机数的索引（0~35）
+    //     code += random[index]; //根据索引取得随机数加到code上
+    //   }
+    //   this.checkCode = code; //把code值赋给验证码
+    // },
     createCode() {
-      let code = "";
-      const codeLength = 4; //验证码的长度
-      const random = new Array(
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M",
-        "N",
-        "O",
-        "P",
-        "Q",
-        "R",
-        "S",
-        "T",
-        "U",
-        "V",
-        "W",
-        "X",
-        "Y",
-        "Z"
-      ); //随机数
-      for (let i = 0; i < codeLength; i++) {
-        //循环操作
-        let index = Math.floor(Math.random() * 36); //取得随机数的索引（0~35）
-        code += random[index]; //根据索引取得随机数加到code上
-      }
-      this.checkCode = code; //把code值赋给验证码
+      document.querySelector("#uploadCode").src =
+        "http://172.30.192.192:8080/user/getCode?t=" + new Date().getTime();
     },
   },
   mounted() {
@@ -229,15 +250,14 @@ export default {
 .mymain {
   /* margin-left: 100px;
   margin-top: 50px; */
-  height: 600px;
+  height: 650px;
   width: 50%;
   margin: auto;
   margin-top: 20px;
   background-color: rgb(255, 255, 255);
   overflow: hidden;
-  opacity: .9;
+  opacity: 0.9;
   border-radius: 20px;
-
 }
 .title {
   margin: 20px;

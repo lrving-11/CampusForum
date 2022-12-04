@@ -5,7 +5,7 @@
       <el-timeline style="margin-top: 20px;">
         <!--遍历博客-->
         <el-timeline-item
-          :hide-timestamp='true'
+          :hide-timestamp="true"
           v-for="postVo in records"
           type="primary "
           icon="el-icon-more"
@@ -19,7 +19,7 @@
                 :to="{ name: 'Profile', params: { uid: postVo.user.id } }"
               >
                 <el-avatar :src="postVo.user.avatar"></el-avatar>
-                <span v-text="postVo.user.username"></span>
+                <div class="nickname" v-text="postVo.user.nickname"></div>
               </router-link>
               <div class="cardRight">
                 <h5>
@@ -48,8 +48,8 @@
                 <i class="el-icon-star-off"></i> {{ postVo.post.collectCount }}
               </li>
               <li>
-                <i class="el-icon-chat-dot-round"></i
-                > {{ postVo.post.commentCount }}
+                <i class="el-icon-chat-dot-round"></i>
+                {{ postVo.post.commentCount }}
               </li>
             </div>
             <!-- <div class="p_tag">
@@ -95,13 +95,10 @@ export default {
   data() {
     return {
       // uploadPath: this.$axios.defaults.baseURL,
-      records: [
-      
-      ], //记录列表
+      records: [], //记录列表
       currentPage: 1, //当前页
       total: 0, //总数
       pageSize: 5, //页面大小
-      
     };
   },
   //頁面首先加載第一頁
@@ -130,10 +127,10 @@ export default {
 
 <style scoped>
 /* .home { */
-  /* overflow: hidden; */
-  /* margin-top: 10px; */
-  /* width: 80%; */
-  /* height: 100vh; */
+/* overflow: hidden; */
+/* margin-top: 10px; */
+/* width: 80%; */
+/* height: 100vh; */
 /* } */
 
 .navbar {
@@ -161,8 +158,18 @@ export default {
 }
 .nameLink {
   color: #000;
-  font-size: 18px;
-  height: 50px;
+  font-size: 14px;
+  height: 70px;
+  width: 50px;
+  /* overflow: hidden; */
+  /* text-overflow: ellipsis;
+  white-space: nowrap; */
+}
+.nickname {
+  width: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .p_tag {
   float: right;

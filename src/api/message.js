@@ -65,3 +65,19 @@ export function getMessageList() {
     url: "/message/list",
   });
 }
+// store
+// 获取用户列表
+export function getUserList() {
+  return this.$axios({
+    method: "get",
+    url: "/message/getUsers",
+  });
+}
+// 获取聊天记录
+export function getSession(data) {
+  return this.$axios({
+    method: "post",
+    url:  "/message/getSession",
+    data,
+  });
+}

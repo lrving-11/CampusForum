@@ -61,7 +61,7 @@
             >
               <div
                 class="mt-0  text-warning userName"
-                v-text="postVo.user.username"
+                v-text="postVo.user.nickname"
               ></div>
             </router-link>
             <div class="text-muted mt-1">
@@ -164,7 +164,7 @@
                 >
                   <span
                     class="font-size-12 text-success userName"
-                    v-text="commentVo.user.username"
+                    v-text="commentVo.user.nickname"
                   ></span>
                 </router-link>
               </div>
@@ -233,14 +233,14 @@
                           params: { uid: replyVo.user.id },
                         }"
                       >
-                        <b class="text-info" v-text="replyVo.user.username"></b
+                        <b class="text-info" v-text="replyVo.user.nickname"></b
                         >:&nbsp;&nbsp;
                       </router-link>
                     </span>
                     <span v-else>
-                      <b class="text-info" v-text="replyVo.user.username"></b>
+                      <b class="text-info" v-text="replyVo.user.nickname"></b>
                       回复
-                      <b class="text-info" v-text="replyVo.target.username"></b
+                      <b class="text-info" v-text="replyVo.target.nickname"></b
                       >:&nbsp;&nbsp;
                     </span>
                     <!--回复内容-->
@@ -672,6 +672,6 @@ export default {
   border-radius: 10px;
 }
 .userName {
-  font-size: 24px;
+  font-size: 20px;
 }
 </style>

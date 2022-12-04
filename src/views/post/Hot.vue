@@ -20,7 +20,7 @@
                 :to="{ name: 'Profile', params: { uid: postVo.user.id } }"
               >
                 <el-avatar :src="postVo.user.avatar"></el-avatar>
-                <span v-text="postVo.user.username"></span>
+                <span  class="nickname" v-text="postVo.user.nickname"></span>
               </router-link>
               <div class="cardRight">
                 <h5>
@@ -149,7 +149,15 @@ export default {
 }
 .nameLink {
   color: #000;
-  font-size: 18px;
+  font-size: 14px;
+  height: 70px;
+  width: 50px;
+}
+.nickname {
+  width: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .p_tag {
   float: right;

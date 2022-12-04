@@ -27,17 +27,28 @@
         </el-upload>
       </div>
     </el-card>
-    <el-card>
-      用户名：
-      <span v-text="userInfo.username"></span><br />
-    </el-card>
-    <el-card>
-      性别：
-      <span v-text="userInfo.gender == 0 ? '男' : '女'"></span>
-    </el-card>
-    <el-card>
-      注册时间：
-      <span >{{ $moment(userInfo.createTime).format("YYYY-MM-DD HH:MM") }}</span>
+    <el-card class="mt-3">
+      <el-form
+        :model="ruleForm"
+        status-icon
+        ref="ruleForm"
+        :rules="rules"
+        label-width="50px"
+        class="demo-ruleForm form w-75"
+      >
+        <el-form-item label="昵称" prop="nickname">
+          <el-input class="form-item" v-model="ruleForm.nickname"></el-input>
+        </el-form-item>
+        <el-form-item label="性别" prop="gender">
+          <el-select v-model="ruleForm.gender" placeholder="请选择性别">
+            <el-option label="男" value="0"></el-option>
+            <el-option label="女" value="1"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm()">提交</el-button>
+        </el-form-item>
+      </el-form>
     </el-card>
   </div>
 </template>
@@ -48,9 +59,10 @@ export default {
   data() {
     return {
       //头像网络资源地址
-      uploadPath: this.$axios.defaults.baseURL,
-      // picturePath:'http://47.115.88.155',
-      userInfo: {},
+      // uploadPath: this.$axios.defaults.baseURL,
+      userInfo: {
+        avatar: "",
+      },
       isMine: false,
       likeCount: "",
 
@@ -58,34 +70,81 @@ export default {
       //头像上传地址
       avatarAction: this.$axios.defaults.baseURL + "/user/uploadImg",
       myHeader: { TOKEN: sessionStorage.getItem("TOKEN") },
+      ruleForm: {
+        nickname: "",
+        gender: "",
+      },
+      rules: {
+        nickname: [
+          { required: true, message: "请设置昵称", trigger: "blur" },
+          {
+            min: 3,
+            max: 20,
+            message: "长度在 3 到 20 个字符",
+            trigger: "blur",
+          },
+        ],
+        gender: [{ required: true, message: "请选择性别", trigger: "change" }],
+      },
     };
   },
   created() {
     // const this = this;
     //请求页面资源
-    this.$axios({
-      method: "get",
-      url: "/user/getInfo",
-    })
-      .then((res) => {
-        if (res.data.code == 200) {
-          console.log(res,'userinfo-set');
-          this.userInfo = this.$store.state.userInfo;
-        } else {
-          this.$message.error(res.data.msg);
-          this.router.push("/login");
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    this.getuser();
+    this.userInfo = this.$store.state.userInfo;
   },
   methods: {
+    getuser() {
+      this.$axios({
+        method: "get",
+        url: "/user/getInfo",
+      })
+        .then((res) => {
+          if (res.data.code == 200) {
+            console.log(res, "userinfo-set");
+            // this.userInfo = this.$store.state.userInfo;
+
+            this.ruleForm.nickname = res.data.data.nickname;
+            this.ruleForm.gender = res.data.data.sex == 0 ? "男" : "女";
+          } else {
+            this.$message.error(res.data.msg);
+            this.router.push("/login");
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+    submitForm() {
+      this.$axios({
+        method: "post",
+        url: "/user/updateOther",
+        data: {
+          nickname: this.ruleForm.nickname,
+          sex: this.ruleForm.gender,
+        },
+      })
+        .then((res) => {
+          if (res.data.code == 200) {
+            console.log(res, "修改other");
+            this.userInfo = this.$store.state.userInfo;
+            this.$message.success("修改成功");
+            this.getuser()
+          } else {
+            // this.$message.error(res.data.msg);
+            // this.router.push("/login");
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
     handleExceed(file, fileList) {
       this.$message.error("只能上传一张图片");
     },
     uploadSuccess(response, file, fileList) {
-      console.log(response,'uploadimg');
+      console.log(response, "uploadimg");
       this.userInfo.avatar = response.data;
       //更新用户个人信息
       this.$store.commit("setUserInfo", this.userInfo);
@@ -100,7 +159,6 @@ export default {
       return isLt1M;
     },
   },
- 
 };
 </script>
 

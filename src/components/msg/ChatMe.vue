@@ -15,13 +15,13 @@
                 <el-avatar
                   class="u_avatar"
                   :src="item.avatar"
-                  :alt="item.username"
+                  :alt="item.nickname"
                 >
                   <div slot="error" class="image-slot">
                     <i class="el-icon-picture-outline"></i>
                   </div>
                 </el-avatar>
-                <p class="u_name">{{ item.username }}</p>
+                <p  class="u_name">{{ item.nickname }}</p>
               </div>
             </div>
           </li>
@@ -30,7 +30,7 @@
 
       <div class="col-9 pt-4">
         <div class="w-100 chatbox">
-          <h2 class="nameH2">{{ currentUser.username }}</h2>
+          <h4  class="nameH2">{{ currentUser.nickname }}</h4>
           <div>
             <ul class="list" style="margin: 0;" ref="scrollDiv" v-scroll-bar>
               <div
@@ -139,6 +139,7 @@ export default {
   },
   created() {
     this.ScrollBottom();
+    console.log(this.userList,'userlist');
   },
   computed: mapState(["sessions", "currentSession", "userInfo"]),
 };
@@ -187,6 +188,7 @@ ul {
   display: inline-block;
   margin-top: 0px;
   margin-left: 10px;
+  /* font-size: 20px; */
 }
 
 .list {

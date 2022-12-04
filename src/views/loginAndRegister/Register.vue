@@ -12,7 +12,7 @@
         class="demo-ruleForm"
       >
         <!--  form-item 的 prop对应的就是校验规则   -->
-        <el-form-item label="用户名" prop="username">
+        <el-form-item label="账号" prop="username">
           <el-input class="form-item" v-model="ruleForm.username"></el-input>
         </el-form-item>
 
@@ -33,19 +33,20 @@
             autocomplete="off"
           ></el-input>
         </el-form-item>
-
+        <el-form-item prop="nickname" label="昵称">
+          <el-input class="form-item" v-model="ruleForm.nickname"></el-input>
+        </el-form-item>
         <el-form-item label="性别" prop="gender">
           <el-select v-model="ruleForm.gender" placeholder="请选择性别">
             <el-option label="男" value="0"></el-option>
             <el-option label="女" value="1"></el-option>
           </el-select>
         </el-form-item>
-
         <el-form-item prop="email" label="邮箱">
           <el-input class="form-item" v-model="ruleForm.email"></el-input>
         </el-form-item>
 
-        <!-- <el-form-item prop="seccode" label="验证码" class="inputbar">
+        <el-form-item prop="seccode" label="验证码" class="inputbar">
           <el-input
             class="form-item"
             v-model="ruleForm.seccode"
@@ -57,9 +58,9 @@
             alt="code"
             src="http://172.30.192.192:8080/user/getCode"
           />
-        </el-form-item> -->
+        </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')"
+          <el-button class="mb-2" type="primary" @click="submitForm('ruleForm')"
             >立即创建</el-button
           >
         </el-form-item>
@@ -103,10 +104,20 @@ export default {
         email: "",
         seccode: "",
         codeUrl: "",
+        nickname: "",
       },
       rules: {
         username: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
+          { required: true, message: "请设置账号", trigger: "blur" },
+          {
+            min: 3,
+            max: 20,
+            message: "长度在 3 到 20 个字符",
+            trigger: "blur",
+          },
+        ],
+        nickname: [
+          { required: true, message: "请设置昵称", trigger: "blur" },
           {
             min: 3,
             max: 20,
@@ -140,7 +151,6 @@ export default {
     createCode() {
       document.querySelector("#uploadCode").src =
         "http://172.30.192.192:8080/user/getCode?t=" + new Date().getTime();
-
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -150,11 +160,13 @@ export default {
             method: "post",
             url: "/user/register",
             data: {
-              username: this.ruleForm.username,
+              account: this.ruleForm.username,
               passwd: this.ruleForm.pass,
               sex: this.ruleForm.gender,
               email: this.ruleForm.email,
               seccode: this.ruleForm.seccode,
+              nickname: this.ruleForm.nickname,
+              type: 0,
             },
           })
             .then((res) => {
@@ -178,7 +190,6 @@ export default {
           return false;
         }
         console.log(document.cookie);
-
       });
     },
   },
@@ -186,14 +197,14 @@ export default {
 </script>
 <style scoped>
 .main {
-  height: 600px;
+  height: 650px;
   width: 50%;
   /* border: 1px, solid, #000; */
   margin: auto;
   margin-top: 20px;
   background-color: #fff;
   overflow: hidden;
-  opacity: .9;
+  opacity: 0.9;
   border-radius: 20px;
 }
 .title {

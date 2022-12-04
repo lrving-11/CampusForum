@@ -9,7 +9,7 @@
               :to="{ name: 'Profile', params: { uid: msgVo.fromUser.id } }"
             >
               <el-avatar :src="msgVo.fromUser.avatar"></el-avatar>
-              <span style="font-size: 24px;" v-text="msgVo.fromUser.username"></span>
+              <span style="font-size: 24px;" v-text="msgVo.fromUser.nickname"></span>
             </router-link>
             <router-link
               :to="{ name: 'PostDetail', params: { pid: msgVo.postId } }"

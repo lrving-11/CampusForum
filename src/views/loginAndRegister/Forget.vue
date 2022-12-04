@@ -108,7 +108,7 @@ export default {
 
 <style scoped>
 .main {
-  height: 600px;
+  height: 650px;
   width: 50%;
   margin: auto;
   background-color: #fff;

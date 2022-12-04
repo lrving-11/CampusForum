@@ -5,8 +5,8 @@
       <div class="container">
         <!--关注导航栏-->
         <el-menu
+          active-text-color="	#409EFF"
           :default-active="activeIndex"
-          class="el-menu-demo"
           mode="horizontal"
           @select="handleSelect"
         >
@@ -38,19 +38,25 @@
             class="media pb-1 pt-1 mb-0 border-bottom position-relative"
             v-for="map in userList"
           >
-            <router-link 
+            <router-link
               :to="{ name: 'Profile', params: { uid: map.user.id } }"
             >
-              <el-avatar  :src="map.user.avatar" :size="60"></el-avatar>
+              <el-avatar :src="map.user.avatar" :size="60"></el-avatar>
             </router-link>
 
-            <div class="media-body d-flex justify-content-between align-items-center">
+            <div
+              class="media-body d-flex justify-content-between align-items-center"
+            >
               <h6 class="mt-0 mb-0 d-flex flex-column">
-                <span class="text-success mb-1" style="font-size: 30px;">{{
-                  map.user.username
+                <span class="text-success mt-2 mb-1" style="font-size: 20px;">{{
+                  map.user.nickname
                 }}</span>
                 <span class="float-right text-muted" style="font-size: 14px;">
-                  <i>关注于{{  $moment(map.followTime).format("YYYY-MM-DD HH:MM")  }}</i>
+                  <i
+                    >关注于{{
+                      $moment(map.followTime).format("YYYY-MM-DD HH:MM")
+                    }}</i
+                  >
                 </span>
               </h6>
               <div>
@@ -115,7 +121,7 @@ export default {
   },
   data() {
     return {
-      activeIndex: 2,
+      activeIndex: "2",
       user: "",
       userList: "",
       currentPage: 1,
@@ -125,14 +131,12 @@ export default {
   },
   methods: {
     handleSelect(key, keyPath) {
-      console.log(key, 'key');
+      console.log(key, "key");
     },
 
     page(currentPage) {
       this.$axios
-        .get(
-          "/fans/" + this.$route.params.uid + "?currentPage=" + currentPage
-        )
+        .get("/fans/" + this.$route.params.uid + "?currentPage=" + currentPage)
         .then((res) => {
           const myData = res.data.data;
           this.user = myData.user;
@@ -183,7 +187,7 @@ export default {
   margin-top: 30px;
   background-color: #fff;
   border-radius: 10px;
-  opacity: .9;
+  opacity: 0.9;
 }
 .navInfo {
   float: right;

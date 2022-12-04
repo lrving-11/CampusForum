@@ -65,11 +65,11 @@ const store = new Vuex.Store({
       //清空聊天记录
       state.sessions = {};
     },
-    setWebsocket(state) {
-      const token = window.sessionStorage.getItem("TOKEN");
-      let url = "ws://" + this.$axios.defaults.baseURL + "/chat/" + token;
-      state.ws = new WebSocket(url);
-    },
+    // setWebsocket(state) {
+    //   const token = window.sessionStorage.getItem("TOKEN");
+    //   let url = "ws://" + this.$axios.defaults.baseURL + "/chat/" + token;
+    //   state.ws = new WebSocket(url);
+    // },
     setUserList(state, userList) {
       sessionStorage.setItem("userList", userList);
       state.userList = userList;

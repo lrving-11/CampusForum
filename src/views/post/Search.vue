@@ -24,7 +24,7 @@
               </h6>
               <div class="mb-3" v-html="map.post.content"></div>
               <div class="text-muted font-size-12">
-                <u class="mr-3" v-text="map.user.username"></u>
+                <u class="mr-3" v-text="map.user.nickname"></u>
                 发布于
                 <b v-text="map.post.createTimeStr"></b>
                 <ul class="d-inline float-right">

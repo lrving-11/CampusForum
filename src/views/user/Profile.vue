@@ -34,7 +34,7 @@
           <div class="media-body">
             <h5 class="mt-0 text-warning">
               <!--用户名-->
-              <span v-text="user.username" style="font-size: 30px;"></span>
+              <span v-text="user.nickname" style="font-size: 20px;"></span>
               <!--关注按钮-->
               <button
                 type="button"
@@ -76,7 +76,7 @@
               </router-link>
               <router-link
                 class="ml-4"
-                :to="{ name: 'fans', params: { uid: user.id } }"
+                :to="{ name: 'Fans', params: { uid: user.id } }"
               >
                 <el-tag effect="dark"
                   >粉丝数量：
